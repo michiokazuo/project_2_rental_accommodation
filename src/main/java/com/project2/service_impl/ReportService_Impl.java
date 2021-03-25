@@ -1,0 +1,83 @@
+package com.project2.service_impl;
+
+import com.project2.config.AppConfig;
+import com.project2.entities.data.AppUser;
+import com.project2.entities.data.MotelRoom;
+import com.project2.entities.data.Report;
+import com.project2.repository.AppUserRepository;
+import com.project2.repository.MotelRoomRepository;
+import com.project2.repository.ReportRepository;
+import com.project2.service.ReportService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class ReportService_Impl implements ReportService {
+
+    private final ReportRepository reportRepository;
+
+    private final AppUserRepository appUserRepository;
+
+    private final MotelRoomRepository motelRoomRepository;
+
+    @Override
+    public List<Report> findAll(String email) throws Exception {
+        return reportRepository.findAllByDeletedFalse();
+    }
+
+    @Override
+    public Report findById(Integer id, String email) throws Exception {
+        if (id != null && id > 0)
+            return reportRepository.findByIdCmtAndDeletedIsFalse(id);
+        return null;
+    }
+
+    @Override
+    public List<Report> search_sort(Report report, String field, Boolean isASC, String email) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Report insert(Report report, String email) throws Exception {
+        if (report != null && email != null) {
+            report.setDeleted(false);
+            AppUser appUser = appUserRepository.findByIdAndDeletedFalse(report.getId().getIdUser());
+            if (appUser != null && (appUser.getEmail().equals(email) || AppConfig.checkAdmin(email))) {
+                report.setUser(appUser);
+                MotelRoom motelRoom = motelRoomRepository.findByIdAndDeletedFalse(report.getId().getIdRoom());
+                if (motelRoom != null) {
+                    report.setRoom(motelRoom);
+                    return reportRepository.save(report);
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Report update(Report report, String email) throws Exception {
+        Report updateReport = insert(report, email);
+        if (updateReport != null)
+            return reportRepository.updateStatus(updateReport.getId(), updateReport.getRate()) > 0 ?
+                    updateReport : null;
+
+        return null;
+    }
+
+    @Override
+    public boolean delete(Integer id, String email) throws Exception {
+        return email != null
+                && (findById(id, email).getUser().getEmail().equals(email) || AppConfig.checkAdmin(email))
+                && appUserRepository.deleteCustom(id) > 0;
+    }
+
+    @Override
+    public List<Report> findAllByRoom(Integer id, String email) throws Exception {
+        if (id != null && id > 0)
+            return reportRepository.findAllByIdRoom(id);
+        return null;
+    }
+}
