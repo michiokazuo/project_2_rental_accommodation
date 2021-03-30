@@ -1,5 +1,6 @@
 package com.project2.repository;
 
+import com.project2.entities.data.AppUser;
 import com.project2.entities.data.MotelRoom;
 import com.project2.entities.data.Tenant;
 import com.project2.entities.key.RoomConvenientKey;
@@ -17,6 +18,8 @@ public interface TenantRepository extends JpaRepository<Tenant, TenantKey>, JpaS
     List<Tenant> findAllByDeletedFalse();
 
     List<Tenant> findAllByRoomAndDeletedFalse(MotelRoom room);
+
+    List<Tenant> findAllByUserAndDeletedFalse(AppUser appUser);
 
     @Query("update Tenant t set t.deleted = true where t.id.idRoom = ?1 and t.id.idUser = ?2")
     @Modifying

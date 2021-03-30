@@ -15,8 +15,6 @@ import java.util.List;
 public class MotelRoomDTO {
 
     private MotelRoom motelRoom;
-    private List<RoomHasConvenient> roomHasConvenientList;
-    private Integer countConv;
     private List<Tenant> tenantList;
     private Integer personAsk;
     private Integer personIn;

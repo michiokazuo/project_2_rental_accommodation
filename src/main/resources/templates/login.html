@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <title>Đăng nhập & Đăng ký</title>
+</head>
+
+<body>
+<div class="modal fade" id="modal-forgot-password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Quên mật khẩu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="container">
+                <form class="row col-12">
+                    <div class="form-group col-12">
+                        <label for="email-forgot-password" class="col-form-label"><strong>Email </strong></label>
+                        <input type="email" class="form-control" id="email-forgot-password" placeholder="Email"
+                               required>
+                        <div class="invalid-feedback"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-submit-forgot-password">Gửi</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-sign-up" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Đăng ký</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="row col-12 flex-row ml-0 form-post" action="">
+                        <div class="form-group col-md-6">
+                            <label for="name-sign-up" class="col-form-label"><strong>Tên </strong></label>
+                            <input type="text" class="form-control" id="name-sign-up" placeholder="Nhập tên" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email-sign-up" class="col-form-label"><strong>Email </strong></label>
+                            <input type="email" class="form-control" id="email-sign-up" placeholder="Nhập email"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password-sign-up" class="col-form-label"><strong>Mật khẩu </strong></label>
+                            <input type="password" class="form-control" id="password-sign-up" placeholder="Mật khẩu"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password-confirm-sign-up" class="col-form-label"><strong>Xác nhận mật khẩu
+                            </strong></label>
+                            <input type="password" class="form-control" id="password-confirm-sign-up"
+                                   placeholder="Nhập lại mật khẩu" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone" class="col-form-label"><strong>Số điện thoại</strong> </label>
+                            <input type="text" class="form-control" id="phone" placeholder="Điện thoại" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="birthday"><strong>Ngày sinh</strong></label>
+                            <input class="form-control " type="date" name="birthday" id="birthday">
+                            <div class="invalid-feedback">Bạn chưa chọn ngày.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="job"><strong>Nghề nghiệp</strong></label>
+                            <select class="form-control" id="job" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Đi làm</option>
+                                <option value="2">Học sinh/Sinh viên</option>
+                                <option value="3">Nghỉ hưu</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="workplace" class="col-form-label"><strong>Nơi làm việc </strong></label>
+                            <input type="text" class="form-control" id="workplace" placeholder="Nơi làm việc"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender"><strong>Giới tính</strong></label>
+                            <select class="form-control" id="gender" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Nam</option>
+                                <option value="2">Nữ</option>
+                                <option value="3">Khác</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="status"><strong>Tình trạng hôn nhân</strong></label>
+                            <select class="form-control" id="status" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Độc thân</option>
+                                <option value="2">Đã kết hôn</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="avatar"><strong>Avatar</strong></label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="avatar" onchange="reloadImage()"
+                                       accept="image/*"
+                                       required>
+                                <div class="invalid-feedback"></div>
+                                <label for="avatar" class="custom-file-label">Chọn ảnh</label>
+                            </div>
+                            <img th:src="@{./files/image_config/avatar-user.png}" id="avatar-photo"
+                                 class="border rounded mt-3" alt="avatar"
+                                 style="width: 200px;"  src=""/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="role"><strong>Đăng ký với tư cách</strong></label>
+                            <select class="form-control" id="role" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Người thuê</option>
+                                <option value="2">Chủ thuê</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-submit-sign-up">Đăng ký</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-custom">
+    <div class="forms-container">
+        <div class="signin-signup">
+            <form action="#" class="sign-in-form">
+                <h2 class="title">Đăng nhập</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Email" id="username"/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Mật khẩu" id="password"/>
+                </div>
+                <button type="button" value="Đăng nhập" class="btn solid" id="btn-log-in">Đăng nhập</button>
+                <button type="button" value="Đăng ký" class="btn solid" id="btn-sign-up">Đăng ký</button>
+                <button type="button" value="Quên mật khẩu" class="btn solid" id="btn-forgot">Quên mật khẩu</button>
+                <p class="social-text">Đăng nhập | Tạo tài khoản với</p>
+                <div class="social-media">
+                    <a href="#" class="social-icon text-decoration-none">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon text-decoration-none">
+                        <i class="fab fa-twitter "></i>
+                    </a>
+                    <a href="#" class="social-icon text-decoration-none">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="#" class="social-icon text-decoration-none">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panels-container">
+        <div class="panel left-panel">
+            <div class="content ml-auto mr-auto">
+                <h3>Chào bạn !!!</h3>
+                <p>
+                    Chúc bạn tìm được phòng/nhà trọ theo ý muốn.
+                </p>
+            </div>
+            <img th:src="@{./files/image_config/login.svg}" class="image" alt="" src=""/>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{/fragment/app-fragment :: footer}"></footer>
+<script th:src="@{/js/model/ajax_model_app_user.js}"></script>
+<script th:src="@{/js/model/ajax_mail_sender.js}"></script>
+<script th:src="@{/js/pages/ajax_page_login.js}"></script>
+<script th:src="@{/js/model/ajax_upload_file.js}"></script>
+
+</body>
+
+</html>

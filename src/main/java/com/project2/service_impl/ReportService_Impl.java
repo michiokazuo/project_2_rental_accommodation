@@ -44,10 +44,10 @@ public class ReportService_Impl implements ReportService {
     public Report insert(Report report, String email) throws Exception {
         if (report != null && email != null) {
             report.setDeleted(false);
-            AppUser appUser = appUserRepository.findByIdAndDeletedFalse(report.getId().getIdUser());
+            AppUser appUser = appUserRepository.findByIdAndDeletedFalse(report.getUser().getId());
             if (appUser != null && (appUser.getEmail().equals(email) || AppConfig.checkAdmin(email))) {
                 report.setUser(appUser);
-                MotelRoom motelRoom = motelRoomRepository.findByIdAndDeletedFalse(report.getId().getIdRoom());
+                MotelRoom motelRoom = motelRoomRepository.findByIdAndDeletedFalse(report.getRoom().getId());
                 if (motelRoom != null) {
                     report.setRoom(motelRoom);
                     return reportRepository.save(report);
@@ -61,8 +61,8 @@ public class ReportService_Impl implements ReportService {
     public Report update(Report report, String email) throws Exception {
         Report updateReport = insert(report, email);
         if (updateReport != null)
-            return reportRepository.updateStatus(updateReport.getId(), updateReport.getRate()) > 0 ?
-                    updateReport : null;
+            return reportRepository.updateStatus(updateReport.getUser().getId(), updateReport.getRoom().getId(),
+                    updateReport.getRate()) > 0 ? updateReport : null;
 
         return null;
     }

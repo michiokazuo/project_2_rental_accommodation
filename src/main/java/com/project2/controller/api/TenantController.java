@@ -1,0 +1,63 @@
+package com.project2.controller.api;
+
+import com.project2.entities.data.Tenant;
+import com.project2.entities.key.TenantKey;
+import com.project2.service.TenantService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+
+@Controller
+@AllArgsConstructor
+@RequestMapping("api/public/tenant/*")
+public class TenantController {
+
+    private final TenantService tenantService;
+
+    @PostMapping("insert")
+    public ResponseEntity<Object> insert(Authentication authentication, @RequestBody Tenant tenant) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            Tenant dto = tenantService.insert(tenant, email);
+            return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("update")
+    public ResponseEntity<Object> update(Authentication authentication, @RequestBody Tenant tenant) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            Tenant dto = tenantService.update(tenant, email);
+            return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping("delete")
+    public ResponseEntity<Object> delete(Authentication authentication, @RequestBody TenantKey tenantKey) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            if (tenantService.deleteCustom(tenantKey, email)) {
+                return ResponseEntity.ok("Delete Successful");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+}

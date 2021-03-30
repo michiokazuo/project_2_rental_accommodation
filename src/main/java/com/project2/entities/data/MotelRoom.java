@@ -3,6 +3,7 @@ package com.project2.entities.data;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -57,5 +58,11 @@ public class MotelRoom extends Base {
 
     @Column(name = "sale_off", nullable = false)
     private Integer sale_off;
+
+    @ManyToMany
+    @JoinTable(name = "room_has_convenient", // tên bảng trung gian
+            joinColumns = @JoinColumn(name = "id_room"), // khoá ngoại đến Entity hiện tại
+            inverseJoinColumns = @JoinColumn(name = "id_convenient")) // khoá ngoại đến Entity liên kết
+    private List<Convenient> convenientList;
 
 }

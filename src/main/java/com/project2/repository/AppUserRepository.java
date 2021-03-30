@@ -18,6 +18,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer>, JpaS
 
     AppUser findByIdAndDeletedFalse(Integer idUser);
 
+    AppUser findByPhoneAndDeletedFalse(String phone);
+
     AppUser findByEmailAndDeletedFalse(String email);
 
     List<AppUser> findAllByDeletedFalseAndRole_Id(Integer roleId);

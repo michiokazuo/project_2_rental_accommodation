@@ -8,6 +8,7 @@ import com.project2.repository.ReportRepository;
 import com.project2.repository.TenantRepository;
 import com.project2.service.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class AppUserService_Impl implements AppUserService {
     private final TenantRepository tenantRepository;
 
     private final ReportRepository reportRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public List<AppUser> findAll(String email) throws Exception {
@@ -45,8 +48,10 @@ public class AppUserService_Impl implements AppUserService {
 
     @Override
     public AppUser insert(AppUser appUser, String email) throws Exception {
-        if (appUser != null) {
+        if (appUser != null && appUserRepository.findByEmailAndDeletedFalse(appUser.getEmail()) == null
+                && appUserRepository.findByPhoneAndDeletedFalse(appUser.getPhone()) == null) {
             appUser.setDeleted(false);
+            appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
             return appUserRepository.save(appUser);
         }
         return null;
@@ -56,8 +61,10 @@ public class AppUserService_Impl implements AppUserService {
     public AppUser update(AppUser appUser, String email) throws Exception {
         if (email != null && appUser != null
                 && (appUser.getId().equals(appUserRepository.findByEmailAndDeletedFalse(email).getId())
-                || AppConfig.checkAdmin(email))) {
+                || AppConfig.checkAdmin(email)) && appUserRepository.findByEmailAndDeletedFalse(email) == null
+                && appUserRepository.findByPhoneAndDeletedFalse(appUser.getPhone()) == null) {
             appUser.setDeleted(false);
+            appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
             return appUserRepository.save(appUser);
         }
         return null;
@@ -77,6 +84,16 @@ public class AppUserService_Impl implements AppUserService {
         if (email != null && roleId != null && AppConfig.checkAdmin(email))
             return appUserRepository.findAllByDeletedFalseAndRole_Id(roleId);
         return null;
+    }
+
+    @Override
+    public AppUser updatePassword(String email, String password) throws Exception {
+        AppUser user = appUserRepository.findByEmailAndDeletedFalse(email);
+        if (user != null) {
+            user.setPassword(passwordEncoder.encode(password));
+            user = appUserRepository.save(user);
+        }
+        return user;
     }
 
 }
