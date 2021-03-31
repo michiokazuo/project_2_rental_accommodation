@@ -42,7 +42,6 @@ public class AppUserController {
     @GetMapping(value = {"find-by-id/{id}", "find-by-id"})
     public ResponseEntity<Object> findById(Authentication authentication,
                                            @PathVariable(name = "id", required = false) Integer id) {
-
         try {
             String email = null;
             if (authentication != null)

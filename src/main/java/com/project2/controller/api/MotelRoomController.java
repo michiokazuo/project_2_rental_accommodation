@@ -3,6 +3,7 @@ package com.project2.controller.api;
 import com.project2.entities.dto.MotelRoomDTO;
 import com.project2.service.MotelRoomService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -68,6 +69,20 @@ public class MotelRoomController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findAllByHost(id, email);
+            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("find-new-to-home-page")
+    public ResponseEntity<Object> findNewToHome(Authentication authentication, Pageable pageable) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findRoomPage(pageable, email);
             return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();

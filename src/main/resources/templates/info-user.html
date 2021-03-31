@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Thông tin cá nhân</title>
+    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/info-user.css}">
+</head>
+<body>
+<header th:replace="~{/fragment/app-fragment :: header}"/>
+
+<div class="modal fade" id="modal-sign-up" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Đăng ký</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="row col-12 flex-row ml-0 form-post" action="">
+                        <div class="form-group col-md-6">
+                            <label for="name-sign-up" class="col-form-label"><strong>Tên </strong></label>
+                            <input type="text" class="form-control" id="name-sign-up" placeholder="Nhập tên" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email-sign-up" class="col-form-label"><strong>Email </strong></label>
+                            <input type="email" class="form-control" id="email-sign-up" placeholder="Nhập email"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password-sign-up" class="col-form-label"><strong>Mật khẩu </strong></label>
+                            <input type="password" class="form-control" id="password-sign-up" placeholder="Mật khẩu"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password-confirm-sign-up" class="col-form-label"><strong>Xác nhận mật khẩu
+                            </strong></label>
+                            <input type="password" class="form-control" id="password-confirm-sign-up"
+                                   placeholder="Nhập lại mật khẩu" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone" class="col-form-label"><strong>Số điện thoại</strong> </label>
+                            <input type="text" class="form-control" id="phone" placeholder="Điện thoại" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="birthday"><strong>Ngày sinh</strong></label>
+                            <input class="form-control " type="date" name="birthday" id="birthday">
+                            <div class="invalid-feedback">Bạn chưa chọn ngày.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="job"><strong>Nghề nghiệp</strong></label>
+                            <select class="form-control" id="job" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Đi làm</option>
+                                <option value="2">Học sinh/Sinh viên</option>
+                                <option value="3">Nghỉ hưu</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="workplace" class="col-form-label"><strong>Nơi làm việc </strong></label>
+                            <input type="text" class="form-control" id="workplace" placeholder="Nơi làm việc"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender"><strong>Giới tính</strong></label>
+                            <select class="form-control" id="gender" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Nam</option>
+                                <option value="2">Nữ</option>
+                                <option value="3">Khác</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="status"><strong>Tình trạng hôn nhân</strong></label>
+                            <select class="form-control" id="status" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Độc thân</option>
+                                <option value="2">Đã kết hôn</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="avatar"><strong>Avatar</strong></label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="avatar" onchange="reloadImage()"
+                                       accept="image/*"
+                                       required>
+                                <div class="invalid-feedback"></div>
+                                <label for="avatar" class="custom-file-label">Chọn ảnh</label>
+                            </div>
+                            <img th:src="@{./files/image_config/avatar-user.png}" id="avatar-photo"
+                                 class="border rounded mt-3" alt="avatar"
+                                 style="width: 200px;"  src=""/>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="role"><strong>Đăng ký với tư cách</strong></label>
+                            <select class="form-control" id="role" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Người thuê</option>
+                                <option value="2">Chủ thuê</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-submit-sign-up">Đăng ký</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-content container">
+    <!-- Header -->
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+         style="min-height: 600px;
+             background-image: url(/files/image_config/infor.jpg); background-size: cover;
+             background-position: center top;">
+        <!-- Mask -->
+        <span class="mask bg-gradient-default opacity-8"></span>
+        <!-- Header container -->
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+                <div class="col-lg-7 col-md-10">
+                    <h1 class="display-2 text-white">Chào Me</h1>
+                    <p class="text-white mt-0 mb-5">Đây là thông tin cá nhân của bạn.
+                        Chúc bạn có một ngày vui vẻ!!!</p>
+                    <a href="#!" class="btn btn-info">Cập nhật thông tin cá nhân</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+                <div class="card card-profile shadow">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 order-lg-2">
+                            <div class="card-profile-image">
+                                <a href="#">
+                                    <img src="https://demos.creative-tim.com/argon-dashboard/assets/img/theme/team-4.jpg"
+                                         class="rounded-circle">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                        <div class="d-flex justify-content-between">
+                            <a href="#" class="btn btn-sm btn-info mr-4">Call</a>
+                            <a href="#" class="btn btn-sm btn-default float-right">Mail</a>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 pt-md-4">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                                    <div>
+                                        <span class="heading">22</span>
+                                        <span class="description">Đang thuê</span>
+                                    </div>
+                                    <div>
+                                        <span class="heading">10</span>
+                                        <span class="description">Đang yêu cầu</span>
+                                    </div>
+                                    <div>
+                                        <span class="heading">89</span>
+                                        <span class="description">Bình luận</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <h3>
+                                Jessica Jones
+                            </h3>
+                            <div class="h5 mt-4">
+                                <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+                            </div>
+                            <div>
+                                <i class="ni education_hat mr-2"></i>University of Computer Science
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">Tài khoản của bạn</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">Thông tin cá nhân</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-username">Tên</label>
+                                            <input type="text" id="input-username"
+                                                   class="form-control form-control-alternative" placeholder="Username"
+                                                   value="lucky.jesse">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-birthday">Ngày sinh</label>
+                                            <input type="date" id="input-birthday"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="jesse@example.com">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-gender">Giới tính</label>
+                                            <input type="text" id="input-gender"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-status">Tình trạng hôn nhân
+                                                </label>
+                                            <input type="text" id="input-status"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="Last name" value="Jesse">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-job">Nghề nghiệp</label>
+                                            <input type="text" id="input-job"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-workplace">Nơi làm việc
+                                            </label>
+                                            <input type="text" id="input-workplace"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="Last name" value="Jesse">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-role">Quyền hạn</label>
+                                            <input type="text" id="input-role"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <!-- Address -->
+                            <h6 class="heading-small text-muted mb-4">Thông tin liên lạc</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-email">Email</label>
+                                            <input id="input-email" class="form-control form-control-alternative"
+                                                   placeholder="Home Address"
+                                                   value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                                                   type="email">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-phone">SĐT</label>
+                                            <input id="input-phone" class="form-control form-control-alternative"
+                                                   placeholder="Home Address"
+                                                   value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                                                   type="email">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{/fragment/app-fragment :: footer-user}"/>
+<footer th:replace="~{/fragment/app-fragment :: alert-foot}"/>
+<script th:src="@{/js/pages/ajax_page_info_user.js}"></script>
+</body>
+</html>

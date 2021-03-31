@@ -15,6 +15,9 @@ let listJob = [
     {val: "0", text: "Nghỉ hưu"}
 ]
 
+let USER_IN_SYSTEM = null;
+let emailSignUpSuggest, btnSubmitSuggest;
+
 let listHome = [
     {val: "ROLE_ADMIN", url: "/quan-ly"},
     {val: "ROLE_RENTER", url: "/nguoi-thue"},
@@ -23,15 +26,90 @@ let listHome = [
 
 const DEFAULT_AVATAR = './files/image_config/avatar-user.png';
 
-$(function () {
+$(async function () {
+    emailSignUpSuggest = $("#email_suggest");
+    btnSubmitSuggest = $("#btn-submit-suggest");
+
     $(".modal").on("hidden.bs.modal", function () {
         $("form.form-post").trigger("reset");
         $("form.form-post input").removeClass("is-invalid");
-    })
+    });
+
+    await getUserInSystem();
+    showUer();
+    signUpSuggest();
 })
+
+async function getUserInSystem() {
+    await userFindById(null)
+        .then(rs => {
+            if (rs.status === 200) {
+                USER_IN_SYSTEM = rs.data;
+            }
+        })
+        .catch(e => {
+            console.log(e);
+        })
+}
+
+function signUpSuggest() {
+    btnSubmitSuggest.click(async function () {
+        let {
+            val: valueEmailSuggest,
+            check: checkEmailSuggest
+        } = checkDataTool(emailSignUpSuggest, /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+            "Email không hợp lệ");
+
+        if (checkEmailSuggest) {
+            alertReport(true, "Cảm ơn bạn đã đăng ký!!!");
+            let check = await notify_impl(valueEmailSuggest, "Đăng ký nhận tin tức mới",
+                "Chào bạn! Chúc mừng bạn đã đăng kí thành công và sẽ được nhận tin tức mới thường từ chúng tôi."
+                + "Chúc bạn có 1 ngày làm việc hiệu quả!!!");
+
+            // alertReport(check, check ? "Bạn đã đăng ký thành công. Thường xuyên kiểm tra email nhé!!!"
+            //     : "Có lỗi xảy ra. Vui lòng thử lại!!!");
+        }
+    })
+}
+
+function showUer() {
+    if (USER_IN_SYSTEM) {
+        $("#acc-top .title").text(USER_IN_SYSTEM.name);
+        $("#content-menu-user").html(`<a class="item" href="/thong-tin-ca-nhan">Thông tin cá nhân</a>
+                    <a class="item" href="/dang-xuat">Đăng xuất</a>`);
+    }
+}
 
 function dataFilter(field) {
     return field ? field : "";
+}
+
+function numberFilter(field) {
+    return field ? field : 0;
+}
+
+function checkRating(rate) {
+    return rate ? (rate + "/5") : 'Chưa có';
+}
+
+function formatMoney(money) {
+    if (money !== 0) {
+        money = String(money);
+
+        var form = "";
+        for (let i = 0; i < money.length % 3; i++) {
+            form += money.substring(0, money.length % 3) + ".";
+            i = i + money.length % 3;
+        }
+        for (let i = money.length % 3; i < money.length; i++) {
+            form += money.substring(i, i + 3) + ".";
+
+            i = i + 2;
+        }
+        return form + "000";
+    } else {
+        return 0;
+    }
 }
 
 function showSelectOption(element, list, defaultVal) {
@@ -59,6 +137,19 @@ function checkData(selector, regex, textError) {
         hiddenError(selector);
     } else {
         viewError(selector, textError);
+    }
+
+    return {val, check};
+}
+
+function checkDataTool(selector, regex, textError) {
+    let val = $(selector).val().trim();
+    let check = false;
+    if (val.length > 0 && regex.test(val)) {
+        check = true;
+        hiddenError(selector);
+    } else {
+        viewErrorTool(selector, textError);
     }
 
     return {val, check};
@@ -127,7 +218,8 @@ function checkBirthday(selector, textError) {
     }
     return {val, check};
 }
-function checkFile(selector, textError){
+
+function checkFile(selector, textError) {
     let val = $(selector).val();
     let check = false;
     const regex = /./;
@@ -149,6 +241,11 @@ function viewError(selector, text) {
     $(selector).siblings(".invalid-feedback").html(text + " Mời nhập lại!!!");
 }
 
+function viewErrorTool(selector, text) {
+    $(selector).addClass("is-invalid");
+    $(selector).siblings(".invalid-tooltip").html(text + " Mời nhập lại!!!");
+}
+
 function hiddenError(selector) {
     $(selector).removeClass("is-invalid");
 }
@@ -163,13 +260,17 @@ async function notify_impl(emails, header, content) {
     formData.append("header", header);
     formData.append("content", content);
 
+    let check = false;
     await notify(formData).then((rs) => {
-        if (rs.status === 200)
+        if (rs.status === 200) {
+            check = true;
             console.log(rs.data);
-        else console.log("no content");
+        } else console.log("no content");
     }).catch(e => {
         console.log(e);
     });
+
+    return check;
 }
 
 const URL_API = "/api";

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Tin tức</title>
+    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/news.css}">
+</head>
+<body>
+<header th:replace="~{/fragment/app-fragment :: header}"/>
+
+<main id="main">
+    <section id="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner-wp">
+                        <div class="banner-text">
+                            <h4>Tin tức</h4>
+                            <a th:href="@{/}">Trang chủ</a>
+                            <span>// Tin Tức</span>
+                        </div>
+                        <div class="banner-bg w-100 h-100">
+                            <img th:src="@{./files/image_config/news.jpg}" alt="" class="w-100 h-100"
+                                 style="transition: 0.4s;">
+                        </div>
+                        <span class="bor bor1"></span>
+                        <span class="bor bor2"></span>
+                        <span class="bor bor3"></span>
+                        <span class="bor bor4"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end banner -->
+    <section id="newspage">
+        <div class="container" id="news">
+            <div class="row" id="news-products">
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="np__wapper">
+                        <div class="npwp-img">
+                            <img th:src="@{./files/image_config/213539487.jpg}" alt="">
+                            <a th:href="@{https://taxitaisaigon.vn/bai-viet-chi-tiet/kinh-nghiem-tim-thue-nha-tro-815}"
+                                th:target="_blank">
+                                <span>Tips</span></a>
+                        </div>
+                        <div class="npwp-text">
+                            <span>Cách chọn phòng đúng cách</span>
+                            <time><span><i class="far fa-calendar"></i> 20:15 15/10/2019</span></time>
+                            <p>Bạn cần xác định vị trí bạn muốn thuê, thu nhập của bạn, ...</p>
+                            <a th:href="@{https://taxitaisaigon.vn/bai-viet-chi-tiet/kinh-nghiem-tim-thue-nha-tro-815}"
+                               class="btn" th:target="@{_blank}">xem thêm</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="np__wapper">
+                        <div class="npwp-img">
+                            <img th:src="@{./files/image_config/bvts.jpg}" alt="">
+                            <a th:href="@{#}"><span>An toàn</span></a>
+                        </div>
+                        <div class="npwp-text">
+                            <span>Bảo vệ tài sản cá nhân</span>
+                            <time><span><i class="far fa-calendar" aria-hidden="true"></i> 15:02 22/03/2019</span>
+                            </time>
+                            <p>Cần có khóa phòng, cẩn thận người lạ, ...</p>
+                            <a th:href="@{https://bds123.vn/nhung-cach-phong-chong-bi-mat-do-khi-o-tro-post1214.html}"
+                               class="btn">xem thêm</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="np__wapper">
+                        <div class="npwp-img">
+                            <img th:src="@{./files/image_config/kk.jpg}" alt="">
+                            <a th:href="@{#}"><span>Khó khăn & Giải pháp</span></a>
+                        </div>
+                        <div class="npwp-text">
+                            <span>Khó khăn khi cho thuê phòng trọ và giải pháp khắc phục</span>
+                            <time><span><i class="far fa-calendar" aria-hidden="true"></i> 09-08-2018</span></time>
+                            <p>Cho thuê phòng trọ là loại hình dịch vụ không còn xa lạ hiện nay đối với nhiều
+                                người...</p>
+                            <a th:href="@{https://news.mogi.vn/nhung-kho-khan-khi-cho-thue-phong-tro-va-giai-phap-khac-phuc/}"
+                               class="btn">xem thêm</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="np__wapper">
+                        <div class="npwp-img">
+                            <img th:src="@{./files/image_config/luat.jpg}" alt="">
+                            <a th:href="@{https://luatminhkhue.vn/quy-dinh-moi-chu-nha-tro-can-phai-biet-khi-kinh-doanh-cho-thue-nha-tro-dip-cuoi-nam-2018-.aspx}">
+                                <span>Luật cho thuê</span></a>
+                        </div>
+                        <div class="npwp-text">
+                            <span>Quy định mới chủ nhà trọ cần phải biết khi kinh doanh cho thuê nhà trọ</span>
+                            <time><span><i class="far fa-calendar" aria-hidden="true"></i> 14-09-2019</span></time>
+                            <p>Thưa Luật sư, tôi là một cá nhân cho thuê nhà trọ, ...</p>
+                            <a th:href="@{https://luatminhkhue.vn/quy-dinh-moi-chu-nha-tro-can-phai-biet-khi-kinh-doanh-cho-thue-nha-tro-dip-cuoi-nam-2018-.aspx}"
+                               class="btn">xem thêm</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="paginationjs">
+                <div class="paginationjs-pages d-flex justify-content-center">
+                    <ul class="pagination">
+                        <li class="page-item paginationjs-prev"><a class="page-link" th:href="@{#}">«</a></li>
+                        <li class="page-item"><a class="page-link" th:href="@{#}">1</a></li>
+                        <li class="page-item active"><a class="page-link" th:href="@{#}">2</a></li>
+                        <li class="page-item"><a class="page-link" th:href="@{#}">3</a></li>
+                        <li class="page-item paginationjs-next"><a class="page-link" th:href="@{#}">»</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end newspage -->
+</main>
+
+<section th:replace="~{/fragment/app-fragment :: mail-area}"/>
+<footer th:replace="~{/fragment/app-fragment :: footer-user}"/>
+<footer th:replace="~{/fragment/app-fragment :: alert-foot}"/>
+</body>
+</html>

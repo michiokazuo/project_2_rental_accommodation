@@ -47,4 +47,41 @@ public class MotelRoomConvert implements Convert<MotelRoom, MotelRoomDTO> {
                 .ratings(ratings.equals(0F) ? 0F : (ratings / rates.size()))
                 .build();
     }
+
+    @Override
+    public List<MotelRoomDTO> toDTORoomNotFullToShowAll(List<MotelRoom> motelRooms, Integer sizePage,
+                                                        String email) throws Exception {
+        List<MotelRoomDTO> rs = new ArrayList<>();
+        if (motelRooms != null) {
+            int index = 0;
+            for (MotelRoom room : motelRooms) {
+                Integer personIn = Math.toIntExact(tenantRepository.count(Example.of(Tenant.builder()
+                        .room(room).status(true).build())));
+                if (personIn.equals(room.getMaxPerson()))
+                    continue;
+                List<Report> reports = reportService.findAllByRoom(room.getId(), email);
+                List<Integer> rates = new ArrayList<>();
+                Float ratings = 0F;
+                for (Report r : reports) {
+                    if (!rates.contains(r.getUser().getId()) && !r.getUser().getId().equals(room.getCreateBy().getId()))
+                        rates.add(r.getUser().getId());
+                    ratings += r.getRate();
+                }
+
+                rs.add(MotelRoomDTO.builder()
+                        .motelRoom(room)
+                        .personIn(personIn)
+                        .personAsk(Math.toIntExact(tenantRepository.count(Example.of(Tenant.builder()
+                                .room(room).status(false).build()))))
+                        .countReport(reports.size())
+                        .countRated(rates.isEmpty() ? 0 : rates.size())
+                        .ratings(ratings.equals(0F) ? 0F : (ratings / rates.size()))
+                        .build());
+                if(++index == sizePage)
+                    break;
+            }
+
+        }
+        return rs.isEmpty() ? null : rs;
+    }
 }

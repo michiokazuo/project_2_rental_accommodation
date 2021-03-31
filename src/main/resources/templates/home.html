@@ -1,12 +1,489 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Error</title>
+    <title>Trang chủ</title>
     <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
-<main class="container mt-5 mb-5 pt-5 pb-5 rounded shadow text-center bg-white">
-    user
+<header th:replace="~{/fragment/app-fragment :: header}"/>
+
+<main id="main">
+    <div id="ss" class="carousel slide my-slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#ss" data-slide-to="0" class="active"></li>
+            <li data-target="#ss" data-slide-to="1"></li>
+            <li data-target="#ss" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active">
+                <img class="w-100 d-block" th:src="@{./files/image_config/home.svg}" alt="" height="500">
+                <div class="carousel-caption d-md-block">
+                    <h5>Thuê trọ an toàn</h5>
+                    <h2>Lợi ích khách hàng</h2>
+                    <p>Chúng tôi cung cấp các thông tin chi tiết về nhà thuê và chủ thuê</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="w-100 d-block" th:src="@{./files/image_config/rental1.svg}" alt="" height="500">
+                <div class="carousel-caption d-md-block">
+                    <h5>Thuê trọ an toàn</h5>
+                    <h2>Lợi ích khách hàng</h2>
+                    <p>Chúng tôi cung cấp các thông tin chi tiết về nhà thuê và chủ thuê</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="w-100 d-block" th:src="@{./files/image_config/rental2.svg}" alt="" height="500">
+                <div class="carousel-caption d-md-block">
+                    <<h5>Thuê trọ an toàn</h5>
+                    <h2>Lợi ích khách hàng</h2>
+                    <p>Chúng tôi cung cấp các thông tin chi tiết về nhà thuê và chủ thuê</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" th:href="@{#ss}" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" th:href="@{#ss}" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+
+        <div class="download">
+            <a th:href="@{#}" class="googlePlay">
+                <div class="d-flex justify-content-center align-items-center">
+                    <i class="fab fa-google-play"></i>
+                    <div class="title">
+                        <span>Tải về trên</span> <br>
+                        <strong class="text-dark">Google Store</strong>
+                    </div>
+                </div>
+            </a>
+            <a th:href="@{#}" class="appStore">
+                <div class="d-flex justify-content-center align-items-center">
+                    <i class="fab fa-apple"></i>
+                    <div class="title">
+                        <span>Tải về trên</span> <br>
+                        <strong class="text-dark">App Store</strong>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- end slide -->
+    <section id="productmenu">
+        <div class="container">
+            <div class="row ml-auto mr-auto">
+                <div class="listproduct w-100 d-flex flex-wrap justify-content-between">
+                    <div class="part col-12 col-sm-6 col-lg-3">
+                        <div class="part-content mx-auto " data-product="specialoffer">
+                            <div class="part-img">
+                                <img th:src="@{./files/image_config/search.svg}" alt="">
+                                <span>Danh mục tìm kiếm</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="part col-12 col-sm-6 col-lg-3 ">
+                        <div class="part-content mx-auto" data-product="bestsellers">
+                            <div class="part-img">
+                                <img th:src="@{./files/image_config/room_home.svg}" alt="">
+                                <span>Phòng/nhà trọ mới</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="part col-12 col-sm-6 col-lg-3 ">
+                        <div class="part-content mx-auto" data-product="news">
+                            <div class="part-img">
+                                <img th:src="@{./files/image_config/news.svg}" alt="">
+                                <span>Tin Tức</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="part col-12 col-sm-6 col-lg-3 ">
+                        <div class="part-content mx-auto" data-product="feedback">
+                            <div class="part-img">
+                                <img th:src="@{./files/image_config/us.svg}" alt="">
+                                <span>Chúng Tôi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- end product-menu -->
+    <section id="service">
+        <div class="container">
+            <div class="row">
+                <div class="service-part d-flex align-items-center col-lg-4">
+                    <i class="fas fa-car"></i>
+                    <div class="text text-center">
+                        <div class="title">Kết nối người thuê/chủ thuê</div>
+                        <span>Kết nối mọi người</span>
+                    </div>
+                </div>
+                <div class="service-part d-flex align-items-center col-lg-4">
+                    <i class="fas fa-sync"></i>
+                    <div class="text text-center">
+                        <div class="title">Hoàn tiền miễn phí</div>
+                        <span>Không có chi phí phát sinh không đáng có</span>
+                    </div>
+                </div>
+                <div class="service-part d-flex align-items-center col-lg-4">
+                    <i class="fas fa-phone-volume"></i>
+                    <div class="text text-center">
+                        <div class="title">Hỗ trợ 24/7</div>
+                        <span>Gọi cho chúng tôi bất cứ khi nào bạn muốn</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end service -->
+    <section id="specialoffer">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center header">
+                    <h3>Danh mục tìm kiếm</h3>
+                </div>
+                <div class="part col-12 col-md-4 ">
+                    <div class="row col-12 mx-auto" style="height: 375px;">
+                        <div class="bg-2"></div>
+                        <a th:href="@{/tim-kiem?c_id=1}"
+                           class="mx-auto w-100 justify-content-center align-items-center d-flex">
+                            <div class="text-content flex-column d-flex text-center">
+                                <p>Phòng trọ đơn</p>
+                                <button class="btn" type="button"> Xem ngay
+                                    <i class="fas fa-long-arrow-alt-right"></i>
+                                </button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="part col-12 col-md-4 ">
+                    <div class="row col-12 mx-auto" style="height: 375px;">
+                        <div class="bg-3"></div>
+                        <a th:href="@{/tim-kiem?c_id=2}"
+                           class="mx-auto w-100 justify-content-center align-items-center d-flex">
+                            <div class="text-content flex-column d-flex text-center">
+                                <p>Phòng trọ ghép</p>
+                                <button class="btn" type="button"> Xem ngay
+                                    <i class="fas fa-long-arrow-alt-right"></i>
+                                </button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="part col-12 col-md-4 ">
+                    <div class="row col-12 mx-auto " style="height: 375px;">
+                        <div class="bg-1"></div>
+                        <a th:href="@{/tim-kiem?c_id=3}"
+                           class="mx-auto w-100 justify-content-center align-items-center d-flex">
+                            <div class="text-content flex-column d-flex text-center">
+                                <p>Nhà cho thuê</p>
+                                <button class="btn" type="button"> Xem ngay
+                                    <i class="fas fa-long-arrow-alt-right"></i>
+                                </button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end specialoffer -->
+    <section id="bestsellers" class="same">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center header">
+                    <h3>Phòng/nhà trọ mới</h3>
+                </div>
+                <div class="col-12 slide-pro">
+                    <div id="proseller" class="carousel slide same-move" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="p-1">
+                                        <div class="card add-id-cart">
+                                            <a th:href="@{#}">
+                                                <div class="card-img click-product-cart col-12 mx-auto">
+                                                    <img th:src="@{./files/image_config/213474521.jpg}" alt="">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            </a>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title text-center">Phòng đơn gần BK</h5>
+                                                <div class="info w-100 mx-auto row justify-content-center">
+                                                    <div class="person">
+                                                        <span>1/2</span>
+                                                        <i class="fas fa-user-alt"></i>
+                                                    </div>
+                                                    <div class="report ml-1">
+                                                        <span>12</span>
+                                                        <i class="far fa-comment"></i>
+                                                    </div>
+                                                    <div class="rating w-100 text-center">
+                                                        <span>Đánh giá: 4/5</span>
+                                                        <span>(12)</span>
+                                                    </div>
+                                                </div>
+                                                <p class="card-text text-center">1.000.000 đ/tháng</p>
+                                                <div class="card-wp">
+                                                    <a class=" click-add-cart btn" data-id="4">Xem</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-1">
+                                        <div class="card add-id-cart">
+                                            <a th:href="@{#}">
+                                                <div class="card-img click-product-cart col-12 mx-auto">
+                                                    <img th:src="@{./files/image_config/213532578.jpg}" alt="">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            </a>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title text-center">Phòng ghép gần BK</h5>
+                                                <div class="info w-100 mx-auto row justify-content-center">
+                                                    <div class="person">
+                                                        <span>1/2</span>
+                                                        <i class="fas fa-user-alt"></i>
+                                                    </div>
+                                                    <div class="report ml-1">
+                                                        <span>12</span>
+                                                        <i class="far fa-comment"></i>
+                                                    </div>
+                                                    <div class="rating w-100 text-center">
+                                                        <span>Đánh giá: 4/5</span>
+                                                        <span>(12)</span>
+                                                    </div>
+                                                </div>
+                                                <p class="card-text text-center">2.000.000 đ</p>
+                                                <div class="card-wp">
+                                                    <a class="btn click-add-cart" data-id="5">Xem</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-1">
+                                        <div class="card add-id-cart">
+                                            <a th:href="@{#}">
+                                                <div class="card-img click-product-cart col-12 mx-auto">
+                                                    <img th:src="@{./files/image_config/213532587.jpg}" alt="">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            </a>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title text-center">Nhà thuê nguyên căn</h5>
+                                                <div class="info w-100 mx-auto row justify-content-center">
+                                                    <div class="person">
+                                                        <span>1/2</span>
+                                                        <i class="fas fa-user-alt"></i>
+                                                    </div>
+                                                    <div class="report ml-1">
+                                                        <span>12</span>
+                                                        <i class="far fa-comment"></i>
+                                                    </div>
+                                                    <div class="rating w-100 text-center">
+                                                        <span>Đánh giá: 4/5</span>
+                                                        <span>(12)</span>
+                                                    </div>
+                                                </div>
+                                                <p class="card-text text-center">10.000.000 đ</p>
+                                                <div class="card-wp">
+                                                    <a class="btn click-add-cart" data-id="6">Xem</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="row d-flex justify-content-center">
+                                    <div class="p-1">
+                                        <div class="card add-id-cart">
+                                            <a th:href="@{#}">
+                                                <div class="card-img click-product-cart col-12 mx-auto">
+
+                                                    <img th:src="@{./files/image_config/213474521.jpg}" alt="">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            </a>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title text-center">Phòng đơn gần BK</h5>
+                                                <div class="info w-100 mx-auto row justify-content-center">
+                                                    <div class="person">
+                                                        <span>1/2</span>
+                                                        <i class="fas fa-user-alt"></i>
+                                                    </div>
+                                                    <div class="report ml-1">
+                                                        <span>12</span>
+                                                        <i class="far fa-comment"></i>
+                                                    </div>
+                                                    <div class="rating w-100 text-center">
+                                                        <span>Đánh giá: 4/5</span>
+                                                        <span>(12)</span>
+                                                    </div>
+                                                </div>
+                                                <p class="card-text text-center">1.000.000 đ/tháng</p>
+                                                <div class="card-wp">
+                                                    <a class=" click-add-cart btn" data-id="4">Xem</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-1">
+                                        <div class="card add-id-cart">
+                                            <a th:href="@{#}">
+                                                <div class="card-img click-product-cart col-12 mx-auto">
+                                                    <img th:src="@{./files/image_config/213532578.jpg}" alt="">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            </a>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title text-center">Phòng ghép gần BK</h5>
+                                                <div class="info w-100 mx-auto row justify-content-center">
+                                                    <div class="person">
+                                                        <span>1/2</span>
+                                                        <i class="fas fa-user-alt"></i>
+                                                    </div>
+                                                    <div class="report ml-1">
+                                                        <span>12</span>
+                                                        <i class="far fa-comment"></i>
+                                                    </div>
+                                                    <div class="rating w-100 text-center">
+                                                        <span>Đánh giá: 4/5</span>
+                                                        <span>(12)</span>
+                                                    </div>
+                                                </div>
+                                                <p class="card-text text-center">2.000.000 đ</p>
+                                                <div class="card-wp">
+                                                    <a class="btn click-add-cart" data-id="5">Xem</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-1">
+                                        <div class="card add-id-cart">
+                                            <a th:href="@{#}">
+                                                <div class="card-img click-product-cart col-12 mx-auto">
+                                                    <img th:src="@{./files/image_config/213532587.jpg}" alt="">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            </a>
+
+                                            <div class="card-body">
+                                                <h5 class="card-title text-center">Nhà thuê nguyên căn</h5>
+                                                <div class="info w-100 mx-auto row justify-content-center">
+                                                    <div class="person">
+                                                        <span>1/2</span>
+                                                        <i class="fas fa-user-alt"></i>
+                                                    </div>
+                                                    <div class="report ml-1">
+                                                        <span>12</span>
+                                                        <i class="far fa-comment"></i>
+                                                    </div>
+                                                    <div class="rating w-100 text-center">
+                                                        <span>Đánh giá: 4/5</span>
+                                                        <span>(12)</span>
+                                                    </div>
+                                                </div>
+                                                <p class="card-text text-center">10.000.000 đ</p>
+                                                <div class="card-wp">
+                                                    <a class="btn click-add-cart" data-id="6">Xem</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" th:href="@{#proseller}" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"><i
+                        class="fas fa-long-arrow-alt-left"></i></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" th:href="@{#proseller}" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"><i
+                        class="fas fa-long-arrow-alt-right"></i></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end bestsellers -->
+    <section id="news">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center header">
+                    <h3>Tin tức</h3>
+                </div>
+                <div class="col-12 col-md-6 part">
+                    <a th:href="@{https://taxitaisaigon.vn/bai-viet-chi-tiet/kinh-nghiem-tim-thue-nha-tro-815}">
+                        <img th:src="@{./files/image_config/213539487.jpg}" alt=""></a>
+                    <a th:href="@{https://taxitaisaigon.vn/bai-viet-chi-tiet/kinh-nghiem-tim-thue-nha-tro-815}"
+                       class="title">Tips</a>
+                    <div class="newscap">Cách chọn phòng đúng cách</div>
+                    <div class="direc">by <strong>SaiGon Express</strong> <span>20:15 15/10/2019</span></div>
+                    <p>Bạn cần xác định vị trí bạn muốn thuê, thu nhập của bạn, ...</p>
+                </div>
+                <div class="col-12 col-md-6 part">
+                    <a th:href="@{https://bds123.vn/nhung-cach-phong-chong-bi-mat-do-khi-o-tro-post1214.html}"
+                       class="title">Tips</a>
+                    <div class="newscap">Bảo vệ tài sản cá nhân</div>
+                    <div class="direc">by <strong>bds123.vn</strong> <span>15:02 22/03/2019</span></div>
+                    <p>Cần có khóa phòng, cẩn thận người lạ, ...</p>
+                    <a th:href="@{https://bds123.vn/nhung-cach-phong-chong-bi-mat-do-khi-o-tro-post1214.html}">
+                        <img th:src="@{./files/image_config/bvts.jpg}" alt=""></a>
+                </div>
+                <a th:href="@{/tin-tuc}" class="btn all-view mx-auto d-block"> Xem tất cả
+                    <i class="fas fa-long-arrow-alt-right"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- end news -->
+    <section id="feedback">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center header">
+                    <h3>Mọi người nói về chúng tôi</h3>
+                </div>
+                <div class="content col-12">
+                    <div class="image">
+                        <div class="img">
+                            <img th:src="@{./files/image_config/a.jpg}" alt="">
+                        </div>
+                        <div class="img special">
+                            <img th:src="@{./files/image_config/b.png}" alt="">
+                        </div>
+                        <div class="img">
+                            <img th:src="@{./files/image_config/g.png}" alt="">
+                        </div>
+                    </div>
+                    <p class="text-center">Chất lượn uy tín, đảm bảo. Cộng tác viên nhiệt tình</p>
+                    <span class="text-center d-block s-name">US</span>
+                    <span class="text-center d-block ceo">CEO/Founder</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end feedback -->
 </main>
+<section th:replace="~{/fragment/app-fragment :: mail-area}"/>
+<footer th:replace="~{/fragment/app-fragment :: footer-user}"/>
+<footer th:replace="~{/fragment/app-fragment :: alert-foot}"/>
+<script th:src="@{/js/pages/ajax_page_home.js}"></script>
+<script th:src="@{/js/model/ajax_model_motel_room.js}"></script>
+<script th:src="@{/js/model/ajax_model_category.js}"></script>
 </body>
 </html>

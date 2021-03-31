@@ -6,11 +6,58 @@
 }
 
 :root {
-    --font-main: Verdana, Geneva, Tahoma, sans-serif;
+    --text-color1: #000000;
+    --text-color2: #ffffff;
+    --text-hover: #73be47;
+    --body-bgc: #ffffff;
+    --bg-color1: #73be47;
+    --bg-color2: #f5f5f5;
+    --bg-color3: #1e1e1e;
+    --bg-color4: #252932;
+    --font-13: 13px;
+    --font-16: 16px;
+    --font-26: 26px;
+    --font-20: 20px;
+    --font-30: 30px;
+    --font-42: 42px;
+    --color-brown-hover: #f39575;
+    --color-brown: #a1624d;
 }
 
-body {
-    background-color: #f2f2f2;
+:root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+:root {
+    --font-main: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 menu {
@@ -19,7 +66,7 @@ menu {
     font-family: var(--font-main);
 }
 
-footer {
+footer#alert-foot {
     background-color: white;
     position: fixed;
     bottom: 0;
@@ -68,4 +115,127 @@ main form {
 
 .active {
     color: forestgreen;
+}
+
+.show_bottom {
+    animation: show_bottom 1s forwards;;
+}
+
+@keyframes show_bottom {
+    0% {
+        transform: translateY(100px);
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px);
+    }
+}
+
+.showed {
+    display: block !important;
+    visibility: visible !important;
+    animation: showed 1s forwards;;
+}
+
+@keyframes showed {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+main#main section#banner .container .row .banner-wp {
+    max-height: 350px;
+    position: relative;
+    overflow: hidden;
+    z-index: 11;
+    margin-top: 10px;
+}
+
+main#main section#banner .container .row .banner-wp .banner-text {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 11;
+}
+
+main#main section#banner .container .row .banner-wp .banner-text h4 {
+    font-size: var(--font-20);
+    color: var(--text-hover);
+    text-transform: uppercase;
+    margin-bottom: 0;
+}
+
+main#main section#banner .container .row .banner-wp .banner-text a, main#main section#banner .container .row .banner-wp .banner-text span {
+    text-transform: uppercase;
+    color: var(--text-color2);
+    font-weight: 600;
+    font-size: 10px;
+}
+
+main#main section#banner .container .row .banner-wp .banner-text a:hover {
+    color: var(--text-hover);
+}
+
+main#main section#banner .container .row .banner-wp .bor {
+    position: absolute;
+    background-color: var(--bg-color2);
+}
+
+main#main section#banner .container .row .banner-wp .bor1 {
+    left: 0;
+    top: 10px;
+    width: 100%;
+    height: 1px;
+    transform-origin: 50% 50%;
+    transform: scaleX(0);
+    transition: 0.4s;
+}
+
+main#main section#banner .container .row .banner-wp .bor3 {
+    left: 0;
+    bottom: 10px;
+    width: 100%;
+    height: 1px;
+    transform-origin: 50% 50%;
+    transform: scaleX(0);
+    transition: 0.4s;
+}
+
+main#main section#banner .container .row .banner-wp .bor2 {
+    left: 10px;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    transform-origin: 50% 50%;
+    transform: scaleY(0);
+    transition: 0.4s;
+}
+
+main#main section#banner .container .row .banner-wp .bor4 {
+    right: 10px;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    transform-origin: 50% 50%;
+    transform: scaleY(0);
+    transition: 0.4s;
+}
+
+main#main section#banner .container .row .banner-wp:hover .banner-bg img {
+    transform: scale(1.2);
+}
+
+main#main section#banner .container .row .banner-wp:hover .bor1, main#main section#banner .container .row .banner-wp:hover .bor3 {
+    transform: scaleX(1);
+}
+
+main#main section#banner .container .row .banner-wp:hover .bor2, main#main section#banner .container .row .banner-wp:hover .bor4 {
+    transform: scaleY(1);
 }

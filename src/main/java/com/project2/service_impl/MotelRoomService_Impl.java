@@ -13,6 +13,9 @@ import com.project2.service.MotelRoomService;
 import com.project2.service.ReportService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -40,33 +43,8 @@ public class MotelRoomService_Impl implements MotelRoomService {
 
     @Override
     public List<MotelRoomDTO> findAll(String email) throws Exception {
-        List<MotelRoomDTO> rs = new ArrayList<>();
         List<MotelRoom> motelRooms = motelRoomRepository.findAllByDeletedFalse();
-        for (MotelRoom room : motelRooms) {
-            Integer personIn = Math.toIntExact(tenantRepository.count(Example.of(Tenant.builder()
-                    .room(room).status(true).build())));
-            if (personIn.equals(room.getMaxPerson()))
-                continue;
-            List<Report> reports = reportService.findAllByRoom(room.getId(), email);
-            List<Integer> rates = new ArrayList<>();
-            Float ratings = 0F;
-            for (Report r : reports) {
-                if (!rates.contains(r.getIdCmt()))
-                    rates.add(r.getIdCmt());
-                ratings += r.getRate();
-            }
-
-            rs.add(MotelRoomDTO.builder()
-                    .motelRoom(room)
-                    .personIn(personIn)
-                    .personAsk(Math.toIntExact(tenantRepository.count(Example.of(Tenant.builder()
-                            .room(room).status(false).build()))))
-                    .countReport(reports.size())
-                    .countRated(rates.isEmpty() ? 0 : rates.size())
-                    .ratings(ratings.equals(0F) ? 0F : (ratings / rates.size()))
-                    .build());
-        }
-        return rs.isEmpty() ? null : rs;
+        return convert.toDTORoomNotFullToShowAll(motelRooms, null, email);
     }
 
     @Override
@@ -147,5 +125,15 @@ public class MotelRoomService_Impl implements MotelRoomService {
             return rs.isEmpty() ? null : rs;
         }
         return null;
+    }
+
+    @Override
+    public List<MotelRoomDTO> findRoomPage(Pageable pageable, String email) throws Exception {
+        MotelRoom motelRoom = new MotelRoom();
+        motelRoom.setDeleted(false);
+        List<MotelRoom> motelRooms = motelRoomRepository.findAll(Example.of(motelRoom,
+                ExampleMatcher.matchingAll().withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)),
+                pageable.getSort());
+        return convert.toDTORoomNotFullToShowAll(motelRooms, pageable.getPageSize(), email);
     }
 }

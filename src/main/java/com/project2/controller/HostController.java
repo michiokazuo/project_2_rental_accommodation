@@ -2,9 +2,11 @@ package com.project2.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class MainController {
+@RequestMapping("host/*")
+public class HostController {
 
     @GetMapping("/")
     public String home() {
@@ -13,12 +15,7 @@ public class MainController {
 
     @GetMapping("/trang-chu")
     public String homePage() {
-        return "home";
-    }
-
-    @GetMapping(value = "/dang-nhap")
-    public String loginPage() {
-        return "login";
+        return "/host/host_home";
     }
 
     @GetMapping(value = "/nguoi-thue")
@@ -36,14 +33,16 @@ public class MainController {
         return "/admin/admin_home";
     }
 
-    @GetMapping("/tin-tuc")
-    public String news() {
-        return "news";
+    @GetMapping("/du-an")
+    public String project() {
+
+        return "project";
     }
 
-    @GetMapping("/lien-he")
-    public String contact() {
-        return "contact";
+    @GetMapping("/nhan-vien")
+    public String employee() {
+
+        return "employee";
     }
 
     @GetMapping("/thong-ke")
@@ -66,7 +65,8 @@ public class MainController {
 
     @GetMapping("/thong-tin-ca-nhan")
     public String userInformation() {
-        return "info-user";
+
+        return "user_infor";
     }
 
     @GetMapping("/danh-gia")

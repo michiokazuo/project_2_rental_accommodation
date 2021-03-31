@@ -38,7 +38,7 @@ public class MotelRoom extends Base {
     private Integer maxPerson;
 
     @Column(name = "price", nullable = false)
-    private Double price;
+    private Integer price;
 
     @Column(name = "address", nullable = false)
     private String address;
@@ -55,9 +55,6 @@ public class MotelRoom extends Base {
 
     @Column(name = "priority_object")
     private String priorityObject;
-
-    @Column(name = "sale_off", nullable = false)
-    private Integer sale_off;
 
     @ManyToMany
     @JoinTable(name = "room_has_convenient", // tên bảng trung gian

@@ -32,3 +32,7 @@ function motelRoomSearchSort(q) {
     return ajaxGet(`${URL_MOTEL_ROOM}/search-sort?` + `${q}`);
 }
 
+function motelRoomFindNewToHome(q) {
+    return ajaxGet(`${URL_MOTEL_ROOM}/find-new-to-home-page?` + `${q}`);
+}
+

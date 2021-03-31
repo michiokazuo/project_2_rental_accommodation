@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Liên hệ</title>
+    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/contact.css}">
+</head>
+<body>
+<header th:replace="~{/fragment/app-fragment :: header}"/>
+
+<main id="main">
+    <section id="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner-wp">
+                        <div class="banner-text">
+                            <h4>Tin tức</h4>
+                            <a th:href="@{/}">Trang chủ</a>
+                            <span>// Liên hệ</span>
+                        </div>
+                        <div class="banner-bg w-100 h-100">
+                            <img th:src="@{./files/image_config/contact.jpg}" alt="" class="w-100 h-100 mh-350"
+                                 style="transition: 0.4s">
+                        </div>
+                        <span class="bor bor1"></span>
+                        <span class="bor bor2"></span>
+                        <span class="bor bor3"></span>
+                        <span class="bor bor4"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end map -->
+    <section id="contact-infor">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-2 col-12">
+                    <div class="contact-info__wapper hotlinem">
+                        <i class="fas fa-mobile-alt "></i>
+                        <span> Hotline: <a href="tel:0564099372"><a href="tel:0564099372">0564 099 372</a></a>
+                            </span>
+                    </div>
+                </div>
+                <div class="col-md-2 col-12">
+                    <div class="contact-info__wapper d-flex hotlinem">
+                        <i class="fas fa-phone-volume"></i>
+                        <span> Call: <a href="tel:0564099372"><a href="tel:0564099372">0564 099 372</a></a>
+                            </span>
+                    </div>
+                </div>
+                <div class="col-md-2 col-12">
+                    <div class="contact-info__wapper company-mailctu">
+                        <i class="fas fa-envelope"></i>
+                        <span><a href="mailto:thienbinh2102000@gmail.com"><a
+                                href="mailto:thienbinh2102000@gmail.com">project2@gmail.com</a></a></span>
+                    </div>
+                </div>
+                <div class="col-md-8 col-12">
+                    <p class="text-center">Nếu nhà cung cấp không giao thực hiện đúng
+                        các tiêu chuẩn được đặt ra trong hợp đồng của bạn, chúng sẽ hoàn trả số tiền thanh
+                        toán của bạn.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end contact-infor -->
+    <section id="contact-text">
+        <div class="container">
+            <div class="row">
+                <div class="col-12" style="padding: 0;">
+                    <h3>Liên hệ</h3>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12" style="padding: 0">
+                            <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <div class="contact-text__wp form-group">
+                                        <span>Họ và tên*</span>
+                                        <input type="text" id="ufullname" class="form-control">
+                                        <div class="invalid-tooltip">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="contact-text__wp form-group">
+                                        <span>Số điện thoại*</span>
+                                        <input type="tel" id="uphone" class="form-control">
+                                        <div class="invalid-tooltip">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="contact-text__wp form-group">
+                                        <span>Email*</span>
+                                        <input type="email" class="form-control" id="umail">
+                                        <div class="invalid-tooltip">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <textarea id="ufb" class="form-control"></textarea>
+                            <div class="invalid-tooltip">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button href="#" class="btn" type="button" id="contact-send">Gửi</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <!-- end contact-text -->
+</main>
+<!-- end main -->
+
+<section th:replace="~{/fragment/app-fragment :: mail-area}"/>
+<footer th:replace="~{/fragment/app-fragment :: footer-user}"/>
+<footer th:replace="~{/fragment/app-fragment :: alert-foot}"/>
+<script th:src="@{/js/pages/ajax_page_contact.js}"></script>
+</body>
+</html>

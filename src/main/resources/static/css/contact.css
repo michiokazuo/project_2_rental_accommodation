@@ -1,0 +1,151 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none!important;
+}
+
+ul {
+    list-style: none!important;
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    --text-color1: #000000;
+    --text-color2: #ffffff;
+    --text-hover: #73be47;
+    --body-bgc: #ffffff;
+    --bg-color1: #73be47;
+    --bg-color2: #f5f5f5;
+    --bg-color3: #1e1e1e;
+    --bg-color4: #252932;
+    --font-13: 13px;
+    --font-16: 16px;
+    --font-26: 26px;
+    --font-20: 20px;
+    --font-30: 30px;
+    --font-42: 42px;
+    --color-brown-hover: #f39575;
+    --color-brown: #a1624d;
+}
+
+:root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/*  */
+main#main section#map .container .row{
+    padding: 5px;
+    border: 1px solid var(--gray-dark);
+}
+/*  */
+main#main section#contact-infor .container .row {
+    padding: 50px 0;
+}
+main#main section#contact-infor .container .row > div .contact-info__wapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+main#main section#contact-infor .container .row > div .contact-info__wapper i{
+    color: var(--color-brown);
+    font-size: var(--font-42);
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+main#main section#contact-infor .container .row > div .contact-info__wapper:hover i{
+    animation: vibrate 0.5s forwards;
+}
+@-webkit-keyframes vibrate{
+    0%{transform: translateX(-10px);}
+    16.7%{transform: translateX(10px);}
+    33.4%{transform: translateX(-10px);}
+    50.1%{transform: translateX(10px);}
+    66.8%{transform: translateX(-10px);}
+    83.5%{transform: translateX(10px);}
+    100%{transform: translateX(0px);}
+}
+main#main section#contact-infor .container .row > div .contact-info__wapper span, main#main section#contact-infor .container .row > div .contact-info__wapper span a{
+    font-size: var(--font-13);
+    font-weight: 600;
+    color: var(--text-color1);
+}
+main#main section#contact-infor .container .row > div .contact-info__wapper span a:hover{
+    color: var(--green);
+}
+main#main section#contact-infor .container .row > div p.text-center{
+    color: var(--secondary);
+    font-weight: 600;
+    font-size: var(--font-13);
+    margin-top: 30px;
+}
+/*  */
+main#main section#contact-text .container .row > div h3{
+    text-transform: uppercase;
+}
+main#main section#contact-text .container > .row > div .row{
+    padding: 15px 15px;
+}
+main#main section#contact-text .container .row > div .row > div .contact-text__wp{
+    padding: 5px 10px;
+    border: 1px solid var(--gray);
+    color: #c0c0c1;
+    margin-bottom: 10px;
+}
+main#main section#contact-text .container .row > div .row > div .contact-text__wp input{
+    border: none;
+    outline: none;
+}
+main#main section#contact-text .container .row > div .row > div textarea{
+    width: 100%;
+    min-height: 140px;
+    outline: none;
+    padding: 10px;
+}
+main#main section#contact-text .container .row > div .row > div button{
+    text-transform: uppercase;
+    color: var(--white);
+    background-color: var(--color-brown);
+    font-weight: 600;
+    margin-top: 20px;
+}
+main#main section#contact-text .container .row > div .row > div button:hover{
+    background-color: var(--color-brown-hover);
+}
