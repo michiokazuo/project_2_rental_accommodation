@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
@@ -20,8 +22,6 @@ import java.util.List;
 public class AppUserController {
 
     private final AppUserService appUserService;
-
-    private final AppUserRepository appUserRepository;
 
     private final RoleRepository roleRepository;
 
@@ -46,8 +46,7 @@ public class AppUserController {
             String email = null;
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
-            AppUser appUser = appUserService.findById(id == null ?
-                    appUserRepository.findByEmailAndDeletedFalse(email).getId() : id, email);
+            AppUser appUser = appUserService.findById(id, email);
             return appUser != null ? ResponseEntity.ok(appUser) : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
@@ -88,6 +87,7 @@ public class AppUserController {
 
     @PutMapping("update")
     public ResponseEntity<Object> update(@RequestBody AppUser appUser, Authentication authentication) {
+
         try {
             String email = null;
             if (authentication != null)

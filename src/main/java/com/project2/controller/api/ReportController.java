@@ -49,6 +49,34 @@ public class ReportController {
         }
     }
 
+    @GetMapping("find-by-room/{id}")
+    public ResponseEntity<Object> findByRoom(Authentication authentication, @PathVariable("id") Integer id) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<Report> taskDTO = reportService.findAllByRoom(id, email);
+            return taskDTO != null ? ResponseEntity.ok(taskDTO) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("find-by-user/{id}")
+    public ResponseEntity<Object> findByUser(Authentication authentication, @PathVariable("id") Integer id) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            Report taskDTO = reportService.findById(id, email);
+            return taskDTO != null ? ResponseEntity.ok(taskDTO) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 //    @GetMapping("search-sort")
 //    public ResponseEntity<Object> search_sort(Authentication authentication,
 //                                              @RequestParam(name = "name", required = false) String name,

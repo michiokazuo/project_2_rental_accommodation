@@ -22,5 +22,6 @@ public class MotelRoomDTO {
     private Integer countReport;
     private Integer countRated;
     private Float ratings;
+    private Float distance;
 
 }

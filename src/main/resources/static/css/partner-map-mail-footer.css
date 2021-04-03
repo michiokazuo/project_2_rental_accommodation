@@ -24,7 +24,7 @@ section#mail-area {
 
 section#mail-area .container .row p {
     font-weight: 600;
-    font-size: var(--font-13);
+    font-size: var(--font-16);
 }
 
 section#mail-area .container .row .input-group input {
@@ -63,7 +63,7 @@ footer#footer section#footer-infor .container #footer-menu h5 {
 }
 
 footer#footer section#footer-infor .container #footer-menu p {
-    font-size: var(--font-13);
+    font-size: var(--font-16);
 }
 
 footer#footer section#footer-infor .container #footer-menu p span {
@@ -72,7 +72,7 @@ footer#footer section#footer-infor .container #footer-menu p span {
 }
 
 footer#footer section#footer-infor .container #footer-menu > div .dot a {
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     color: #6c757d;
     margin-left: 10px;
     position: relative;
@@ -114,7 +114,7 @@ footer#footer section#footer-infor .container #follow .ecommerce a img {
 
 footer#footer section#footer-copyright {
     background-color: var(--bg-color3);
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     height: 30px;
 }
 

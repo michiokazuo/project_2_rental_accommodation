@@ -28,6 +28,10 @@ public class MotelRoom extends Base {
     @Column(name = "images", nullable = false)
     private String images;
 
+    @ManyToOne
+    @JoinColumn(name = "id_host", referencedColumnName = "id")
+    private AppUser host;
+
     /**
      * m2
      */

@@ -36,7 +36,7 @@ $(async function () {
     });
 
     await getUserInSystem();
-    showUer();
+    showUser();
     signUpSuggest();
 })
 
@@ -72,7 +72,7 @@ function signUpSuggest() {
     })
 }
 
-function showUer() {
+function showUser() {
     if (USER_IN_SYSTEM) {
         $("#acc-top .title").text(USER_IN_SYSTEM.name);
         $("#content-menu-user").html(`<a class="item" href="/thong-tin-ca-nhan">Thông tin cá nhân</a>
@@ -92,8 +92,20 @@ function checkRating(rate) {
     return rate ? (rate + "/5") : 'Chưa có';
 }
 
+function reloadImage() {
+    let file = document.getElementById("avatar").files[0];
+    let img = document.getElementById("avatar-photo");
+    let reader = new FileReader();
+    reader.addEventListener("load", function () {
+        img.src = reader.result;
+    }, false)
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+
 function formatMoney(money) {
-    if (money !== 0) {
+    if (money >= 0) {
         money = String(money);
 
         var form = "";
@@ -106,27 +118,31 @@ function formatMoney(money) {
 
             i = i + 2;
         }
-        return form + "000";
+        return form.substring(0, form.length - 1);
     } else {
         return 0;
     }
 }
 
 function showSelectOption(element, list, defaultVal) {
-    element.empty();
-    element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
-    list.forEach(function (e) {
-        element.append($('<option></option>').val(e.val).text(e.text));
-    });
+    if (list && list.length > 0) {
+        element.empty();
+        element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
+        list.forEach(function (e) {
+            element.append($('<option></option>').val(e.val).text(e.text));
+        });
+    }
 }
 
 function showRoleList(element, list, defaultVal) {
-    element.empty();
-    element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
-    list.forEach(function (e) {
-        if (e.name !== "ROLE_ADMIN")
-            element.append($('<option></option>').val(e.id).text(e.content));
-    });
+    if (list && list.length > 0) {
+        element.empty();
+        element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
+        list.forEach(function (e) {
+            if (e.name !== "ROLE_ADMIN")
+                element.append($('<option></option>').val(e.id).text(e.content));
+        });
+    }
 }
 
 function checkData(selector, regex, textError) {
@@ -222,11 +238,17 @@ function checkBirthday(selector, textError) {
 function checkFile(selector, textError) {
     let val = $(selector).val();
     let check = false;
+    let cnt = 0;
     const regex = /./;
     if (val.length > 0 && regex.test(val)) {
         check = true;
         for (const img of selector.prop('files')) {
             if (img.size / (1024 * 1024) >= 10) {
+                check = false;
+                break;
+            }
+            cnt++;
+            if (cnt > 4) {
                 check = false;
                 break;
             }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Tìm kiếm trọ</title>
+    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/search-rent.css}">
+</head>
+<body>
+<header th:replace="~{/fragment/app-fragment :: header}"></header>
+
+
+<footer th:replace="~{/fragment/app-fragment :: footer-user}"></footer>
+<footer th:replace="~{/fragment/app-fragment :: alert-foot}"></footer>
+<script th:src="@{/js/pages/ajax_page_search_rent.js}"></script>
+<script th:src="@{/js/model/ajax_model_tenant.js}"></script>
+<script th:src="@{/js/model/ajax_model_motel_room.js}"></script>
+</body>
+</html>

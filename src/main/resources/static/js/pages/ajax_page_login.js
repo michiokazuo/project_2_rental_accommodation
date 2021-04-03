@@ -1,6 +1,7 @@
 let emailLogin, passwordLogin, btnLogin, linkForgotPassword, linkSignUp, emailForgotPassword, btnSubmitForgotPassword,
     nameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp, avatarSignUp, btnSubmitSignUp, modalForgotPassword,
-    modalSignUp, textPhone, dateBirthday, numberJob, textWorkplace, numberGender, numberStatus, numberRole, listRole;
+    modalSignUp, textPhone, dateBirthday, numberJob, textWorkplace, numberGender, numberStatus, numberRole, homeTown;
+let listRole = [];
 let user_now = {};
 
 $(async function () {
@@ -26,6 +27,7 @@ $(async function () {
     numberRole = $("#role");
     modalForgotPassword = $("#modal-forgot-password");
     modalSignUp = $("#modal-sign-up");
+    homeTown = $("#home-town");
 
     await loadRole();
     login();
@@ -137,10 +139,14 @@ function submitSignUp() {
             val: valueAvatar,
             check: checkAvatar
         } = checkFile(avatarSignUp, "File ảnh phải nhỏ hơn 10MB.");
+        let {
+            val: valueHomeTown,
+            check: checkHomeTown
+        } = checkData(homeTown, /./,"Bạn chưa nhập quê quán.");
 
         if (checkName && checkEmailSignUp && checkPasswordSignUp && checkPasswordConfirmSignUp && checkTextPhone
             && checkDateBirthday && checkStatus && checkStatus && checkWorkplace && checkGender && checkRole
-            && checkJob) {
+            && checkJob && checkHomeTown) {
             valueAvatar = DEFAULT_AVATAR;
             if (checkAvatar) {
                 await uploadFile(avatarSignUp.prop('files')[0])
@@ -160,7 +166,6 @@ function submitSignUp() {
                 name: valueName,
                 email: valueEmailSignUp,
                 password: valuePasswordSignUp,
-                passwordConfirm: valuePasswordConfirmSignUp,
                 avatar: valueAvatar,
                 phone: valTextPhone,
                 job: valJob,
@@ -168,7 +173,8 @@ function submitSignUp() {
                 status: valStatus,
                 workplace: valWorkplace,
                 birthday: valBirthday,
-                role: listRole.find(r => r.id === (valRole - 0))
+                role: listRole.find(r => r.id === (valRole - 0)),
+                homeTown: valueHomeTown
             }
 
             let check = false;
@@ -250,17 +256,4 @@ function login() {
                 check ? "Đăng nhập thành công" : "Thông tin đăng nhập không chính xác. Mời kiểm tra lại!!!");
         }
     })
-}
-
-
-function reloadImage() {
-    let file = document.getElementById("avatar").files[0];
-    let img = document.getElementById("avatar-photo");
-    let reader = new FileReader();
-    reader.addEventListener("load", function () {
-        img.src = reader.result;
-    }, false)
-    if (file) {
-        reader.readAsDataURL(file);
-    }
 }

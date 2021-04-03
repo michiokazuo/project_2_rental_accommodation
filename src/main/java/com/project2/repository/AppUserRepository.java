@@ -18,11 +18,13 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer>, JpaS
 
     AppUser findByIdAndDeletedFalse(Integer idUser);
 
-    AppUser findByPhoneAndDeletedFalse(String phone);
+    List<AppUser> findByPhoneAndDeletedFalse(String phone);
 
     AppUser findByEmailAndDeletedFalse(String email);
 
     List<AppUser> findAllByDeletedFalseAndRole_Id(Integer roleId);
+
+    List<AppUser> findByEmailOrPhoneAndDeletedFalse(String email, String phone);
 
     @Query("update AppUser e set e.deleted = true where e.id = ?1")
     @Modifying

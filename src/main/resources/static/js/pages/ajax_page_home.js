@@ -90,7 +90,7 @@ function showMotelRoom() {
         for (let i = 0; i < listMotelRoomDTO.length; i++) {
             let room = listMotelRoomDTO[i].motelRoom;
             content = `<div class="card add-id-cart">
-                            <a target="_blank" href="/thong-tin-nha-phong?id=${room.id}">
+                            <a target="_blank" href="/thong-tin-thue?idRoom=${room.id}">
                                                 <div class="card-img click-product-cart col-12 mx-auto">
                                                     <img src="${room.images.split('<>')[0]}" alt="">
                                                     <i class="fas fa-eye"></i>
@@ -102,7 +102,7 @@ function showMotelRoom() {
                                                 <div class="info w-100 mx-auto row justify-content-center">
                                                     <div class="person">
                                                         <span>${numberFilter(listMotelRoomDTO[i].personIn)
-            + "/" + numberFilter(listMotelRoomDTO[i].max_person)}</span>
+            + "/" + numberFilter(listMotelRoomDTO[i].maxPerson)}</span>
                                                         <i class="fas fa-user-alt"></i>
                                                     </div>
                                                     <div class="report ml-1">
@@ -118,7 +118,7 @@ function showMotelRoom() {
                                                     ${formatMoney(numberFilter(room.price))} VNĐ/tháng
                                                     </p>
                                                 <div class="card-wp">
-                                                    <a target="_blank" href="/thue?id=${room.id}" 
+                                                    <a target="_blank" href="/thong-tin-thue?idRoom=${room.id}" 
                                                     class="click-add-cart btn" data-id="4">Xem</a>
                                                 </div>
                                             </div>          

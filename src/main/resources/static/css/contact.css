@@ -137,6 +137,7 @@ main#main section#contact-text .container .row > div .row > div textarea{
     width: 100%;
     min-height: 140px;
     outline: none;
+    border: 1px solid var(--gray);
     padding: 10px;
 }
 main#main section#contact-text .container .row > div .row > div button{

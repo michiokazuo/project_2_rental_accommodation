@@ -21,6 +21,8 @@ public interface TenantRepository extends JpaRepository<Tenant, TenantKey>, JpaS
 
     List<Tenant> findAllByUserAndDeletedFalse(AppUser appUser);
 
+    Tenant findByIdAndDeletedFalse(TenantKey tenantKey);
+
     @Query("update Tenant t set t.deleted = true where t.id.idRoom = ?1 and t.id.idUser = ?2")
     @Modifying
     @Transactional
@@ -40,4 +42,9 @@ public interface TenantRepository extends JpaRepository<Tenant, TenantKey>, JpaS
     @Modifying
     @Transactional
     int deleteCustomByKey(TenantKey tenantKey);
+
+    @Query("update Tenant e set e.deleted = true where e.id in ?1")
+    @Modifying
+    @Transactional
+    int deleteCustomByListKey(List<TenantKey> tenantKeys);
 }

@@ -63,7 +63,7 @@ public class MotelRoomConvert implements Convert<MotelRoom, MotelRoomDTO> {
                 List<Integer> rates = new ArrayList<>();
                 Float ratings = 0F;
                 for (Report r : reports) {
-                    if (!rates.contains(r.getUser().getId()) && !r.getUser().getId().equals(room.getCreateBy().getId()))
+                    if (!rates.contains(r.getUser().getId()) && !r.getUser().getId().equals(room.getHost().getId()))
                         rates.add(r.getUser().getId());
                     ratings += r.getRate();
                 }

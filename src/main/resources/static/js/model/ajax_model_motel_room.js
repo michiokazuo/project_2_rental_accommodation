@@ -9,11 +9,11 @@ function motelRoomFindById(q) {
 }
 
 function motelRoomFindByUser(q) {
-    return ajaxGet(`${URL_MOTEL_ROOM}/find-by-id/` + `${q}`);
+    return ajaxGet(`${URL_MOTEL_ROOM}/find-all-by-user/` + `${q}`);
 }
 
 function motelRoomFindByHost(q) {
-    return ajaxGet(`${URL_MOTEL_ROOM}/find-by-id/` + `${q}`);
+    return ajaxGet(`${URL_MOTEL_ROOM}/find-all-by-host/` + `${q}`);
 }
 
 function motelRoomInsert(e) {

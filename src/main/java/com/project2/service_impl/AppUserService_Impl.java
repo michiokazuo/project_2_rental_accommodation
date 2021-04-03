@@ -38,6 +38,8 @@ public class AppUserService_Impl implements AppUserService {
     public AppUser findById(Integer id, String email) throws Exception {
         if (id != null && id > 0)
             return appUserRepository.findByIdAndDeletedFalse(id);
+        if (email != null)
+            return appUserRepository.findByEmailAndDeletedFalse(email);
         return null;
     }
 
@@ -61,8 +63,16 @@ public class AppUserService_Impl implements AppUserService {
     public AppUser update(AppUser appUser, String email) throws Exception {
         if (email != null && appUser != null
                 && (appUser.getId().equals(appUserRepository.findByEmailAndDeletedFalse(email).getId())
-                || AppConfig.checkAdmin(email)) && appUserRepository.findByEmailAndDeletedFalse(email) == null
-                && appUserRepository.findByPhoneAndDeletedFalse(appUser.getPhone()) == null) {
+                || AppConfig.checkAdmin(email))) {
+            AppUser user = appUserRepository.findByIdAndDeletedFalse(appUser.getId());
+            List<AppUser> appUserList = appUserRepository.findByPhoneAndDeletedFalse(appUser.getPhone());
+            if (user == null || !user.getEmail().equals(appUser.getEmail())) return null;
+
+            if (user.getPhone().equals(appUser.getPhone())) {
+                if (appUserList != null && appUserList.size() > 1) return null;
+            } else {
+                if (appUserList != null) return null;
+            }
             appUser.setDeleted(false);
             appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
             return appUserRepository.save(appUser);

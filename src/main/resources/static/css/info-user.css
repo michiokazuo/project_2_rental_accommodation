@@ -1540,6 +1540,12 @@ a.text-white:focus {
     position: relative;
 }
 
+.main-content .header{
+    min-height: 600px;
+    background-image: url(../files/image_config/infor.jpg); background-size: cover;
+    background-position: center top;
+}
+
 .main-content .navbar-top {
     position: absolute;
     z-index: 1;

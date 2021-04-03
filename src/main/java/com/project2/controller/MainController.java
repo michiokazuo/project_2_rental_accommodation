@@ -46,22 +46,14 @@ public class MainController {
         return "contact";
     }
 
-    @GetMapping("/thong-ke")
-    public String statistic() {
-
-        return "statistic";
+    @GetMapping("/thong-tin-thue")
+    public String detailRent() {
+        return "detail-rent";
     }
 
-    @GetMapping("/du-an/cong-viec-thanh-phan")
-    public String taskOfProject() {
-
-        return "task_of_project";
-    }
-
-    @GetMapping(value = {"/nhan-vien/tien-do-ca-nhan", "cong-viec-ca-nhan"})
-    public String employeeProgress() {
-
-        return "employee_progress";
+    @GetMapping("/tim-kiem")
+    public String searchRent() {
+        return "search_rent";
     }
 
     @GetMapping("/thong-tin-ca-nhan")
@@ -69,9 +61,14 @@ public class MainController {
         return "info-user";
     }
 
-    @GetMapping("/danh-gia")
-    public String evaluationEmployee() {
-
-        return "evaluation_employee";
+    @GetMapping("/du-an/cong-viec-thanh-phan")
+    public String taskOfProject() {
+        return "task_of_project";
     }
+
+    @GetMapping(value = {"/nhan-vien/tien-do-ca-nhan", "cong-viec-ca-nhan"})
+    public String employeeProgress() {
+        return "employee_progress";
+    }
+
 }

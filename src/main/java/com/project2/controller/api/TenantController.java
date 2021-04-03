@@ -1,6 +1,7 @@
 package com.project2.controller.api;
 
 import com.project2.entities.data.Tenant;
+import com.project2.entities.dto.MotelRoomDTO;
 import com.project2.entities.key.TenantKey;
 import com.project2.service.TenantService;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Controller
 @AllArgsConstructor
@@ -17,6 +20,20 @@ import org.springframework.web.bind.annotation.*;
 public class TenantController {
 
     private final TenantService tenantService;
+
+    @GetMapping("find-by-user/{id}")
+    public ResponseEntity<Object> findAllByUser(Authentication authentication, @PathVariable("id") Integer id) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<Tenant> motelRoomDTOS = tenantService.findAllByIdUser(id, email);
+            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     @PostMapping("insert")
     public ResponseEntity<Object> insert(Authentication authentication, @RequestBody Tenant tenant) {

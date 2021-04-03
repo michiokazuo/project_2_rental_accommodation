@@ -80,4 +80,11 @@ public class ReportService_Impl implements ReportService {
             return reportRepository.findAllByIdRoom(id);
         return null;
     }
+
+    @Override
+    public List<Report> findAllByUser(Integer id, String email) throws Exception {
+        if (id != null && id > 0)
+            return reportRepository.findAllByIdUser(id);
+        return null;
+    }
 }

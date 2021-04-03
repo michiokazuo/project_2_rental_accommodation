@@ -66,7 +66,7 @@ public class MotelRoomService_Impl implements MotelRoomService {
     public MotelRoomDTO insert(MotelRoomDTO motelRoomDTO, String email) throws Exception {
         if (motelRoomDTO != null && email != null && motelRoomDTO.getMotelRoom() != null
                 && AppConfig.checkAdmin(email)
-                || (Objects.requireNonNull(motelRoomDTO).getMotelRoom().getCreateBy().getEmail().equals(email)
+                || (Objects.requireNonNull(motelRoomDTO).getMotelRoom().getHost().getEmail().equals(email)
                 && AppConfig.checkHost(email))) {
             motelRoomDTO.getMotelRoom().setDeleted(false);
             return findById(motelRoomRepository.save(motelRoomDTO.getMotelRoom()).getId(), email);
@@ -84,8 +84,9 @@ public class MotelRoomService_Impl implements MotelRoomService {
                         return new RoomConvenientKey(roomDTO.getMotelRoom().getId(), c.getId());
                     else return null;
                 }).collect(Collectors.toList());
-        if (roomHasConvenientRepository.deleteCustomByListKey(roomConvenientKeys) > 0)
+        if (roomHasConvenientRepository.deleteCustomByListKey(roomConvenientKeys) > 0){
             return findById(motelRoomRepository.save(roomDTO.getMotelRoom()).getId(), email);
+        }
         return roomDTO;
     }
 
@@ -94,7 +95,7 @@ public class MotelRoomService_Impl implements MotelRoomService {
         return id != null && id > 0 && email != null
                 && (AppConfig.checkAdmin(email) || (AppConfig.checkHost(email)
                 && appUserRepository.findByEmailAndDeletedFalse(email).getId()
-                .equals(motelRoomRepository.findByIdAndDeletedFalse(id).getCreateBy().getId())))
+                .equals(motelRoomRepository.findByIdAndDeletedFalse(id).getHost().getId())))
                 && motelRoomRepository.deleteCustom(id) > 0
                 && roomHasConvenientRepository.deleteCustomByRoom(id) > 0
                 && tenantRepository.deleteCustomByIdRoom(id) > 0

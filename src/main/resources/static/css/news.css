@@ -61,11 +61,11 @@ main#main section#newspage .container .row > div .np__wapper .npwp-text > span{
 main#main section#newspage .container .row > div .np__wapper .npwp-text time span{
     color: var(--color-brown);
     cursor: pointer;
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     margin-bottom: 15px;
 }
 main#main section#newspage .container .row > div .np__wapper .npwp-text > p{
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     color: grey;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -74,7 +74,7 @@ main#main section#newspage .container .row > div .np__wapper .npwp-text > p{
 }
 main#main section#newspage .container .row > div .np__wapper .npwp-text > a{
     border-radius: 10px;
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     background-color: var(--color-brown);
     text-transform: capitalize;
     color: var(--white);

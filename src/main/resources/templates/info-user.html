@@ -6,14 +6,35 @@
     <link rel="stylesheet" th:href="@{/css/info-user.css}">
 </head>
 <body>
-<header th:replace="~{/fragment/app-fragment :: header}"/>
+<header th:replace="~{/fragment/app-fragment :: header}"></header>
+
+<div class="modal fade" id="modal-delete" tabindex="-1"
+     aria-labelledby="delete-project" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="delete">Xác nhận thao
+                    tác</h3>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">Bạn có chắc chắn muốn xóa yêu cầu / bỏ thuê trọ này không ?</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="btn-delete">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="modal-sign-up" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="">Đăng ký</h5>
+                <h3 class="modal-title" id="">Cập nhật thông tin</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -29,7 +50,7 @@
                         <div class="form-group col-md-6">
                             <label for="email-sign-up" class="col-form-label"><strong>Email </strong></label>
                             <input type="email" class="form-control" id="email-sign-up" placeholder="Nhập email"
-                                   required>
+                                   required disabled>
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6">
@@ -92,6 +113,20 @@
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="home-town"><strong>Quê quán</strong></label>
+                            <input type="text" class="form-control" id="home-town" placeholder="Quê quán" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="role"><strong>Đăng ký với tư cách</strong></label>
+                            <select class="form-control" id="role" required disabled>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Người thuê</option>
+                                <option value="2">Chủ thuê</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="avatar"><strong>Avatar</strong></label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="avatar" onchange="reloadImage()"
@@ -102,22 +137,13 @@
                             </div>
                             <img th:src="@{./files/image_config/avatar-user.png}" id="avatar-photo"
                                  class="border rounded mt-3" alt="avatar"
-                                 style="width: 200px;"  src=""/>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="role"><strong>Đăng ký với tư cách</strong></label>
-                            <select class="form-control" id="role" required>
-                                <option selected disabled value="">- -</option>
-                                <option value="1">Người thuê</option>
-                                <option value="2">Chủ thuê</option>
-                            </select>
-                            <div class="invalid-feedback"></div>
+                                 style="width: 200px;"/>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btn-submit-sign-up">Đăng ký</button>
+                <button type="button" class="btn btn-primary" id="btn-submit-sign-up">Cập nhật</button>
             </div>
         </div>
     </div>
@@ -125,20 +151,17 @@
 
 <div class="main-content container">
     <!-- Header -->
-    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
-         style="min-height: 600px;
-             background-image: url(/files/image_config/infor.jpg); background-size: cover;
-             background-position: center top;">
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
         <!-- Mask -->
         <span class="mask bg-gradient-default opacity-8"></span>
         <!-- Header container -->
         <div class="container-fluid d-flex align-items-center">
             <div class="row">
                 <div class="col-lg-7 col-md-10">
-                    <h1 class="display-2 text-white">Chào Me</h1>
-                    <p class="text-white mt-0 mb-5">Đây là thông tin cá nhân của bạn.
-                        Chúc bạn có một ngày vui vẻ!!!</p>
-                    <a href="#!" class="btn btn-info">Cập nhật thông tin cá nhân</a>
+                    <h1 class="display-2 text-white" id="hello-you">Chào bạn,</h1>
+                    <p class="text-white mt-0 mb-5">Đây là thông tin cá nhân của bạn.</p>
+                    <p class="text-white mt-0 mb-5">Chúc bạn có một ngày vui vẻ!!!</p>
+                    <a th:href="@{#}" class="btn btn-info" id="btn-info-update">Cập nhật thông tin cá nhân</a>
                 </div>
             </div>
         </div>
@@ -152,31 +175,31 @@
                         <div class="col-lg-3 order-lg-2">
                             <div class="card-profile-image">
                                 <a href="#">
-                                    <img src="https://demos.creative-tim.com/argon-dashboard/assets/img/theme/team-4.jpg"
-                                         class="rounded-circle">
+                                    <img th:src="@{./files/image_config/b.png}"
+                                         id="avatar-user" class="rounded-circle" alt="" width="150" height="150"/>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
                         <div class="d-flex justify-content-between">
-                            <a href="#" class="btn btn-sm btn-info mr-4">Call</a>
-                            <a href="#" class="btn btn-sm btn-default float-right">Mail</a>
+                            <a href="#" class="btn btn-sm btn-info mr-4" id="call-phone">Call</a>
+                            <a href="#" class="btn btn-sm btn-default float-right" id="mail-email">Mail</a>
                         </div>
                     </div>
                     <div class="card-body pt-0 pt-md-4">
                         <div class="row">
                             <div class="col">
                                 <div class="card-profile-stats d-flex justify-content-center mt-md-5">
-                                    <div>
+                                    <div id="rented">
                                         <span class="heading">22</span>
                                         <span class="description">Đang thuê</span>
                                     </div>
-                                    <div>
+                                    <div id="request">
                                         <span class="heading">10</span>
                                         <span class="description">Đang yêu cầu</span>
                                     </div>
-                                    <div>
+                                    <div id="comment">
                                         <span class="heading">89</span>
                                         <span class="description">Bình luận</span>
                                     </div>
@@ -184,13 +207,13 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <h3>
+                            <h3 id="name-show">
                                 Jessica Jones
                             </h3>
-                            <div class="h5 mt-4">
+                            <div class="h5 mt-4" id="job-show">
                                 <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
                             </div>
-                            <div>
+                            <div id="workplace-show">
                                 <i class="ni education_hat mr-2"></i>University of Computer Science
                             </div>
                         </div>
@@ -216,7 +239,7 @@
                                             <label class="form-control-label" for="input-username">Tên</label>
                                             <input type="text" id="input-username"
                                                    class="form-control form-control-alternative" placeholder="Username"
-                                                   value="lucky.jesse">
+                                                   value="lucky.jesse" disabled>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -224,7 +247,7 @@
                                             <label class="form-control-label" for="input-birthday">Ngày sinh</label>
                                             <input type="date" id="input-birthday"
                                                    class="form-control form-control-alternative"
-                                                   placeholder="jesse@example.com">
+                                                   placeholder="jesse@example.com" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -234,16 +257,16 @@
                                             <label class="form-control-label" for="input-gender">Giới tính</label>
                                             <input type="text" id="input-gender"
                                                    class="form-control form-control-alternative"
-                                                   placeholder="First name" value="Lucky">
+                                                   placeholder="First name" value="Lucky" disabled>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="form-group focused">
                                             <label class="form-control-label" for="input-status">Tình trạng hôn nhân
-                                                </label>
+                                            </label>
                                             <input type="text" id="input-status"
                                                    class="form-control form-control-alternative"
-                                                   placeholder="Last name" value="Jesse">
+                                                   placeholder="Last name" value="Jesse" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -253,7 +276,7 @@
                                             <label class="form-control-label" for="input-job">Nghề nghiệp</label>
                                             <input type="text" id="input-job"
                                                    class="form-control form-control-alternative"
-                                                   placeholder="First name" value="Lucky">
+                                                   placeholder="First name" value="Lucky" disabled>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -262,7 +285,17 @@
                                             </label>
                                             <input type="text" id="input-workplace"
                                                    class="form-control form-control-alternative"
-                                                   placeholder="Last name" value="Jesse">
+                                                   placeholder="Last name" value="Jesse" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-home-town">Quê quán</label>
+                                            <input type="text" id="input-home-town"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -272,7 +305,7 @@
                                             <label class="form-control-label" for="input-role">Quyền hạn</label>
                                             <input type="text" id="input-role"
                                                    class="form-control form-control-alternative"
-                                                   placeholder="First name" value="Lucky">
+                                                   placeholder="First name" value="Lucky" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -288,7 +321,7 @@
                                             <input id="input-email" class="form-control form-control-alternative"
                                                    placeholder="Home Address"
                                                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                                                   type="email">
+                                                   type="email" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -299,7 +332,7 @@
                                             <input id="input-phone" class="form-control form-control-alternative"
                                                    placeholder="Home Address"
                                                    value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
-                                                   type="email">
+                                                   type="tel" disabled>
                                         </div>
                                     </div>
                                 </div>
@@ -313,8 +346,85 @@
     </div>
 </div>
 
-<footer th:replace="~{/fragment/app-fragment :: footer-user}"/>
-<footer th:replace="~{/fragment/app-fragment :: alert-foot}"/>
+<div class="table-data mt-3 mb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                        <caption>Trọ đang thuê</caption>
+                        <thead>
+                        <tr class=" text-success">
+                            <th colspan="7">Trọ đang thuê</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tiêu đề</th>
+                            <th scope="col">Chủ trọ</th>
+                            <th scope="col">Giá tiền (VNĐ/tháng)</th>
+                            <th scope="col">Ngày thuê</th>
+                            <th scope="col">Thông tin trọ</th>
+                            <th scope="col">Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-rented">
+                        <tr>
+                            <th scope="row">11</th>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>
+                                <button type="button" class="btn btn-warning update-progress"
+                                        data-toggle="modal" data-target="#modal-employee-progress">
+                                    <i class="fas fa-edit"></i> Cập nhật
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                    <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                        <caption>Trọ đang yêu cầu thuê</caption>
+                        <thead>
+                        <tr class="text-primary">
+                            <th colspan="7">Trọ đang yêu cầu thuê</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tiêu đề</th>
+                            <th scope="col">Chủ trọ</th>
+                            <th scope="col">Giá tiền / tháng</th>
+                            <th scope="col">Ngày yêu cầu</th>
+                            <th scope="col">Thông tin trọ</th>
+                            <th scope="col">Hành động</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-request">
+                        <tr>
+                            <th scope="row">11</th>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                            <td>Mark</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{/fragment/app-fragment :: footer-user}"></footer>
+<footer th:replace="~{/fragment/app-fragment :: alert-foot}"></footer>
 <script th:src="@{/js/pages/ajax_page_info_user.js}"></script>
+<script th:src="@{/js/model/ajax_model_report.js}"></script>
+<script th:src="@{/js/model/ajax_upload_file.js}"></script>
+<script th:src="@{/js/model/ajax_model_tenant.js}"></script>
 </body>
 </html>

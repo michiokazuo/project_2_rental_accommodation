@@ -16,3 +16,7 @@ function tenantSearchSort(q) {
     return ajaxGet(`${URL_TENANT}/search-sort?` + `${q}`);
 }
 
+function tenantFindByUser(q) {
+    return ajaxGet(`${URL_TENANT}/find-by-user/` + `${q}`);
+}
+

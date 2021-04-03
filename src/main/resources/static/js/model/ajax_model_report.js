@@ -8,6 +8,14 @@ function reportFindById(q) {
     return ajaxGet(`${URL_REPORT}/find-by-id/` + `${q}`);
 }
 
+function reportFindByIRoom(q) {
+    return ajaxGet(`${URL_REPORT}/find-by-room/` + `${q}`);
+}
+
+function reportFindByUser(q) {
+    return ajaxGet(`${URL_REPORT}/find-by-user/` + `${q}`);
+}
+
 function reportInsert(e) {
     return ajaxPost(`${URL_REPORT}/insert/`, e);
 }

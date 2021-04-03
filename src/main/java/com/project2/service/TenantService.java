@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface TenantService extends BaseService<Tenant>{
 
-    List<Tenant> findAllByIdRoom(Integer roomId) throws Exception;
+    List<Tenant> findAllByIdRoom(Integer roomId, String email) throws Exception;
+
+    List<Tenant> findAllByIdUser(Integer userId, String email) throws Exception;
 
     boolean deleteCustom(TenantKey tenantKey, String email) throws Exception;
 

@@ -24,15 +24,13 @@ public abstract class Base {
     @LastModifiedDate
     private Timestamp modifyDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "create_by")
+    @Column(name = "create_by")
     @CreatedBy
-    private AppUser createBy;
+    private String createBy;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "modify_by")
+    @Column(name = "modify_by")
     @LastModifiedBy
-    private AppUser modifyBy;
+    private String modifyBy;
 
     @Column(name = "deleted")
     private Boolean deleted = false;

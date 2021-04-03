@@ -743,7 +743,7 @@ section#outstandingproducts
 .fp__wapper
 p {
     color: var(--secondary);
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     margin-bottom: 20px;
 }
 
@@ -760,7 +760,7 @@ section#outstandingproducts
 a.btn {
     border-radius: 25px;
     color: var(--text-color2);
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     font-weight: 600;
     background-color: var(--color-brown);
     cursor: pointer;
@@ -881,7 +881,7 @@ section#news .container .row .part .newscap {
 
 section#news .container .row .part .direc,
 section#news .container .row .part p {
-    font-size: var(--font-13);
+    font-size: var(--font-16);
     color: #c0c0c1;
 }
 
@@ -933,7 +933,7 @@ section#feedback .container .row .content .image .special img:hover {
 
 section#feedback .container .row p.text-center {
     color: #c0c0c0;
-    font-size: var(--font-13);
+    font-size: var(--font-16);
 }
 
 section#feedback .container .row span.s-name {
@@ -945,7 +945,7 @@ section#feedback .container .row span.s-name {
 
 section#feedback .container .row span.ceo {
     color: var(--color-brown);
-    font-size: var(--font-13);
+    font-size: var(--font-16);
 }
 
 

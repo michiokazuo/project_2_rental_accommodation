@@ -13,7 +13,7 @@ function userInsert(e) {
 }
 
 function userUpdate(e) {
-    return ajaxPut(`${URL_USER}/update`, e);
+    return ajaxPut(`${URL_USER}/update/`, e);
 }
 
 function userDelete(e) {

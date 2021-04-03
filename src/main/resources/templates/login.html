@@ -13,7 +13,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Quên mật khẩu</h5>
+                <h3 class="modal-title">Quên mật khẩu</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -40,7 +40,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="">Đăng ký</h5>
+                <h3 class="modal-title" id="">Đăng ký</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -119,6 +119,20 @@
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6">
+                            <label for="home-town"><strong>Quê quán</strong></label>
+                            <input type="text" class="form-control" id="home-town" placeholder="Quê quán" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="role"><strong>Đăng ký với tư cách</strong></label>
+                            <select class="form-control" id="role" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Người thuê</option>
+                                <option value="2">Chủ thuê</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
                             <label for="avatar"><strong>Avatar</strong></label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="avatar" onchange="reloadImage()"
@@ -130,15 +144,6 @@
                             <img th:src="@{./files/image_config/avatar-user.png}" id="avatar-photo"
                                  class="border rounded mt-3" alt="avatar"
                                  style="width: 200px;"  src=""/>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="role"><strong>Đăng ký với tư cách</strong></label>
-                            <select class="form-control" id="role" required>
-                                <option selected disabled value="">- -</option>
-                                <option value="1">Người thuê</option>
-                                <option value="2">Chủ thuê</option>
-                            </select>
-                            <div class="invalid-feedback"></div>
                         </div>
                     </form>
                 </div>
