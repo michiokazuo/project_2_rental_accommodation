@@ -50,10 +50,12 @@ public class AppUserService_Impl implements AppUserService {
 
     @Override
     public AppUser insert(AppUser appUser, String email) throws Exception {
-        if (appUser != null && appUserRepository.findByEmailAndDeletedFalse(appUser.getEmail()) == null
-                && appUserRepository.findByPhoneAndDeletedFalse(appUser.getPhone()) == null) {
+        if (appUser != null && !appUserRepository.existsByEmailAndDeletedFalseOrPhoneAndDeletedFalse(appUser.getEmail(),
+                        appUser.getPhone())) {
+
             appUser.setDeleted(false);
             appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+            System.out.println(appUser);
             return appUserRepository.save(appUser);
         }
         return null;

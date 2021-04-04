@@ -1,6 +1,9 @@
 package com.project2.controller.api;
 
+import com.project2.entities.data.MotelRoom;
 import com.project2.entities.dto.MotelRoomDTO;
+import com.project2.repository.CategoryRepository;
+import com.project2.repository.ConvenientRepository;
 import com.project2.service.MotelRoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +13,10 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @AllArgsConstructor
@@ -19,6 +24,10 @@ import java.util.List;
 public class MotelRoomController {
 
     private final MotelRoomService motelRoomService;
+
+    private final ConvenientRepository convenientRepository;
+
+    private final CategoryRepository categoryRepository;
 
     @GetMapping("find-all")
     public ResponseEntity<Object> findAll(Authentication authentication) {
@@ -90,26 +99,34 @@ public class MotelRoomController {
         }
     }
 
-//    @GetMapping("search-sort")
-//    public ResponseEntity<Object> search_sort(Authentication authentication,
-//                                              @RequestParam(name = "name", required = false) String name,
-//                                              @RequestParam(name = "createDate", required = false) Date createDate,
-//                                              @RequestParam(name = "status", required = false) Byte status,
-//                                              @RequestParam(name = "field", required = false) String field,
-//                                              @RequestParam(name = "isASC", required = false) Boolean isASC,
-//                                              @RequestParam(name = "idProject", required = false) Integer idProject) {
-//
-//        try {
-//            String email = null;
-//            if (authentication != null)
-//                email = ((User) authentication.getPrincipal()).getUsername();
-//            List<MotelRoomDTO> motelRoomDTOS = motelRoomService.search_sort();
-//            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
+    @GetMapping("search-sort")
+    public ResponseEntity<Object> search_sort(Authentication authentication,
+                                              @RequestParam(name = "address", required = false) String address,
+                                              @RequestParam(name = "max_person", required = false) Integer maxPerson,
+                                              @RequestParam(name = "category", required = false) Integer category,
+                                              @RequestParam(name = "price", required = false) String price,
+                                              @RequestParam(name = "priority", required = false) String priority,
+                                              @RequestParam(name = "convenient", required = false) Integer[] convenient) {
+
+        ResponseEntity.ok(address);
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<MotelRoomDTO> motelRoomDTOS = motelRoomService.search_sort(MotelRoomDTO.builder()
+                            .motelRoom(MotelRoom.builder().address(address).maxPerson(maxPerson).priorityObject(priority)
+                                    .convenientList(convenient != null ? convenientRepository
+                                            .findByIdInAndDeletedFalse(Arrays.asList(convenient)) : null)
+                                    .category(category != null ? categoryRepository.findByIdAndDeletedFalse(category) : null)
+                                    .build())
+                            .build(),
+                    price, null, email);
+            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     @PostMapping("insert")
     public ResponseEntity<Object> insert(Authentication authentication, @RequestBody MotelRoomDTO roomDTO) {

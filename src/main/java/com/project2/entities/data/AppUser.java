@@ -55,7 +55,7 @@ public class AppUser extends Base {
     @Column(name = "birthday", nullable = false)
     private Date birthday;
 
-    @Column(name = "home_town")
+    @Column(name = "home_town", nullable = false)
     private String homeTown;
 
 }

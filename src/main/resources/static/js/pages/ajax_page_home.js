@@ -50,7 +50,7 @@ function showCategory() {
             if (index < 3)
                 return `<div class="part col-12 col-md-4 ">
                         <div class="row col-12 mx-auto" style="height: 375px;">
-                            <div class="bg-1"></div>
+                            <div class="bg-${index + 1}"></div>
                             <a href="/tim-kiem?c_id=${data.id}"
                                class="mx-auto w-100 justify-content-center align-items-center d-flex">
                                 <div class="text-content flex-column d-flex text-center">
@@ -90,7 +90,7 @@ function showMotelRoom() {
         for (let i = 0; i < listMotelRoomDTO.length; i++) {
             let room = listMotelRoomDTO[i].motelRoom;
             content = `<div class="card add-id-cart">
-                            <a target="_blank" href="/thong-tin-thue?idRoom=${room.id}">
+                            <a target="_blank" href="/thong-tin-thue?id_room=${room.id}">
                                                 <div class="card-img click-product-cart col-12 mx-auto">
                                                     <img src="${room.images.split('<>')[0]}" alt="">
                                                     <i class="fas fa-eye"></i>
@@ -102,7 +102,7 @@ function showMotelRoom() {
                                                 <div class="info w-100 mx-auto row justify-content-center">
                                                     <div class="person">
                                                         <span>${numberFilter(listMotelRoomDTO[i].personIn)
-            + "/" + numberFilter(listMotelRoomDTO[i].maxPerson)}</span>
+                                                + "/" + numberFilter(room.maxPerson)}</span>
                                                         <i class="fas fa-user-alt"></i>
                                                     </div>
                                                     <div class="report ml-1">

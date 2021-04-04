@@ -1,3 +1,11 @@
+ul, li{
+    list-style: none!important;
+}
+
+a{
+    text-decoration: none!important;
+}
+
 section#partner .container .row .carousel-inner .carousel-item img {
     margin-top: 20px;
     -webkit-filter: grayscale(100%);

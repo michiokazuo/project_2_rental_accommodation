@@ -12,10 +12,7 @@ import com.project2.repository.*;
 import com.project2.service.MotelRoomService;
 import com.project2.service.ReportService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,8 +25,6 @@ import java.util.stream.Collectors;
 public class MotelRoomService_Impl implements MotelRoomService {
 
     private final MotelRoomRepository motelRoomRepository;
-
-    private final ReportService reportService;
 
     private final ReportRepository reportRepository;
 
@@ -59,7 +54,40 @@ public class MotelRoomService_Impl implements MotelRoomService {
 
     @Override
     public List<MotelRoomDTO> search_sort(MotelRoomDTO motelRoomDTO, String field, Boolean isASC, String email) throws Exception {
-        return null;
+        MotelRoom motelRoom = new MotelRoom();
+        if (motelRoomDTO != null && motelRoomDTO.getMotelRoom() != null) {
+            motelRoom = motelRoomDTO.getMotelRoom();
+            motelRoom.setDeleted(false);
+        }
+
+        List<MotelRoom> motelRooms = motelRoomRepository.findAll(Example.of(motelRoom, ExampleMatcher.matchingAll()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)));
+
+//        {val: "1", text: "Dưới 1 triệu"},
+//        {val: "2", text: "Từ 1 - 3 triệu"},
+//        {val: "3", text: "Từ 3 - 5 triệu"},
+//        {val: "4", text: "Trên 5 triệu"}
+        if (field != null)
+            switch (Integer.parseInt(field)) {
+                case 1:
+                    motelRooms = motelRooms.stream().filter(r -> r.getPrice() < 1000000).collect(Collectors.toList());
+                    break;
+                case 2:
+                    motelRooms = motelRooms.stream().filter(r -> r.getPrice() >= 1000000 && r.getPrice() < 3000000)
+                            .collect(Collectors.toList());
+                    break;
+                case 3:
+                    motelRooms = motelRooms.stream().filter(r -> r.getPrice() >= 3000000 && r.getPrice() < 5000000)
+                            .collect(Collectors.toList());
+                    break;
+                case 4:
+                    motelRooms = motelRooms.stream().filter(r -> r.getPrice() >= 5000000).collect(Collectors.toList());
+                    break;
+                default:
+                    break;
+            }
+
+        return convert.toDTORoomNotFullToShowAll(motelRooms, null, email);
     }
 
     @Override
@@ -84,7 +112,7 @@ public class MotelRoomService_Impl implements MotelRoomService {
                         return new RoomConvenientKey(roomDTO.getMotelRoom().getId(), c.getId());
                     else return null;
                 }).collect(Collectors.toList());
-        if (roomHasConvenientRepository.deleteCustomByListKey(roomConvenientKeys) > 0){
+        if (roomHasConvenientRepository.deleteCustomByListKey(roomConvenientKeys) > 0) {
             return findById(motelRoomRepository.save(roomDTO.getMotelRoom()).getId(), email);
         }
         return roomDTO;

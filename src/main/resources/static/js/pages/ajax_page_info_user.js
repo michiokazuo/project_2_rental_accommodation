@@ -58,9 +58,9 @@ $(async function () {
     await getUserNeedInfo();
     await getRoomRent();
     classifyRent();
-    showSelectOption(numberGender, listGender, "<>");
-    showSelectOption(numberJob, listJob, "<>");
-    showSelectOption(numberStatus, listStatus, "<>");
+    showSelectCustom(numberGender, listGender, "<>");
+    showSelectCustom(numberJob, listJob, "<>");
+    showSelectCustom(numberStatus, listStatus, "<>");
     showRoleList(numberRole, listRole, "<>");
     showInfoStatic();
     showTableData();
@@ -129,7 +129,7 @@ function showInfoStatic() {
     if (user_now) {
         inputName.val(dataFilter(user_now.name));
         inputBirthday.val(dataFilter(new Date(user_now.birthday).toLocaleDateString('fr-CA')));
-        inputGender.val(dataFilter(listGender.find(sex => sex.val === user_now.gender).text));
+        inputGender.val(dataFilter(listGender.find(sex => sex.id === user_now.gender).name));
         inputWorkplace.val(dataFilter(user_now.workplace));
         inputRole.val(dataFilter(user_now.role.content));
         avatarUserShow.attr("src", dataFilter(user_now.avatar));
@@ -138,12 +138,12 @@ function showInfoStatic() {
         rented.children(".heading").text(numberFilter(rentList.length));
         request.children(".heading").text(numberFilter(requestList.length));
         comment.children(".heading").text(numberFilter(reportList.length));
-        inputStatus.val(dataFilter(listStatus.find(s => s.val === user_now.status).text));
-        inputJob.val(dataFilter(listJob.find(j => j.val === user_now.job).text));
+        inputStatus.val(dataFilter(listStatus.find(s => s.id === user_now.status).name));
+        inputJob.val(dataFilter(listJob.find(j => j.id === user_now.job).name));
         inputEmail.val(dataFilter(user_now.email));
         inputPhone.val(dataFilter(user_now.phone));
         nameShow.text(user_now.name);
-        jobShow.text(dataFilter(listJob.find(j => j.val === user_now.job).text));
+        jobShow.text(dataFilter(listJob.find(j => j.id === user_now.job).name));
         workplaceShow.text(dataFilter(user_now.workplace));
         inputHomeTown.val(dataFilter(user_now.homeTown));
     }

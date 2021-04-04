@@ -1,18 +1,47 @@
 let listGender = [
-    {val: "1", text: "Nam"},
-    {val: "2", text: "Nữ"},
-    {val: "0", text: "Khác"}
+    {id: "1", name: "Nam"},
+    {id: "2", name: "Nữ"},
+    {id: "0", name: "Khác"}
 ];
 
 let listStatus = [
-    {val: "0", text: "Độc thân"},
-    {val: "1", text: "Đã kết hôn"}
+    {id: "0", name: "Độc thân"},
+    {id: "1", name: "Đã kết hôn"}
 ];
 
 let listJob = [
-    {val: "1", text: "Đi làm"},
-    {val: "2", text: "Sinh viên"},
-    {val: "0", text: "Nghỉ hưu"}
+    {id: "1", name: "Đi làm"},
+    {id: "2", name: "Sinh viên"},
+    {id: "0", name: "Nghỉ hưu"}
+]
+
+let listPrice = [
+    {id: "1", name: "Dưới 1 triệu"},
+    {id: "2", name: "Từ 1 - 3 triệu"},
+    {id: "3", name: "Từ 3 - 5 triệu"},
+    {id: "4", name: "Trên 5 triệu"}
+]
+
+let listPriority = [
+    {id: "1", name: "Nam"},
+    {id: "2", name: "Nữ"},
+    {id: "3", name: "Khác"},
+    {id: "4", name: "Sinh viên"},
+    {id: "5", name: "Đi làm"},
+    {id: "6", name: "Nghỉ hưu"},
+    {id: "7", name: "Độc thân"},
+    {id: "8", name: "Đã kết hôn"}
+]
+
+let listSort = [
+    {id: "1", name: "Mới nhất", isASC: true},
+    {id: "1", name: "Cũ nhất", isASC: false},
+    {id: "2", name: "Giá giảm dần", isASC: false},
+    {id: "2", name: "Giá tăng dần", isASC: true},
+    {id: "3", name: "Gần nhất", isASC: true},
+    {id: "3", name: "Xa nhất", isASC: false},
+    {id: "4", name: "Phòng rộng nhất", isASC: true},
+    {id: "4", name: "Phòng nhỏ nhất", isASC: false}
 ]
 
 let USER_IN_SYSTEM = null;
@@ -80,6 +109,24 @@ function showUser() {
     }
 }
 
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+    ;
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    // Distance in km
+    return R * c;
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180)
+}
+
 function dataFilter(field) {
     return field ? field : "";
 }
@@ -89,7 +136,7 @@ function numberFilter(field) {
 }
 
 function checkRating(rate) {
-    return rate ? (rate + "/5") : 'Chưa có';
+    return rate ? (parseFloat(rate).toFixed(1) + "/5") : 'Chưa có';
 }
 
 function reloadImage() {
@@ -124,13 +171,37 @@ function formatMoney(money) {
     }
 }
 
-function showSelectOption(element, list, defaultVal) {
+// function showSelectOption(element, list, defaultVal) {
+//     if (list && list.length > 0) {
+//         element.empty();
+//         element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
+//         list.forEach(function (e) {
+//             element.append($('<option></option>').val(e.val).text(e.text));
+//         });
+//     }
+// }
+
+function showSelectCustom(element, list, defaultVal) {
     if (list && list.length > 0) {
         element.empty();
         element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
         list.forEach(function (e) {
-            element.append($('<option></option>').val(e.val).text(e.text));
+            element.append($('<option></option>').val(e.id).text(e.name));
         });
+    }
+}
+
+function showCheckBox(element, list) {
+    if (list && list.length > 0) {
+        element.empty();
+        let tmp = (0 | Math.random() * 9e6).toString(36);
+        list.forEach(e => {
+            element.append(`<div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                        <input class="form-check-input" type="checkbox" id="${tmp + e.id}"
+                                               value="${e.name}">
+                                        <label class="form-check-label" for="${tmp + e.id}">${e.name}</label>
+                                    </div>`);
+        })
     }
 }
 

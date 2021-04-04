@@ -2,7 +2,7 @@ let modalEditCMT, btnEditCMT, modalRent, btnRent, imgZoom03, imgGallery, infoBas
     maxPerson, area, priorityObject, createDate, rating, tableHost, tablePersonIn, numberCmt, comments, btnSubmitRent,
     modalDeleteCMT, btnDeleteCMT, message, btnSaveCMT, contentRent, share, rate, bar5, bar4, bar3, bar2, bar1, numBar1,
     numBar2, numBar3, numBar4, numBar5, modifyDate, personReq, address, TXAEditCMT, star1, star2, star3, star4, star5,
-    editStar1, editStar2, editStar3, editStar4, editStar5;
+    editStar1, editStar2, editStar3, editStar4, editStar5, map, curLat, curLng, roomLat, roomLng, distance, editRate;
 
 let idRoom, indexCMT, checkRent = -1; // 1: rented / 0: request /  -1: nope
 let roomDTO, room, tenantList, reportList, rentedPerson, reqPerson, hostRoom;
@@ -60,6 +60,9 @@ $(document).ready(async function () {
     editStar3 = $("#edit-star3");
     editStar4 = $("#edit-star4");
     editStar5 = $("#edit-star5");
+    map = $("#show-map");
+    distance = $("#distance");
+    editRate = $("#edit-rate");
 
     let url = new URL(window.location.href);
     idRoom = url.searchParams.get("id_room");
@@ -77,31 +80,83 @@ $(document).ready(async function () {
     confirmEditCMT();
     confirmRent();
     saveNewCmt();
+    showLocation();
 });
 
+function showLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            // New Map
+            curLat = position.coords.latitude;
+            curLng = position.coords.longitude;
+            // var myOptions = {
+            //     center: new google.maps.LatLng(lat, lng),
+            //     zoom: 20,
+            //     mapTypeId: google.maps.MapTypeId.ROADMAP
+            // };
+            // var show_map = new google.maps.Map(document.getElementById("show-map"),myOptions);
+            //
+            // var myMarkerLatlng = new google.maps.LatLng(lat,lng);
+            // var marker = new google.maps.Marker({
+            //     position: myMarkerLatlng,
+            //     map: show_map,
+            //     title: 'Hello World!'
+            // });
+        });
+    } else {
+        map.text("Geolocation is not supported by this browser.");
+    }
+
+    if (room) {
+        let tmp = room.location.split("<>");
+        roomLat = parseFloat(tmp[0]);
+        roomLng = parseFloat(tmp[1]);
+        var myOptions = {
+            center: new google.maps.LatLng(roomLat, roomLng),
+            zoom: 20,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var show_map = new google.maps.Map(document.getElementById("show-map"), myOptions);
+
+        var myMarkerLatlng = new google.maps.LatLng(roomLat, roomLng);
+        var marker = new google.maps.Marker({
+            position: myMarkerLatlng,
+            map: show_map,
+            title: 'Hello World!'
+        });
+    }
+}
+
 function classifyRate() {
+    let tmp = [];
     if (reportList)
         for (const r of reportList) {
-            switch (r.rate) {
-                case 1:
-                    rate1++;
-                    break;
-                case 2:
-                    rate2++;
-                    break;
-                case 3:
-                    rate3++;
-                    break;
-                case 4:
-                    rate4++;
-                    break;
-                case 5:
-                    rate5++;
-                    break;
-                default:
-                    break;
-            }
-
+            if (!tmp.find(t => t.user.id === r.user.id))
+                switch (r.rate) {
+                    case 1:
+                        rate1++;
+                        tmp.push(r);
+                        break;
+                    case 2:
+                        rate2++;
+                        tmp.push(r);
+                        break;
+                    case 3:
+                        rate3++;
+                        tmp.push(r);
+                        break;
+                    case 4:
+                        rate4++;
+                        tmp.push(r);
+                        break;
+                    case 5:
+                        rate5++;
+                        tmp.push(r);
+                        break;
+                    default:
+                        tmp.push(r);
+                        break;
+                }
         }
 }
 
@@ -194,11 +249,12 @@ function showInfoBasic() {
         personIn.text(numberFilter(roomDTO.personIn));
         maxPerson.text(numberFilter(room.maxPerson));
         area.html(`${numberFilter(room.area)}<sup>2</sup>`);
-        priorityObject.text(dataFilter(room.priorityObject).split("<>").join(", "));
+        priorityObject.text(dataFilter(room.priorityObject).replace("<>", ", "));
         createDate.text(dataFilter(new Date(room.createDate).toLocaleDateString()));
         modifyDate.text(dataFilter(new Date(room.modifyDate).toLocaleDateString()));
         address.text(dataFilter(room.address));
         personReq.text(numberFilter(reqPerson.length));
+        distance.text(numberFilter(getDistanceFromLatLonInKm(curLat, curLng, roomLat, roomLng).toFixed(1)));
 
         let rs = `<tr><td colspan='6'><strong>Không có dữ liệu</strong></td></tr>`;
         if (hostRoom)
@@ -392,6 +448,11 @@ function confirmEditCMT() {
             valRate = 2;
         else if (editStar1.is(":checked"))
             valRate = 1;
+        // Array.from(editRate).forEach(e => {
+        //     if (e.is("input") && e.is(":checked"))
+        //         valRate = valRate > (e.val() - 0) ? valRate : (e.val() - 0);
+        // })
+
 
         if (!valRate)
             viewError(editStar5, "Bạn chưa đánh giá trọ thuê.");

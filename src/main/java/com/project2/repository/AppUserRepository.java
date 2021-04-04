@@ -26,6 +26,8 @@ public interface AppUserRepository extends JpaRepository<AppUser, Integer>, JpaS
 
     List<AppUser> findByEmailOrPhoneAndDeletedFalse(String email, String phone);
 
+    Boolean existsByEmailAndDeletedFalseOrPhoneAndDeletedFalse(String email, String phone);
+
     @Query("update AppUser e set e.deleted = true where e.id = ?1")
     @Modifying
     @Transactional

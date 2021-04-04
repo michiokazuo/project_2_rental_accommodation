@@ -35,9 +35,9 @@ $(async function () {
     submitSignUp();
     forgotPassword();
     submitForgotPassword();
-    showSelectOption(numberGender, listGender, "<>");
-    showSelectOption(numberJob, listJob, "<>");
-    showSelectOption(numberStatus, listStatus, "<>");
+    showSelectCustom(numberGender, listGender, "<>");
+    showSelectCustom(numberJob, listJob, "<>");
+    showSelectCustom(numberStatus, listStatus, "<>");
     showRoleList(numberRole, listRole, "<>");
 })
 

@@ -15,6 +15,8 @@ public interface ConvenientRepository extends JpaRepository<Convenient, Integer>
 
     Convenient findByIdAndDeletedFalse(Integer id);
 
+    List<Convenient> findByIdInAndDeletedFalse(List<Integer> ids);
+
     @Query("update Convenient e set e.deleted = true where e.id = ?1")
     @Modifying
     @Transactional

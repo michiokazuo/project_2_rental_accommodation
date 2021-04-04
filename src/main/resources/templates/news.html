@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/news.css}">
 </head>
 <body>
-<header th:replace="~{/fragment/app-fragment :: header}"/>
+<header th:replace="~{/fragment/app-fragment :: header}"></header>
 
 <main id="main">
     <section id="banner">
@@ -95,7 +95,7 @@
                         <div class="npwp-text">
                             <span>Quy định mới chủ nhà trọ cần phải biết khi kinh doanh cho thuê nhà trọ</span>
                             <time><span><i class="far fa-calendar" aria-hidden="true"></i> 14-09-2019</span></time>
-                            <p>Thưa Luật sư, tôi là một cá nhân cho thuê nhà trọ, ...</p>
+                            <p>Thưa Luật sư, tôi là một cá nhân cho thuê nhà trọ, trong thời gian tôi thuê trọ ...</p>
                             <a th:href="@{https://luatminhkhue.vn/quy-dinh-moi-chu-nha-tro-can-phai-biet-khi-kinh-doanh-cho-thue-nha-tro-dip-cuoi-nam-2018-.aspx}"
                                class="btn">xem thêm</a>
                         </div>
@@ -107,9 +107,7 @@
                 <div class="paginationjs-pages d-flex justify-content-center">
                     <ul class="pagination">
                         <li class="page-item paginationjs-prev"><a class="page-link" th:href="@{#}">«</a></li>
-                        <li class="page-item"><a class="page-link" th:href="@{#}">1</a></li>
-                        <li class="page-item active"><a class="page-link" th:href="@{#}">2</a></li>
-                        <li class="page-item"><a class="page-link" th:href="@{#}">3</a></li>
+                        <li class="page-item active"><button class="page-link" th:href="@{#}">1</button></li>
                         <li class="page-item paginationjs-next"><a class="page-link" th:href="@{#}">»</a></li>
                     </ul>
                 </div>
@@ -118,9 +116,9 @@
     </section>
     <!-- end newspage -->
 </main>
-
-<section th:replace="~{/fragment/app-fragment :: mail-area}"/>
-<footer th:replace="~{/fragment/app-fragment :: footer-user}"/>
-<footer th:replace="~{/fragment/app-fragment :: alert-foot}"/>
+<section th:replace="~{/fragment/app-fragment :: mail-area}"></section>
+<section th:replace="~{/fragment/app-fragment :: mail-area}"></section>
+<footer th:replace="~{/fragment/app-fragment :: footer-user}"></footer>
+<footer th:replace="~{/fragment/app-fragment :: alert-foot}"></footer>
 </body>
 </html>

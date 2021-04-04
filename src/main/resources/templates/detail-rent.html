@@ -45,7 +45,7 @@
                         <div class="invalid-feedback"></div>
                     </div>
                     <div class=" col-md-6 row justify-content-start ml-2">
-                        <div class="rate">
+                        <div class="rate" id="edit-rate">
                             <input type="radio" id="edit-star5" name="rate" value="5"/>
                             <label for="edit-star5" data-bs-toggle="tooltip" data-bs-placement="top" title="Rất tốt">5
                                 stars</label>
@@ -93,6 +93,15 @@
 </div>
 
 <main id="main">
+    <section id="map" class="map-google" style="height: 250px; margin-top: 10px;">
+        <div class="container w-100 h-100">
+            <div class="row w-100 h-100 m-0">
+                <div class="map" id="show-map" style="height: 100%; width: 100%;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.640819290283!2d105.840947314955!3d21.007030293895557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ac76ccab6dd7%3A0x55e92a5b07a97d03!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBCw6FjaCBraG9hIEjDoCBO4buZaQ!5e0!3m2!1svi!2s!4v1617498150115!5m2!1svi!2s" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="container">
         <div class="row" id="featuredsproducts">
             <div class="block-detail" id="blockItemDetail">
@@ -284,16 +293,24 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group focused">
-                                            <label class="form-control-label"><strong>Địa chỉ: </strong></label>
-                                            <span id="address">Số 6, ngách 106, ngõ gốc đề</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group focused">
                                             <strong><label class="form-control-label">Số người hiện đang yêu cầu
                                                 thuê: </label>
                                                 <span id="person_req">1</span>
                                             </strong>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label"><strong>Địa chỉ: </strong></label>
+                                            <span id="distance">1.5km</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label"><strong>Địa chỉ: </strong></label>
+                                            <span id="address">Số 6, ngách 106, ngõ gốc đề</span>
                                         </div>
                                     </div>
                                 </div>
@@ -464,7 +481,7 @@
     </section>
 </main>
 <!-- end main -->
-
+<section th:replace="~{/fragment/app-fragment :: mail-area}"></section>
 <footer th:replace="~{/fragment/app-fragment :: footer-user}"></footer>
 <footer th:replace="~{/fragment/app-fragment :: alert-foot}"></footer>
 <script th:src="@{/js/pages/ajax_page_detail_rent.js}"></script>
