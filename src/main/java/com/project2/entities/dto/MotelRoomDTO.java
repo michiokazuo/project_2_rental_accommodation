@@ -16,12 +16,12 @@ public class MotelRoomDTO {
 
     private MotelRoom motelRoom;
     private List<Tenant> tenantList;
+    private List<Convenient> convenientList;
     private Integer personAsk;
     private Integer personIn;
     private List<Report> reportList;
     private Integer countReport;
     private Integer countRated;
     private Float ratings;
-    private Float distance;
 
 }

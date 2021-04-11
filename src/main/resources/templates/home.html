@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Trang chủ</title>
-    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <block th:replace="~{/fragment/app-fragment :: head-resource}"></block>
     <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
 <body>
-<header th:replace="~{/fragment/app-fragment :: header}"/>
+<header th:replace="~{/fragment/app-fragment :: header}"></header>
 
 <main id="main">
     <div id="ss" class="carousel slide my-slide" data-ride="carousel">
@@ -489,6 +489,5 @@
 <footer th:replace="~{/fragment/app-fragment :: alert-foot}"></footer>
 <script th:src="@{/js/pages/ajax_page_home.js}"></script>
 <script th:src="@{/js/model/ajax_model_motel_room.js}"></script>
-<script th:src="@{/js/model/ajax_model_category.js}"></script>
 </body>
 </html>

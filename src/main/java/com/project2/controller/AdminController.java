@@ -8,34 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("admin/*")
 public class AdminController {
 
-    @GetMapping("/")
+    @GetMapping(value = {"/", "quan-ly"})
     public String home() {
-        return "redirect:/trang-chu";
+        return "redirect:trang-chu";
     }
 
-    @GetMapping("/trang-chu")
+    @GetMapping("trang-chu")
     public String homePage() {
-        return "home";
-    }
-
-    @GetMapping(value = "/dang-nhap")
-    public String loginPage() {
-        return "login";
-    }
-
-    @GetMapping(value = "/nguoi-thue")
-    public String userHomePage() {
-        return "home";
-    }
-
-    @GetMapping(value = "/chu-tro")
-    public String hostHomePage() {
-        return "/host/host_home";
-    }
-
-    @GetMapping(value = "/quan-ly")
-    public String adminHomePage() {
-        return "/admin/admin_home";
+        return "/admin/admin-home";
     }
 
     @GetMapping("/du-an")

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Thống kê</title>
+  <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/export-data.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <link rel="stylesheet" th:href="@{/css/chart.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<style rel="stylesheet">
+  .collapse:not(.show) {
+    display: none!important;
+  }
+</style>
+<main class="rounded shadow bg-white">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+    <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{/fragment/host-admin-fragment :: menu-host}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div class="title-page">
+            <div class="container">
+              <div class="row">
+                <div class="col-12 text-center">
+                  <h3 id="title-room">Thống kê</h3>
+                </div>
+                <div class="col-12">
+                  <hr>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="tool-page">
+            <div class="container">
+              <div class="row justify-content-end">
+                <div class="col-md-4">
+                  <select class="form-select" name="sort" id="sort">
+                    <option>- Sắp xếp -</option>
+                    <option>Đánh giá cao nhất</option>
+                    <option>Đánh giá thấp nhất</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive table-responsive-lg">
+            <figure class="highcharts-figure mb-4">
+              <div id="content-chart" class="chart"></div>
+            </figure>
+            <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+              <caption>Trọ sở hữu</caption>
+              <thead>
+              <tr class="text-success">
+                <th colspan="4">Trọ sở hữu</th>
+              </tr>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Ảnh</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Đánh giá</th>
+              </tr>
+              </thead>
+              <tbody id="table-data">
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
+              </tr>
+              </tbody>
+            </table>
+            <hr>
+          </div>
+          <!-- /.row (main row) -->
+        </div><!-- /.container-fluid -->
+      </section>
+      <!-- /.content -->
+      <footer th:replace="~{/fragment/host-admin-fragment :: footer-host}"></footer>
+      <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+    </div>
+    <!-- /.content-wrapper -->
+  </div>
+</main>
+<script th:src="@{/js/pages/host/ajax_page_host_statistic.js}"></script>
+</body>
+</html>

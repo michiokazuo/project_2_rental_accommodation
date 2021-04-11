@@ -1,6 +1,12 @@
-let nav;
+let nav, menuCategory;
+let listCategoryHome = [];
 
-$(document).ready(function () {
+$(document).ready(async function () {
+    menuCategory = $("#menu-category");
+
+    await loadCategoryForMenu();
+    showCategoryMenu();
+
     nav = $("nav#nav");
     $(".dropdown-toggle").click(function (e) {
         $(this).next().slideToggle();
@@ -64,3 +70,38 @@ $(document).ready(function () {
         });
     }
 });
+
+async function loadCategoryForMenu(){
+    await categoryFindAll()
+        .then(rs => {
+            if(rs.status === 200){
+                listCategoryHome = rs.data;
+            }
+        })
+        .catch(e => {
+            console.log(e);
+        })
+}
+
+function showCategoryMenu() {
+    if(menuCategory){
+        let rs = `<li class="col-12  col-lg-2">
+                  <ul>
+                     <li class="item-title"><a href="#">Chưa có danh mục</a>
+                  </li>
+                 </ul>
+                </li>`;
+        if(listCategoryHome && listCategoryHome.length > 0){
+            rs = listCategoryHome.map((data, index) => {
+                return `<li class="col-12  col-lg-2">
+                        <ul>
+                             <li class="item-title"><a href="/tim-kiem?c_id=${data.id}">${dataFilter(data.name)}</a>
+                             </li>
+                       </ul>
+                    </li>`;
+            }).join("");
+        }
+
+        menuCategory.html(rs);
+    }
+}

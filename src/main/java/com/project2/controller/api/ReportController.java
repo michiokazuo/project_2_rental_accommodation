@@ -69,7 +69,7 @@ public class ReportController {
             String email = null;
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
-            Report taskDTO = reportService.findById(id, email);
+            List<Report> taskDTO = reportService.findAllByUser(id, email);
             return taskDTO != null ? ResponseEntity.ok(taskDTO) : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();

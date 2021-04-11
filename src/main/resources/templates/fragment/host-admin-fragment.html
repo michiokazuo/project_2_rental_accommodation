@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <th:block th:fragment="head-resource">
+        <link rel="icon" th:href="@{../files/image_config/rental.svg}" type="image/x-icon"/>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Fontawesome -->
+        <link rel="stylesheet"
+              href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+              integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ"
+              crossorigin="anonymous">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+              crossorigin="anonymous">
+        <!-- Optional JavaScript -->
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                crossorigin="anonymous"></script>
+        <script
+                src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                crossorigin="anonymous"></script>
+        <script
+                src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+                integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+                integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" th:href="@{/js/plugins/fontawesome-free/css/all.min.css}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" th:href="@{/js/dist/css/adminlte.min.css}">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" th:href="@{/js/plugins/overlayScrollbars/css/OverlayScrollbars.min.css}">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <link rel="stylesheet" th:href="@{/css/header-search-nav.css}">
+        <link rel="stylesheet" th:href="@{/css/partner-map-mail-footer.css}">
+    </th:block>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" th:fragment="main-header">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" th:href="@{#}" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+        <!-- Notifications Dropdown Menu -->
+        <li class="nav-item dropdown">
+            <a class="nav-link" th:href="@{yeu-cau-moi}">
+                <i class="far fa-bell"></i>
+                <span id="new-request" class="badge badge-warning navbar-badge">4</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<!-- /.navbar -->
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4" th:fragment="menu-host">
+    <!-- Brand Logo -->
+    <a th:href="@{/host/}" class="brand-link d-flex justify-content-center">
+        <img th:src="@{../files/image_config/home.svg}" alt="AdminLTE Logo" class="elevation-3"
+             style="opacity: .8" height="100" width="100">
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img th:src="@{../files/image_config/avatar-user.png}" class="img-circle elevation-2" alt="User Image"
+                     style="width: 30px!important; height: 30px!important;" id="avatar-host">
+            </div>
+            <div class="info">
+                <a th:href="@{thong-tin-ca-nhan}" class="d-block" id="name-host">Đồng Xuân Phong</a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                   with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a th:href="@{thong-tin-ca-nhan}" class="nav-link">
+                        <i class="nav-icon fas fa-portrait"></i>
+                        <p>
+                            Thông tin cá nhân
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{tro-so-huu}" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Phòng/Nhà trọ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{nguoi-thue}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Người thuê
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{yeu-cau-moi}" class="nav-link">
+                        <i class="nav-icon far fa-bell"></i>
+                        <p>
+                            Yêu cầu mới
+                            <span class="badge badge-info right" id="request_new">2</span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{thong-ke}" class="nav-link">
+                        <i class="nav-icon far fa-chart-bar"></i>
+                        <p>
+                            Thống kê
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/dang-xuat}" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>
+                            Đăng xuất
+                        </p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4" th:fragment="menu-admin">
+    <!-- Brand Logo -->
+    <a th:href="@{/admin/}" class="brand-link">
+        <img th:src="@{../files/image_config/home.svg}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8" height="150" width="150">
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img th:src="@{../files/image_config/avatar-user.png}" class="img-circle elevation-2" alt="User Image"
+                     style="width: 30px!important; height: 30px!important;" id="avatar-admin">
+            </div>
+            <div class="info">
+                <a th:href="@{thong-tin-ca-nhan}" class="d-block" id="name-admin">Đồng Xuân Phong</a>
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                   with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a th:href="@{thong-tin-ca-nhan}" class="nav-link">
+                        <i class="nav-icon fas fa-portrait"></i>
+                        <p>
+                            Thông tin cá nhân
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{tro-cho-thue}" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Phòng/Nhà trọ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{nguoi-thue}" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Nguời thuê
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{chu-tro}" class="nav-link">
+                        <i class="nav-icon fas fa-male"></i>
+                        <p>
+                            Chủ trọ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{thong-ke}" class="nav-link">
+                        <i class="nav-icon fas fa-chart-pie"></i>
+                        <p>
+                            Thống kê
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a th:href="@{/dang-xuat}" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>
+                            Đăng xuất
+                        </p>
+                    </a>
+                </li>
+
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<div class="modal fade" id="modal-sign-up" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true" th:fragment="modal-info">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="">Cập nhật thông tin</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="row col-12 flex-row ml-0 form-post" action="">
+                        <div class="form-group col-md-6">
+                            <label for="name-sign-up" class="col-form-label"><strong>Tên </strong></label>
+                            <input type="text" class="form-control" id="name-sign-up" placeholder="Nhập tên" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email-sign-up" class="col-form-label"><strong>Email </strong></label>
+                            <input type="email" class="form-control" id="email-sign-up" placeholder="Nhập email"
+                                   required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password-sign-up" class="col-form-label"><strong>Mật khẩu </strong></label>
+                            <input type="password" class="form-control" id="password-sign-up" placeholder="Mật khẩu"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="password-confirm-sign-up" class="col-form-label"><strong>Xác nhận mật khẩu
+                            </strong></label>
+                            <input type="password" class="form-control" id="password-confirm-sign-up"
+                                   placeholder="Nhập lại mật khẩu" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone" class="col-form-label"><strong>Số điện thoại</strong> </label>
+                            <input type="text" class="form-control" id="phone" placeholder="Điện thoại" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="birthday"><strong>Ngày sinh</strong></label>
+                            <input class="form-control " type="date" name="birthday" id="birthday">
+                            <div class="invalid-feedback">Bạn chưa chọn ngày.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="job"><strong>Nghề nghiệp</strong></label>
+                            <select class="form-select" id="job" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Đi làm</option>
+                                <option value="2">Học sinh/Sinh viên</option>
+                                <option value="3">Nghỉ hưu</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="workplace" class="col-form-label"><strong>Nơi làm việc </strong></label>
+                            <input type="text" class="form-control" id="workplace" placeholder="Nơi làm việc"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender"><strong>Giới tính</strong></label>
+                            <select class="form-select" id="gender" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Nam</option>
+                                <option value="2">Nữ</option>
+                                <option value="3">Khác</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="status"><strong>Tình trạng hôn nhân</strong></label>
+                            <select class="form-select" id="status" required>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Độc thân</option>
+                                <option value="2">Đã kết hôn</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="home-town"><strong>Quê quán</strong></label>
+                            <input type="text" class="form-control" id="home-town" placeholder="Quê quán" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="role"><strong>Đăng ký với tư cách</strong></label>
+                            <select class="form-select" id="role" required disabled>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Người thuê</option>
+                                <option value="2">Chủ thuê</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="avatar"><strong>Avatar</strong></label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="avatar" onchange="reloadImage()"
+                                       accept="image/*"
+                                       required>
+                                <div class="invalid-feedback"></div>
+                                <label for="avatar" class="custom-file-label">Chọn ảnh</label>
+                            </div>
+                            <img th:src="@{./files/image_config/avatar-user.png}" id="avatar-photo"
+                                 class="border rounded mt-3" alt="avatar"
+                                 style="width: 200px;"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-submit-sign-up">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-content container" th:fragment="info">
+    <!-- Header -->
+    <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center">
+        <!-- Mask -->
+        <span class="mask bg-gradient-default opacity-8"></span>
+        <!-- Header container -->
+        <div class="container-fluid d-flex align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="display-2 text-white" id="hello-you">Chào bạn,</h1>
+                    <p class="text-white mt-0 mb-5">Chúc bạn có một ngày vui vẻ!!!</p>
+                    <a th:href="@{#}" class="btn btn-info" id="btn-info-update">Cập nhật thông tin cá nhân</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page content -->
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+                <div class="card card-profile shadow">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 order-lg-2">
+                            <div class="card-profile-image">
+                                <a href="#">
+                                    <img th:src="@{../files/image_config/b.png}" style="z-index: 10;"
+                                         id="avatar-user" class="rounded-circle" alt="" width="150" height="150"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                        <div class="d-flex justify-content-between">
+                            <a href="#" class="btn btn-sm btn-info mr-4" id="call-phone">Call</a>
+                            <a href="#" class="btn btn-sm btn-default float-right" id="mail-email">Mail</a>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0 pt-md-4">
+                        <div class="text-center">
+                            <h3 id="name-show">
+                                Jessica Jones
+                            </h3>
+                            <div class="h5 mt-4" id="job-show">
+                                <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+                            </div>
+                            <div id="workplace-show">
+                                <i class="ni education_hat mr-2"></i>University of Computer Science
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 order-xl-1">
+                <div class="card bg-secondary shadow">
+                    <div class="card-header bg-white border-0">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">Tài khoản của bạn</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <h6 class="heading-small text-muted mb-4">Thông tin cá nhân</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-username">Tên</label>
+                                            <input type="text" id="input-username"
+                                                   class="form-control form-control-alternative" placeholder="Username"
+                                                   value="lucky.jesse" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-birthday">Ngày sinh</label>
+                                            <input type="date" id="input-birthday"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="jesse@example.com" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-gender">Giới tính</label>
+                                            <input type="text" id="input-gender"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-status">Tình trạng hôn nhân
+                                            </label>
+                                            <input type="text" id="input-status"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="Last name" value="Jesse" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-job">Nghề nghiệp</label>
+                                            <input type="text" id="input-job"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-workplace">Nơi làm việc
+                                            </label>
+                                            <input type="text" id="input-workplace"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="Last name" value="Jesse" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-home-town">Quê quán</label>
+                                            <input type="text" id="input-home-town"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-role">Quyền hạn</label>
+                                            <input type="text" id="input-role"
+                                                   class="form-control form-control-alternative"
+                                                   placeholder="First name" value="Lucky" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <!-- Address -->
+                            <h6 class="heading-small text-muted mb-4">Thông tin liên lạc</h6>
+                            <div class="pl-lg-4">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-email">Email</label>
+                                            <input id="input-email" class="form-control form-control-alternative"
+                                                   placeholder="Home Address"
+                                                   value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                                                   type="email" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group focused">
+                                            <label class="form-control-label" for="input-phone">SĐT</label>
+                                            <input id="input-phone" class="form-control form-control-alternative"
+                                                   placeholder="Home Address"
+                                                   value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09"
+                                                   type="tel" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer id="footer" class="text-white" th:fragment="footer-host">
+    <section id="footer-infor">
+        <div class="container">
+            <div class="row  d-flex justify-content-between" id="footer-menu">
+                <div class="col-md-3 col-sm-12">
+                    <h5 class="text-white">Về chúng tôi</h5><img th:src="@{../files/image_config/home.svg}" alt=""
+                                                                 height="100" width="100">
+                    <p class="text-secondary">Chúng tôi cam kết về mặt chất lượng phòng/nhà cho thuê<span>[...]</span>
+                    </p>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <h5 class="text-white">Giao diện người dùng</h5>
+                    <ul class="dot">
+                        <li><a th:href="@{/trang-chu}">Trang chủ</a></li>
+                        <li><a th:href="@{/tim-kiem}">Tìm kiếm</a></li>
+                        <li><a th:href="@{/tin-tuc}">Tin tức</a></li>
+                        <li><a th:href="@{/lien-he}">Liên hệ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-12">
+                    <h5 class="text-white">Chúng tôi</h5>
+                    <ul class="dot">
+                        <li><a th:href="@{tel:0564099372}" class="hotline"><i class="fas fa-phone"></i> 0564 099 372</a>
+                        </li>
+                        <li><a th:href="@{mailto:thienbinh2102000@gmail.com}" class="mail-company"><i
+                                class="fas fa-envelope"></i>
+                            project_2@gmail.com</a></li>
+                        <li><a th:href="@{http://maps.google.com/?q=Đại học Bách Khoa Hà Nội}"
+                               class="address-company"><i class="fas fa-map-marker-alt" th:target="@{_blank}"></i> Đại
+                            học
+                            Bách Khoa Hà Nội</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row d-flex align-items-center justify-content-between" id="follow">
+                <div class="col-md-4 col-sm-12 social">
+                    <span>Follow us</span>
+                    <a th:href="@{https://www.facebook.com/}" class="link-facebook"><i
+                            class="fab fa-facebook-square" th:target="@{_blank}"></i></a>
+                    <a class="link-twitter" th:href="@{https://twitter.com/?lang=vi}"><i
+                            class="fab fa-twitter-square" th:target="@{_blank}"></i></a>
+                    <a class="link-youtube" th:href="@{https://www.youtube.com/}"><i
+                            class="fab fa-youtube" th:target="@{_blank}"></i></a>
+                    <a class="link-instagram" th:href="@{https://www.instagram.com}" th:target="@{_blank}"><i
+                            class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="footer-copyright" class="d-flex align-items-center justify-content-center">
+        <div class="container">
+            <div class="row ">
+                <div class="col-12 ">
+                    <p class="m-0 text-center"> © phong.dx183966</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="up-to-top">
+        <button class="btn text-white text-center d-flex align-items-center justify-content-center">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </section>
+
+    <script th:src="@{/js/pages/host/main_host.js}"></script>
+</footer>
+
+<footer id="footer" class="text-white" th:fragment="footer-admin">
+    <section id="footer-copyright" class="d-flex align-items-center justify-content-center">
+        <div class="container">
+            <div class="row ">
+                <div class="col-12 ">
+                    <p class="m-0 text-center"> © phong.dx183966</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="up-to-top">
+        <button class="btn text-white text-center d-flex align-items-center justify-content-center">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </section>
+    <script th:src="@{/js/pages/admin/main_admin.js}"></script>
+</footer>
+<!-- end footer -->
+<footer class="text-center text-danger shadow w-100"
+        th:fragment="alert-foot" id="alert-foot">
+    <div id="alert-report"></div>
+    <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/header-footer.js}"></script>
+    <script th:src="@{/js/model/ajax_model_app_user.js}"></script>
+    <script th:src="@{/js/model/ajax_mail_sender.js}"></script>
+    <script th:src="@{/js/model/ajax_model_category.js}"></script>
+    <script th:src="@{/js/model/ajax_model_motel_room.js}"></script>
+    <script th:src="@{/js/model/ajax_model_tenant.js}"></script>
+
+    <!--    <script type="text/javascript"-->
+    <!--            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC6O6ioibS4dJwJe4fUsnb84MLRgPck4BU&sensor=true">-->
+    <!--    </script>-->
+    <!--    <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>-->
+    <!--    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>-->
+    <!-- daterangepicker -->
+    <script th:src="@{/js/plugins/moment/moment.min.js}"></script>
+    <script th:src="@{/js/plugins/daterangepicker/daterangepicker.js}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script th:src="@{/js/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+    <script th:src="@{/js/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{/js/dist/js/adminlte.js}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script th:src="@{/js/dist/js/pages/dashboard.js}"></script>
+</footer>
+</body>
+</html>

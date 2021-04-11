@@ -14,12 +14,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class TenantService_Impl implements TenantService {
+
+    private final AppConfig appConfig;
 
     private final TenantRepository tenantRepository;
 
@@ -52,10 +56,22 @@ public class TenantService_Impl implements TenantService {
             AppUser appUser = appUserRepository.findByIdAndDeletedFalse(tenant.getId().getIdUser());
             MotelRoom motelRoom = motelRoomRepository.findByIdAndDeletedFalse(tenant.getId().getIdRoom());
             if (appUser != null && motelRoom != null
-                    && (appUser.getEmail().equals(email) || motelRoom.getHost().getEmail().equals(email))) {
-                tenant.setUser(appUser);
-                tenant.setRoom(motelRoom);
-                return tenantRepository.save(tenant);
+                    && (appUser.getEmail().equals(email) || motelRoom.getHost().getEmail().equals(email))
+                    && appConfig.checkUser(appUser.getEmail()) // ko cho phep tk host, admin thue phong
+                    && !tenantRepository.existsByIdAndDeletedFalse(tenant.getId())) {
+                int personIn = Math.toIntExact(tenantRepository.count(Example.of(Tenant.builder()
+                        .room(motelRoom).status(true).build())));
+                if (personIn < motelRoom.getMaxPerson()) {
+                    Tenant tmp = tenantRepository.findById(tenant.getId()).orElse(null);
+                    if (tmp != null) {
+                        tenant.setCreateDate(tmp.getCreateDate());
+                        tenant.setModifyDate(new Timestamp(new Date().getTime()));
+                        tenant.setCreateBy(tmp.getCreateBy());
+                    }
+                    tenant.setUser(appUser);
+                    tenant.setRoom(motelRoom);
+                    return tenantRepository.save(tenant);
+                }
             }
         }
         return null;
@@ -65,13 +81,20 @@ public class TenantService_Impl implements TenantService {
     public Tenant update(Tenant tenant, String email) throws Exception {
         Tenant rs = null;
         Tenant currentTenant = tenantRepository.findByIdAndDeletedFalse(tenant.getId());
-        if (currentTenant != null && !currentTenant.getStatus() && tenant.getStatus()) {
+        if (currentTenant != null && !currentTenant.getStatus() && tenant.getStatus()
+                && (appConfig.checkAdmin(email) || appConfig.checkHost(email))) {
+
             int personIn = Math.toIntExact(tenantRepository.count(Example.of(Tenant.builder()
                     .room(currentTenant.getRoom()).status(true).build())));
             if (personIn < currentTenant.getRoom().getMaxPerson()) {
                 tenant.setDeleted(false);
-                rs = insert(tenant, email);
-                if (rs != null) personIn++;
+                tenant.setRoom(currentTenant.getRoom());
+                tenant.setUser(currentTenant.getUser());
+                tenant.setCreateDate(currentTenant.getCreateDate());
+                tenant.setModifyDate(new Timestamp(new Date().getTime()));
+                tenant.setCreateBy(currentTenant.getCreateBy());
+                rs = tenantRepository.save(tenant);
+                personIn++;
             }
             if (personIn >= currentTenant.getRoom().getMaxPerson()) {
                 List<Tenant> tenants = tenantRepository.findAllByRoomAndDeletedFalse(currentTenant.getRoom());
@@ -83,7 +106,7 @@ public class TenantService_Impl implements TenantService {
                         emails.add(t.getUser().getEmail());
                     }
                 }
-                if (tenantRepository.deleteCustomByListKey(tenantKeys) > 0) {
+                if (!tenantKeys.isEmpty() && tenantRepository.deleteCustomByListKey(tenantKeys) >= 0) {
                     sendEmailService.sendHtmlMail((String[]) emails.toArray(), "Yêu cầu thuê bị từ chối",
                             "Yêu cầu này của bạn: " + currentTenant.getRoom().getTitle() +
                                     " thuộc ông/bà " + currentTenant.getRoom().getHost().getName() +
@@ -114,14 +137,28 @@ public class TenantService_Impl implements TenantService {
     }
 
     @Override
+    public List<Tenant> findAllByIdHost(Integer hostId, String email) throws Exception {
+        if (hostId != null && hostId > 0)
+            return tenantRepository.findAllByIdHostRented(hostId);
+        return null;
+    }
+
+    @Override
+    public List<Tenant> findAllReqByIdHost(Integer hostId, String email) throws Exception {
+        if (hostId != null && hostId > 0)
+            return tenantRepository.findAllReqByIdHost(hostId);
+        return null;
+    }
+
+    @Override
     public boolean deleteCustom(TenantKey tenantKey, String email) throws Exception {
         if (email != null && tenantKey != null) {
             AppUser appUser = appUserRepository.findByEmailAndDeletedFalse(email);
-            return appUser != null && (appUser.getId().equals(tenantKey.getIdUser()) || AppConfig.checkAdmin(email)
-                    || (AppConfig.checkHost(email)
+            return appUser != null && (appUser.getId().equals(tenantKey.getIdUser()) || appConfig.checkAdmin(email)
+                    || (appConfig.checkHost(email)
                     && appUser.getId()
                     .equals(motelRoomRepository.findByIdAndDeletedFalse(tenantKey.getIdRoom()).getHost().getId())))
-                    && tenantRepository.deleteCustom(tenantKey.getIdRoom(), tenantKey.getIdUser()) > 0;
+                    && tenantRepository.deleteCustom(tenantKey.getIdRoom(), tenantKey.getIdUser()) >= 0;
         }
         return false;
     }

@@ -17,6 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 public class AppUserService_Impl implements AppUserService {
 
+    private final AppConfig appConfig;
+
     private final AppUserRepository appUserRepository;
 
     private final MotelRoomRepository motelRoomRepository;
@@ -29,7 +31,7 @@ public class AppUserService_Impl implements AppUserService {
 
     @Override
     public List<AppUser> findAll(String email) throws Exception {
-        if (email != null && AppConfig.checkAdmin(email))
+        if (email != null && appConfig.checkAdmin(email))
             return appUserRepository.findAllByDeletedFalseAndRoleNotLike(AppConfig.roles.get(AppConfig.ADMIN));
         return null;
     }
@@ -65,16 +67,12 @@ public class AppUserService_Impl implements AppUserService {
     public AppUser update(AppUser appUser, String email) throws Exception {
         if (email != null && appUser != null
                 && (appUser.getId().equals(appUserRepository.findByEmailAndDeletedFalse(email).getId())
-                || AppConfig.checkAdmin(email))) {
+                || appConfig.checkAdmin(email))) {
             AppUser user = appUserRepository.findByIdAndDeletedFalse(appUser.getId());
             List<AppUser> appUserList = appUserRepository.findByPhoneAndDeletedFalse(appUser.getPhone());
             if (user == null || !user.getEmail().equals(appUser.getEmail())) return null;
 
-            if (user.getPhone().equals(appUser.getPhone())) {
-                if (appUserList != null && appUserList.size() > 1) return null;
-            } else {
-                if (appUserList != null) return null;
-            }
+            if (appUserList != null && appUserList.size() > 1) return null;
             appUser.setDeleted(false);
             appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
             return appUserRepository.save(appUser);
@@ -84,16 +82,16 @@ public class AppUserService_Impl implements AppUserService {
 
     @Override
     public boolean delete(Integer id, String email) throws Exception {
-        return email != null && AppConfig.checkAdmin(email)
-                && id != null && id > 0 && appUserRepository.deleteCustom(id) > 0
-                && motelRoomRepository.deleteCustomByHost(id) > 0
-                && tenantRepository.deleteCustomByIdUser(id) > 0
-                && reportRepository.deleteCustomByUser(id) > 0;
+        return email != null && appConfig.checkAdmin(email)
+                && id != null && id > 0 && appUserRepository.deleteCustom(id) >= 0
+                && motelRoomRepository.deleteCustomByHost(id) >= 0
+                && tenantRepository.deleteCustomByIdUser(id) >= 0
+                && reportRepository.deleteCustomByUser(id) >= 0;
     }
 
     @Override
     public List<AppUser> findAllUserByAdmin(String email, Integer roleId) throws Exception {
-        if (email != null && roleId != null && AppConfig.checkAdmin(email))
+        if (email != null && roleId != null && appConfig.checkAdmin(email))
             return appUserRepository.findAllByDeletedFalseAndRole_Id(roleId);
         return null;
     }

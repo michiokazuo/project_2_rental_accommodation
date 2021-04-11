@@ -8,70 +8,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("host/*")
 public class HostController {
 
-    @GetMapping("/")
-    public String home() {
-        return "redirect:/trang-chu";
-    }
-
-    @GetMapping("/trang-chu")
+    @GetMapping("trang-chu")
     public String homePage() {
-        return "/host/host_home";
+        return "/host/host-home";
     }
 
-    @GetMapping(value = "/nguoi-thue")
-    public String userHomePage() {
-        return "home";
-    }
-
-    @GetMapping(value = "/chu-tro")
+    @GetMapping(value = {"chu-tro", ""})
     public String hostHomePage() {
-        return "/host/host_home";
+        return "redirect:trang-chu";
     }
 
-    @GetMapping(value = "/quan-ly")
-    public String adminHomePage() {
-        return "/admin/admin_home";
+    @GetMapping("tro-so-huu")
+    public String OwnerRoom() {
+        return "/host/host-has-room";
     }
 
-    @GetMapping("/du-an")
-    public String project() {
-
-        return "project";
+    @GetMapping("chi-tiet-thue")
+    public String detailRenterOfRoom() {
+        return "/host/renter-of-room";
     }
 
-    @GetMapping("/nhan-vien")
-    public String employee() {
-
-        return "employee";
+    @GetMapping("yeu-cau-moi")
+    public String requestNew() {
+        return "/host/request-rent";
     }
 
-    @GetMapping("/thong-ke")
+    @GetMapping("nguoi-thue")
+    public String renter() {
+        return "/host/renter-of-host";
+    }
+
+    @GetMapping("thong-tin-ca-nhan")
+    public String hostInformation() {
+        return "/host/host-info";
+    }
+
+    @GetMapping("thong-ke")
     public String statistic() {
-
-        return "statistic";
-    }
-
-    @GetMapping("/du-an/cong-viec-thanh-phan")
-    public String taskOfProject() {
-
-        return "task_of_project";
-    }
-
-    @GetMapping(value = {"/nhan-vien/tien-do-ca-nhan", "cong-viec-ca-nhan"})
-    public String employeeProgress() {
-
-        return "employee_progress";
-    }
-
-    @GetMapping("/thong-tin-ca-nhan")
-    public String userInformation() {
-
-        return "user_infor";
-    }
-
-    @GetMapping("/danh-gia")
-    public String evaluationEmployee() {
-
-        return "evaluation_employee";
+        return "/host/host-statistic";
     }
 }

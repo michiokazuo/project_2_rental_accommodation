@@ -1,6 +1,5 @@
 package com.project2.entities.data;
 
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;

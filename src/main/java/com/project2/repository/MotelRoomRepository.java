@@ -16,14 +16,14 @@ public interface MotelRoomRepository extends JpaRepository<MotelRoom, Integer>, 
 
     MotelRoom findByIdAndDeletedFalse(Integer id);
 
-    List<MotelRoom> findAllByCreateByAndDeletedFalse(AppUser appUser);
+    List<MotelRoom> findAllByHostAndDeletedFalse(AppUser appUser);
 
     @Query("update MotelRoom e set e.deleted = true where e.id = ?1")
     @Modifying
     @Transactional
     int deleteCustom(Integer id);
 
-    @Query("update MotelRoom e set e.deleted = true where e.createBy.id = ?1")
+    @Query("update MotelRoom e set e.deleted = true where e.host.id = ?1")
     @Modifying
     @Transactional
     int deleteCustomByHost(Integer id);

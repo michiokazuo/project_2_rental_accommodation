@@ -14,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryService_Impl implements CategoryService {
 
+    private final AppConfig appConfig;
+
     private final CategoryRepository categoryRepository;
 
     @Override
@@ -35,7 +37,7 @@ public class CategoryService_Impl implements CategoryService {
 
     @Override
     public Category insert(Category category, String email) throws Exception {
-        if (email != null && AppConfig.checkAdmin(email)) {
+        if (email != null && appConfig.checkAdmin(email)) {
             category.setDeleted(false);
             return categoryRepository.save(category);
         }
@@ -44,7 +46,7 @@ public class CategoryService_Impl implements CategoryService {
 
     @Override
     public Category update(Category category, String email) throws Exception {
-        if (email != null && AppConfig.checkAdmin(email)) {
+        if (email != null && appConfig.checkAdmin(email)) {
             category.setDeleted(false);
             return categoryRepository.save(category);
         }
@@ -53,7 +55,7 @@ public class CategoryService_Impl implements CategoryService {
 
     @Override
     public boolean delete(Integer id, String email) throws Exception {
-        return email != null && id != null && id > 0 && AppConfig.checkAdmin(email)
-                && categoryRepository.deleteCustom(id) > 0;
+        return email != null && id != null && id > 0 && appConfig.checkAdmin(email)
+                && categoryRepository.deleteCustom(id) >= 0;
     }
 }

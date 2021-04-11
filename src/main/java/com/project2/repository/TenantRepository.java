@@ -3,7 +3,6 @@ package com.project2.repository;
 import com.project2.entities.data.AppUser;
 import com.project2.entities.data.MotelRoom;
 import com.project2.entities.data.Tenant;
-import com.project2.entities.key.RoomConvenientKey;
 import com.project2.entities.key.TenantKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -22,6 +21,16 @@ public interface TenantRepository extends JpaRepository<Tenant, TenantKey>, JpaS
     List<Tenant> findAllByUserAndDeletedFalse(AppUser appUser);
 
     Tenant findByIdAndDeletedFalse(TenantKey tenantKey);
+
+    Boolean existsByIdAndDeletedFalse(TenantKey tenantKey);
+
+    @Query("select t FROM Tenant t where t.deleted = false and t.room.host.id = ?1 and t.status = true")
+    @Modifying
+    @Transactional
+    List<Tenant> findAllByIdHostRented(Integer id);
+
+    @Query("select t FROM Tenant t where t.deleted = false and t.room.host.id = ?1 and t.status = false")
+    List<Tenant> findAllReqByIdHost(Integer id);
 
     @Query("update Tenant t set t.deleted = true where t.id.idRoom = ?1 and t.id.idUser = ?2")
     @Modifying

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Thông tin chi tiết của trọ</title>
+    <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="modal fade" id="modal-rent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Xác nhận thao tác</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="container">
+                <form class="row col-12">
+                    <div class="modal-body" id="content">Bạn có chắc chắn muốn xóa người thuê này không ?</div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-rent">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-tenant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="header-modal">Thông tin</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="row col-12 flex-row ml-0 form-post" action="">
+                        <div class="form-group col-md-6">
+                            <label for="name-sign-up" class="col-form-label"><strong>Tên </strong></label>
+                            <input type="text" class="form-control" id="name-sign-up" placeholder="Nhập tên" required
+                                   disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email-sign-up" class="col-form-label"><strong>Email </strong></label>
+                            <input type="email" class="form-control" id="email-sign-up" placeholder="Nhập email"
+                                   required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone" class="col-form-label"><strong>Số điện thoại</strong> </label>
+                            <input type="text" class="form-control" id="phone" placeholder="Điện thoại" required
+                                   disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="birthday"><strong>Ngày sinh</strong></label>
+                            <input class="form-control " type="date" name="birthday" id="birthday" disabled>
+                            <div class="invalid-feedback">Bạn chưa chọn ngày.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="job"><strong>Nghề nghiệp</strong></label>
+                            <select class="form-control" id="job" required disabled>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Đi làm</option>
+                                <option value="2">Học sinh/Sinh viên</option>
+                                <option value="3">Nghỉ hưu</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="workplace" class="col-form-label"><strong>Nơi làm việc </strong></label>
+                            <input type="text" class="form-control" id="workplace" disabled placeholder="Nơi làm việc"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender"><strong>Giới tính</strong></label>
+                            <select class="form-control" id="gender" required disabled>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Nam</option>
+                                <option value="2">Nữ</option>
+                                <option value="3">Khác</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="status"><strong>Tình trạng hôn nhân</strong></label>
+                            <select class="form-control" id="status" required disabled>
+                                <option selected disabled value="">- -</option>
+                                <option value="1">Độc thân</option>
+                                <option value="2">Đã kết hôn</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="home-town"><strong>Quê quán</strong></label>
+                            <input type="text" class="form-control" disabled id="home-town" placeholder="Quê quán" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="avatar"><strong>Avatar</strong></label>
+                            <img th:src="@{./files/image_config/avatar-user.png}" id="avatar"
+                                 class="border rounded mt-3" alt="avatar" width="200"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="rounded shadow bg-white">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside th:replace="~{/fragment/host-admin-fragment :: menu-host}"></aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="title-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3 id="title-room">Quản lý trọ số 1</h3>
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-responsive-lg">
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Đang thuê</caption>
+                            <thead>
+                            <tr class=" text-success">
+                                <th colspan="5">Đang thuê</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Ảnh</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Thông tin</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-rented">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Đang yêu cầu</caption>
+                            <thead>
+                            <tr class="text-primary">
+                                <th colspan="5">Đang yêu cầu</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Ảnh</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Thông tin</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-request">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Bình luận</caption>
+                            <thead>
+                            <tr class="text-warning">
+                                <th colspan="5" id="cmt">Bình luận</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên</th>
+                                <th scope="col">Nội dung</th>
+                                <th scope="col">Đánh giá</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-cmt">
+                            <tr>
+                                <th scope="row">11</th>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.row (main row) -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+            <footer th:replace="~{/fragment/host-admin-fragment :: footer-host}"></footer>
+            <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</main>
+<script th:src="@{/js/pages/host/ajax_page_renter_of_room.js}"></script>
+</body>
+</html>

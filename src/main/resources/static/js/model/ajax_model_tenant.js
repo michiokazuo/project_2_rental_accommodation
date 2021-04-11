@@ -20,3 +20,11 @@ function tenantFindByUser(q) {
     return ajaxGet(`${URL_TENANT}/find-by-user/` + `${q}`);
 }
 
+function tenantFindByHost(q) {
+    return ajaxGet(`${URL_TENANT}/find-by-host/` + `${q}`);
+}
+
+function tenantFindReqByHost(q) {
+    return ajaxGet(`${URL_TENANT}/find-req-by-host/` + `${q}`);
+}
+

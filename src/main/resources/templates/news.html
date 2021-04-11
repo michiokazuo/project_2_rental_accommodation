@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Tin tức</title>
-    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <block th:replace="~{/fragment/app-fragment :: head-resource}"></block>
     <link rel="stylesheet" th:href="@{/css/news.css}">
 </head>
 <body>
@@ -41,7 +41,7 @@
                         <div class="npwp-img">
                             <img th:src="@{./files/image_config/213539487.jpg}" alt="">
                             <a th:href="@{https://taxitaisaigon.vn/bai-viet-chi-tiet/kinh-nghiem-tim-thue-nha-tro-815}"
-                                th:target="_blank">
+                               th:target="_blank">
                                 <span>Tips</span></a>
                         </div>
                         <div class="npwp-text">
@@ -107,7 +107,9 @@
                 <div class="paginationjs-pages d-flex justify-content-center">
                     <ul class="pagination">
                         <li class="page-item paginationjs-prev"><a class="page-link" th:href="@{#}">«</a></li>
-                        <li class="page-item active"><button class="page-link" th:href="@{#}">1</button></li>
+                        <li class="page-item active">
+                            <button class="page-link" th:href="@{#}">1</button>
+                        </li>
                         <li class="page-item paginationjs-next"><a class="page-link" th:href="@{#}">»</a></li>
                     </ul>
                 </div>
@@ -116,9 +118,10 @@
     </section>
     <!-- end newspage -->
 </main>
-<section th:replace="~{/fragment/app-fragment :: mail-area}"></section>
+
 <section th:replace="~{/fragment/app-fragment :: mail-area}"></section>
 <footer th:replace="~{/fragment/app-fragment :: footer-user}"></footer>
 <footer th:replace="~{/fragment/app-fragment :: alert-foot}"></footer>
+
 </body>
 </html>

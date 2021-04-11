@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <title>Thông tin cá nhân</title>
-    <th:block th:replace="~{/fragment/app-fragment :: head-resource}"></th:block>
+    <block th:replace="~{/fragment/app-fragment :: head-resource}"></block>
     <link rel="stylesheet" th:href="@{/css/info-user.css}">
 </head>
 <body>
@@ -15,9 +15,8 @@
             <div class="modal-header">
                 <h3 class="modal-title" id="delete">Xác nhận thao
                     tác</h3>
-                <button type="button" class="close" data-dismiss="modal"
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
                         aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">Bạn có chắc chắn muốn xóa yêu cầu / bỏ thuê trọ này không ?</div>
@@ -349,37 +348,28 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
+                <div class="table-responsive table-responsive-lg" id="table-data">
                     <table class="table table-bordered table-hover bg-white pt-2 pb-2">
                         <caption>Trọ đang thuê</caption>
                         <thead>
                         <tr class=" text-success">
-                            <th colspan="7">Trọ đang thuê</th>
+                            <th colspan="5">Trọ đang thuê</th>
                         </tr>
                         <tr>
                             <th scope="col">STT</th>
-                            <th scope="col">Tiêu đề</th>
-                            <th scope="col">Chủ trọ</th>
+                            <th scope="col">Thông tin trọ</th>
                             <th scope="col">Giá tiền (VNĐ/tháng)</th>
                             <th scope="col">Ngày thuê</th>
-                            <th scope="col">Thông tin trọ</th>
                             <th scope="col">Hành động</th>
                         </tr>
                         </thead>
                         <tbody id="table-rented">
                         <tr>
-                            <th scope="row">11</th>
+                            <th scope="row">1</th>
                             <td>Mark</td>
                             <td>Mark</td>
                             <td>Mark</td>
                             <td>Mark</td>
-                            <td>Mark</td>
-                            <td>
-                                <button type="button" class="btn btn-warning update-progress"
-                                        data-toggle="modal" data-target="#modal-employee-progress">
-                                    <i class="fas fa-edit"></i> Cập nhật
-                                </button>
-                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -388,23 +378,19 @@
                         <caption>Trọ đang yêu cầu thuê</caption>
                         <thead>
                         <tr class="text-primary">
-                            <th colspan="7">Trọ đang yêu cầu thuê</th>
+                            <th colspan="5">Trọ đang yêu cầu thuê</th>
                         </tr>
                         <tr>
                             <th scope="col">STT</th>
-                            <th scope="col">Tiêu đề</th>
-                            <th scope="col">Chủ trọ</th>
-                            <th scope="col">Giá tiền / tháng</th>
-                            <th scope="col">Ngày yêu cầu</th>
                             <th scope="col">Thông tin trọ</th>
+                            <th scope="col">Giá tiền (VNĐ/tháng)</th>
+                            <th scope="col">Ngày yêu cầu</th>
                             <th scope="col">Hành động</th>
                         </tr>
                         </thead>
                         <tbody id="table-request">
                         <tr>
                             <th scope="row">11</th>
-                            <td>Mark</td>
-                            <td>Mark</td>
                             <td>Mark</td>
                             <td>Mark</td>
                             <td>Mark</td>
@@ -425,5 +411,6 @@
 <script th:src="@{/js/model/ajax_model_report.js}"></script>
 <script th:src="@{/js/model/ajax_upload_file.js}"></script>
 <script th:src="@{/js/model/ajax_model_tenant.js}"></script>
+<script th:src="@{/js/model/ajax_model_motel_room.js}"></script>
 </body>
 </html>

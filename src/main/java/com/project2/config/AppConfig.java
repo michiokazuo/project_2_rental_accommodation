@@ -1,5 +1,6 @@
 package com.project2.config;
 
+import com.project2.entities.data.AppUser;
 import com.project2.entities.data.Role;
 import com.project2.repository.AppUserRepository;
 import com.project2.repository.RoleRepository;
@@ -16,7 +17,7 @@ public class AppConfig {
     private RoleRepository roleRepository;
 
     @Autowired
-    private static AppUserRepository appUserRepository;
+    private AppUserRepository appUserRepository;
 
     @Value("${role.admin}")
     private String adminRole;
@@ -48,18 +49,21 @@ public class AppConfig {
         }
     }
 
-    public static boolean checkAdmin(String email) {
-        return appUserRepository.findByEmailAndDeletedFalse(email).getRole().getName()
+    public boolean checkAdmin(String email) {
+        AppUser appUser = appUserRepository.findByEmailAndDeletedFalse(email);
+        return appUser != null && appUser.getRole().getName()
                 .equals(roles.get(ADMIN).getName());
     }
 
-    public static boolean checkUser(String email) {
-        return appUserRepository.findByEmailAndDeletedFalse(email).getRole().getName()
+    public boolean checkUser(String email) {
+        AppUser appUser = appUserRepository.findByEmailAndDeletedFalse(email);
+        return appUser != null && appUser.getRole().getName()
                 .equals(roles.get(USER).getName());
     }
 
-    public static boolean checkHost(String email) {
-        return appUserRepository.findByEmailAndDeletedFalse(email).getRole().getName()
+    public boolean checkHost(String email) {
+        AppUser appUser = appUserRepository.findByEmailAndDeletedFalse(email);
+        return appUser != null && appUser.getRole().getName()
                 .equals(roles.get(HOST).getName());
     }
 

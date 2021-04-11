@@ -1,5 +1,6 @@
 package com.project2;
 
+import com.project2.repository.RoomHasConvenientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,4 +20,5 @@ public class PhongApplication implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
     }
+
 }

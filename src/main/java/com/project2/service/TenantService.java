@@ -11,6 +11,10 @@ public interface TenantService extends BaseService<Tenant>{
 
     List<Tenant> findAllByIdUser(Integer userId, String email) throws Exception;
 
+    List<Tenant> findAllByIdHost(Integer hostId, String email) throws Exception;
+
+    List<Tenant> findAllReqByIdHost(Integer hostId, String email) throws Exception;
+
     boolean deleteCustom(TenantKey tenantKey, String email) throws Exception;
 
 }

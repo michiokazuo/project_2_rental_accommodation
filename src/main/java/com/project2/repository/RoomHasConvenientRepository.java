@@ -1,5 +1,6 @@
 package com.project2.repository;
 
+import com.project2.entities.data.Convenient;
 import com.project2.entities.data.MotelRoom;
 import com.project2.entities.data.RoomHasConvenient;
 import com.project2.entities.key.RoomConvenientKey;
@@ -17,6 +18,10 @@ public interface RoomHasConvenientRepository extends JpaRepository<RoomHasConven
     List<RoomHasConvenient> findAllByDeletedFalse();
 
     List<RoomHasConvenient> findByRoomAndDeletedFalse(MotelRoom room);
+
+    List<RoomHasConvenient> findByRoom(MotelRoom room);
+
+    List<RoomHasConvenient> findByConvenientInAndDeletedFalse(List<Convenient> convenientList);
 
     @Query("update RoomHasConvenient e set e.deleted = true where e.id.idRoom = ?1")
     @Modifying

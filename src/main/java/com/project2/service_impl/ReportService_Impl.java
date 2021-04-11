@@ -17,6 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ReportService_Impl implements ReportService {
 
+    private final AppConfig appConfig;
+
     private final ReportRepository reportRepository;
 
     private final AppUserRepository appUserRepository;
@@ -45,7 +47,7 @@ public class ReportService_Impl implements ReportService {
         if (report != null && email != null) {
             report.setDeleted(false);
             AppUser appUser = appUserRepository.findByIdAndDeletedFalse(report.getUser().getId());
-            if (appUser != null && (appUser.getEmail().equals(email) || AppConfig.checkAdmin(email))) {
+            if (appUser != null && (appUser.getEmail().equals(email) || appConfig.checkAdmin(email))) {
                 report.setUser(appUser);
                 MotelRoom motelRoom = motelRoomRepository.findByIdAndDeletedFalse(report.getRoom().getId());
                 if (motelRoom != null) {
@@ -69,9 +71,9 @@ public class ReportService_Impl implements ReportService {
 
     @Override
     public boolean delete(Integer id, String email) throws Exception {
-        return email != null
-                && (findById(id, email).getUser().getEmail().equals(email) || AppConfig.checkAdmin(email))
-                && appUserRepository.deleteCustom(id) > 0;
+        return email != null && id != null && id > 0
+                && (findById(id, email).getUser().getEmail().equals(email) || appConfig.checkAdmin(email))
+                && reportRepository.deleteCustom(id) >= 0;
     }
 
     @Override

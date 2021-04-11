@@ -40,73 +40,63 @@ let listSort = [
     {id: "2", name: "Giá tăng dần", isASC: true},
     {id: "3", name: "Gần nhất", isASC: true},
     {id: "3", name: "Xa nhất", isASC: false},
-    {id: "4", name: "Phòng rộng nhất", isASC: true},
-    {id: "4", name: "Phòng nhỏ nhất", isASC: false}
+    {id: "4", name: "Trọ rộng nhất", isASC: true},
+    {id: "4", name: "Trọ nhỏ nhất", isASC: false},
+    {id: "5", name: "Trọ trống nhiều nhất", isASC: true},
+    {id: "5", name: "Trọ trống ít nhất", isASC: false},
+    {id: "6", name: "Trọ nhiều yêu cầu nhất", isASC: true},
+    {id: "6", name: "Trọ ít yêu cầu nhất nhất", isASC: false}
 ]
 
+const REGEX_POSITIVE_NUMBER = /^(?!(?:0|0\.0|0\.00)$)[+]?\d+(\.\d|\.\d[0-9])?$/;
+const ROLE_USER = "ROLE_RENTER";
+const ROLE_HOST = "ROLE_HOST";
+const ROLE_ADMIN = "ROLE_ADMIN";
+
 let USER_IN_SYSTEM = null;
-let emailSignUpSuggest, btnSubmitSuggest;
 
 let listHome = [
-    {val: "ROLE_ADMIN", url: "/quan-ly"},
-    {val: "ROLE_RENTER", url: "/nguoi-thue"},
-    {val: "ROLE_HOST", url: "/chu-tro"}
+    {val: "ROLE_ADMIN", url: "admin/quan-ly"},
+    {val: "ROLE_RENTER", url: "nguoi-thue"},
+    {val: "ROLE_HOST", url: "/host/chu-tro"}
 ]
 
 const DEFAULT_AVATAR = './files/image_config/avatar-user.png';
 
 $(async function () {
-    emailSignUpSuggest = $("#email_suggest");
-    btnSubmitSuggest = $("#btn-submit-suggest");
-
     $(".modal").on("hidden.bs.modal", function () {
         $("form.form-post").trigger("reset");
         $("form.form-post input").removeClass("is-invalid");
     });
-
-    await getUserInSystem();
-    showUser();
-    signUpSuggest();
 })
 
-async function getUserInSystem() {
-    await userFindById(null)
-        .then(rs => {
-            if (rs.status === 200) {
-                USER_IN_SYSTEM = rs.data;
-            }
-        })
-        .catch(e => {
-            console.log(e);
-        })
-}
-
-function signUpSuggest() {
-    btnSubmitSuggest.click(async function () {
-        let {
-            val: valueEmailSuggest,
-            check: checkEmailSuggest
-        } = checkDataTool(emailSignUpSuggest, /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-            "Email không hợp lệ");
-
-        if (checkEmailSuggest) {
-            alertReport(true, "Cảm ơn bạn đã đăng ký!!!");
-            let check = await notify_impl(valueEmailSuggest, "Đăng ký nhận tin tức mới",
-                "Chào bạn! Chúc mừng bạn đã đăng kí thành công và sẽ được nhận tin tức mới thường từ chúng tôi."
-                + "Chúc bạn có 1 ngày làm việc hiệu quả!!!");
-
-            // alertReport(check, check ? "Bạn đã đăng ký thành công. Thường xuyên kiểm tra email nhé!!!"
-            //     : "Có lỗi xảy ra. Vui lòng thử lại!!!");
-        }
-    })
-}
-
-function showUser() {
-    if (USER_IN_SYSTEM) {
-        $("#acc-top .title").text(USER_IN_SYSTEM.name);
-        $("#content-menu-user").html(`<a class="item" href="/thong-tin-ca-nhan">Thông tin cá nhân</a>
-                    <a class="item" href="/dang-xuat">Đăng xuất</a>`);
+function showSelectSort(element, list, defaultVal) {
+    if (list && list.length > 0) {
+        element.empty();
+        element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
+        list.forEach(function (e) {
+            element.append($('<option></option>').val(e.id + "/" + e.isASC).text(e.name));
+        });
     }
+}
+
+async function getUserInSystem() {
+    if (!USER_IN_SYSTEM)
+        await userFindById(null)
+            .then(rs => {
+                if (rs.status === 200) {
+                    USER_IN_SYSTEM = rs.data;
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            })
+}
+
+function checkRole(acc, name) {
+    if (acc)
+        return acc.role.name === name;
+    return false;
 }
 
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
@@ -184,7 +174,7 @@ function formatMoney(money) {
 function showSelectCustom(element, list, defaultVal) {
     if (list && list.length > 0) {
         element.empty();
-        element.append($('<option></option>').val("").text("- " + defaultVal + " -"));
+        element.append($('<option></option>').val("-1").text("- " + defaultVal + " -"));
         list.forEach(function (e) {
             element.append($('<option></option>').val(e.id).text(e.name));
         });
@@ -198,7 +188,7 @@ function showCheckBox(element, list) {
         list.forEach(e => {
             element.append(`<div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
                                         <input class="form-check-input" type="checkbox" id="${tmp + e.id}"
-                                               value="${e.name}">
+                                               value="${e.id}">
                                         <label class="form-check-label" for="${tmp + e.id}">${e.name}</label>
                                     </div>`);
         })
@@ -315,16 +305,20 @@ function checkFile(selector, textError) {
         check = true;
         for (const img of selector.prop('files')) {
             if (img.size / (1024 * 1024) >= 10) {
+                textError = "File bạn chọn không được quá 10MB.";
                 check = false;
                 break;
             }
             cnt++;
             if (cnt > 4) {
+                textError = "Số lượng file chọn không được quá 4.";
                 check = false;
                 break;
             }
         }
         check ? hiddenError(selector) : viewError(selector, textError);
+    } else {
+        viewError(selector, "Bạn chưa chọn files.");
     }
     return {val, check};
 }
@@ -369,6 +363,34 @@ async function notify_impl(emails, header, content) {
 const URL_API = "/api";
 const URL_PUBlIC = "/public";
 const URL_PRIVATE = "/private";
+
+async function getLocationCurr() {
+    let rs = null;
+
+    const getCoords = () => {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject)
+        })
+    }
+
+    const getLocation = async () => {
+        let pos = {};
+        let position = await getCoords();
+        pos.lat = position.coords.latitude;
+        pos.lng = position.coords.longitude;
+        return pos;
+    };
+
+    await getLocation()
+        .then(res => {
+            rs = res;
+        })
+        .catch(e => {
+            console.log(e)
+        });
+
+    return rs;
+}
 
 async function ajaxGet(url) {
     let rs = null;
@@ -465,7 +487,10 @@ async function ajaxUploadFormData(url, formData) {
 
 async function ajaxUploadFile(url, file) {
     let formData = new FormData();
-    formData.append("files", file);
+    file.forEach(f => {
+        formData.append("files", f);
+    })
+
     let rs = null;
     await $.ajax({
         type: "POST",

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Trọ sở hữu</title>
+    <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Xác nhận thao tác</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="container">
+                <form class="row col-12">
+                    <div class="modal-body">Bạn có chắc chắn muốn xóa trọ này không ?</div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="btn-delete-room">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-room" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Thông tin trọ</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="row col-12 flex-row ml-0 form-post" action="" multiple="multiple">
+                        <div class="form-group col-md-6">
+                            <label for="title" class="col-form-label"><strong>Tiêu đề </strong></label>
+                            <input type="text" class="form-control" id="title" placeholder="Nhập tiêu đề" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="description" class="col-form-label"><strong>Mô tả </strong></label>
+                            <textarea class="form-control" id="description" placeholder="Mô tả..."
+                                      required></textarea>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="area" class="col-form-label"><strong>Diện tích (m<sup>2</sup>) </strong></label>
+                            <input type="number" class="form-control" id="area" placeholder="Diện tích"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="address" class="col-form-label"><strong>Địa chỉ </strong></label>
+                            <input type="text" class="form-control" id="address"
+                                   placeholder="Địa chỉ" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="location"><strong>Toạ độ (lat;long)</strong>(*Bạn nên ở chỗ trọ cần khai báo)</label>
+                            <input type="text" class="form-control" id="location" placeholder="Tọa độ" required
+                                   disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="price" class="col-form-label"><strong>Giá tiền (VNĐ/tháng)</strong> </label>
+                            <input type="number" class="form-control" id="price" min="0" placeholder="Giá tiền" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="create-date"><strong>Ngày tạo</strong></label>
+                            <input class="form-control " type="date" name="create-date" id="create-date" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="modify-date"><strong>Ngày chỉnh sửa</strong></label>
+                            <input class="form-control " type="date" name="create-date" id="modify-date" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label><strong>Đối tượng ưu tiên</strong></label>
+                            <div id="check-priority" class="w-100 row justify-content-center">
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="obj-1"
+                                           value="option1">
+                                    <label class="form-check-label" for="obj-1">1</label>
+                                </div>
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="obj-2"
+                                           value="option2">
+                                    <label class="form-check-label" for="obj-2">2</label>
+                                </div>
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="obj-3"
+                                           value="option3">
+                                    <label class="form-check-label" for="obj-3">3 (disabled)</label>
+                                </div>
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="obj-4"
+                                           value="option3">
+                                    <label class="form-check-label" for="obj-4">3 (disabled)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label><strong>Tiện ích</strong></label>
+                            <div id="check-convenient" class="w-100 row justify-content-center">
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="conv-1"
+                                           value="option1">
+                                    <label class="form-check-label" for="conv-1">1</label>
+                                </div>
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="conv-2"
+                                           value="option2">
+                                    <label class="form-check-label" for="conv-2">2</label>
+                                </div>
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="conv-3"
+                                           value="option3">
+                                    <label class="form-check-label" for="conv-3">3 (disabled)</label>
+                                </div>
+                                <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
+                                    <input class="form-check-input" type="checkbox" id="conv-4"
+                                           value="option3">
+                                    <label class="form-check-label" for="conv-4">3 (disabled)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="category"><strong>Danh mục</strong></label>
+                            <select class="form-select" id="category" required>
+                                <option placeholder="" value="">- Danh mục -</option>
+                                <option value="1">Phòng trọ đơn</option>
+                                <option value="2">Phòng trọ ghép</option>
+                                <option value="3">Nhà cho thuê</option>
+                            </select>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6 d-none" id="maxPerson">
+                            <label for="max_person"><strong>Số người tối đa</strong></label>
+                            <input type="text" class="form-control" id="max_person" placeholder="Số người tối đa"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6 d-none" id="h-floor">
+                            <label for="floor"><strong>Số tầng</strong></label>
+                            <input type="text" class="form-control" id="floor" placeholder="Số tầng"
+                                   required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="images"><strong>Ảnh sản phẩm</strong></label>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="images" onchange="reloadImages()"
+                                       accept="image/*" multiple="multiple" required>
+                                <div class="invalid-feedback"></div>
+                                <label for="images" class="custom-file-label">Chọn ảnh</label>
+                            </div>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img1"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img2"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img3"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img4"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="btn-submit-room">Gửi</button>
+            </div>
+        </div>
+    </div>
+</div>
+<main class="rounded shadow bg-white">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside th:replace="~{/fragment/host-admin-fragment :: menu-host}"></aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="title-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3>Quản lý trọ</h3>
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tool-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-9 mb-2">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" id="btn-add-room"
+                                            data-target="#modal-room">
+                                        <i class="fas fa-plus"></i> Thêm trọ mới
+                                    </button>
+                                </div>
+                                <div class="col-md-3 mb-2 form-group">
+                                    <select class="form-select" name="sort" id="sort">
+                                        <option>Sắp xếp</option>
+                                        <option>A -> Z</option>
+                                        <option>Z -> A</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-responsive-lg">
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Trọ còn chỗ</caption>
+                            <thead>
+                            <tr class=" text-success">
+                                <th colspan="4">Trọ còn chỗ</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Thông tin</th>
+                                <th scope="col">Số người hiện tại</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-not-full">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Trọ đã đầy</caption>
+                            <thead>
+                            <tr class="text-primary">
+                                <th colspan="4">Trọ đã đầy</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Thông tin</th>
+                                <th scope="col">Người thuê hiện tại</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-full">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+                    <!-- /.row (main row) -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+            <footer th:replace="~{/fragment/host-admin-fragment :: footer-host}"></footer>
+            <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</main>
+<script th:src="@{/js/pages/host/ajax_page_host_has_room.js}"></script>
+<script th:src="@{/js/model/ajax_model_convenient.js}"></script>
+<script th:src="@{/js/model/ajax_upload_file.js}"></script>
+</body>
+</html>

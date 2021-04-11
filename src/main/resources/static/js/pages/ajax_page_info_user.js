@@ -1,12 +1,14 @@
-let nameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp, avatarSignUp, btnSubmitSignUp, modalForgotPassword,
-    modalSignUp, textPhone, dateBirthday, numberJob, textWorkplace, numberGender, numberStatus, numberRole, linkSignUp,
+let nameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp, avatarSignUp, btnSubmitSignUp, modalSignUp,
+    textPhone, dateBirthday, numberJob, textWorkplace, numberGender, numberStatus, numberRole, linkSignUp,
     avatarUserShow, callPhone, mailEmail, rented, request, comment, inputName, inputBirthday, inputGender, inputStatus,
     inputJob, inputWorkplace, inputRole, inputEmail, inputPhone, tableRented, tableRequest, btnDelete, helloYou,
-    nameShow, jobShow, workplaceShow, modalDelete, homeTown, inputHomeTown;
+    nameShow, jobShow, workplaceShow, modalDelete, homeTown, inputHomeTown, tableData;
 let idUser, checkDelete, index_now;
 let reportList = [], rentList = [], requestList = [], listTenant = [];
 let listRole = [];
 let user_now = {};
+let checkUserView = 0;
+let listRoomHost = [], listRoomFull = [], listRoomNotFull = [];
 
 $(async function () {
     linkSignUp = $("#btn-info-update");
@@ -30,7 +32,6 @@ $(async function () {
     tableRequest = $("#table-request");
     dateBirthday = $("#birthday");
     numberRole = $("#role");
-    modalForgotPassword = $("#modal-forgot-password");
     modalSignUp = $("#modal-sign-up");
     avatarUserShow = $("#avatar-user");
     callPhone = $("#call-phone");
@@ -50,24 +51,57 @@ $(async function () {
     modalDelete = $("#modal-delete");
     homeTown = $("#home-town");
     inputHomeTown = $("#input-home-town");
+    tableData = $("#table-data");
 
     let url = new URL(window.location.href);
     idUser = url.searchParams.get("id_user");
 
+    await getUserInSystem();
     await loadRole();
     await getUserNeedInfo();
     await getRoomRent();
-    classifyRent();
     showSelectCustom(numberGender, listGender, "<>");
     showSelectCustom(numberJob, listJob, "<>");
     showSelectCustom(numberStatus, listStatus, "<>");
     showRoleList(numberRole, listRole, "<>");
+    classifyRent();
     showInfoStatic();
-    showTableData();
-    confirmDelete();
-    signUp();
-    submitSignUp();
+    checkUser();
+
+    if (!checkUserView) {
+        showTableRent();
+        showTableRequest();
+        confirmDelete();
+        signUp();
+        submitSignUp();
+    } else {
+        linkSignUp.remove();
+        if (checkUserView > 0 && checkRole(user_now, ROLE_HOST)) {
+            await loadRoomDTO();
+            classifyRoom();
+            showTableData();
+        }
+    }
 })
+
+function checkUser() {
+    if (USER_IN_SYSTEM)
+        if (USER_IN_SYSTEM.id === user_now.id) {
+            if (checkRole(user_now, ROLE_USER))
+                checkUserView = 0;
+            else if (checkRole(user_now, ROLE_HOST))
+                window.location.href = "/host/thong-tin-ca-nhan";
+            else if (checkRole(user_now, ROLE_ADMIN))
+                window.location.href = "/admin/thong-tin-ca-nhan";
+        } else {
+            if (!checkRole(USER_IN_SYSTEM, ROLE_ADMIN) && checkRole(user_now, ROLE_ADMIN))
+                window.location.href = "/error";
+            else checkUserView = checkRole(user_now, ROLE_HOST) ? 1 : -1;
+        }
+    // 1 - user see host  // -1 host/user see user_diff
+    else
+        checkUserView = 1;
+}
 
 async function loadRole() {
     await allRole()
@@ -77,13 +111,14 @@ async function loadRole() {
             }
         })
         .catch(e => {
-            console.log("error load role")
+            console.log(e);
+            console.log("error load role");
         })
 }
 
 async function getUserNeedInfo() {
     user_now = USER_IN_SYSTEM;
-    if (!USER_IN_SYSTEM) {
+    if (idUser) {
         await userFindById(idUser)
             .then(rs => {
                 if (rs.status === 200) {
@@ -94,6 +129,9 @@ async function getUserNeedInfo() {
                 console.log(e);
             })
     }
+
+    if (!user_now && !USER_IN_SYSTEM)
+        window.location.href = "/dang-nhap";
 
     await reportFindByUser(user_now.id)
         .then(rs => {
@@ -135,9 +173,17 @@ function showInfoStatic() {
         avatarUserShow.attr("src", dataFilter(user_now.avatar));
         callPhone.attr("href", "tel:" + user_now.phone);
         mailEmail.attr("href", "mailto:" + user_now.email);
-        rented.children(".heading").text(numberFilter(rentList.length));
-        request.children(".heading").text(numberFilter(requestList.length));
-        comment.children(".heading").text(numberFilter(reportList.length));
+
+        if (checkUserView < 1 || !checkRole(user_now, ROLE_HOST)) {
+            rented.children(".heading").text(numberFilter(rentList.length));
+            request.children(".heading").text(numberFilter(requestList.length));
+            comment.children(".heading").text(numberFilter(reportList.length));
+        } else {
+            rented.remove();
+            request.remove();
+            comment.remove();
+        }
+
         inputStatus.val(dataFilter(listStatus.find(s => s.id === user_now.status).name));
         inputJob.val(dataFilter(listJob.find(j => j.id === user_now.job).name));
         inputEmail.val(dataFilter(user_now.email));
@@ -221,14 +267,14 @@ function submitSignUp() {
         let {
             val: valueHomeTown,
             check: checkHomeTown
-        } = checkData(homeTown, /./,"Bạn chưa nhập quê quán.");
+        } = checkData(homeTown, /./, "Bạn chưa nhập quê quán.");
 
         if (checkName && checkEmailSignUp && checkPasswordSignUp && checkPasswordConfirmSignUp && checkTextPhone
             && checkDateBirthday && checkStatus && checkStatus && checkWorkplace && checkGender && checkRole
             && checkJob && checkHomeTown) {
             valueAvatar = user_now.avatar;
             if (checkAvatar) {
-                await uploadFile(avatarSignUp.prop('files')[0])
+                await uploadFile(Array.from(avatarSignUp.prop('files')))
                     .then(rs => {
                         if (rs.status === 200) {
                             valueAvatar = rs.data[0];
@@ -275,18 +321,14 @@ function submitSignUp() {
     })
 }
 
-function showTableData() {
-    let rs = `<tr><td colspan='7'><strong>Không có dữ liệu</strong></td></tr>`;
+function showTableRent() {
+    let rs = `<tr><td colspan='5'><strong>Không có dữ liệu</strong></td></tr>`;
     if (rentList && rentList.length > 0) {
         rs = rentList.map((data, index) => {
             let room = data.room;
             if (room)
                 return `<tr data-index="${index}">
                         <th scope="row">${index + 1}</th>
-                        <td>${dataFilter(room.title)}</td>
-                        <td>${dataFilter(room.host.name)}</td>
-                        <td>${dataFilter(formatMoney(room.price))}</td>
-                        <td>${dataFilter(new Date(data.modifyDate))}</td>
                         <td>
                             <a target="_blank" href="thong-tin-thue?id_room=${dataFilter(room.id)}" 
                             class="text-decoration-none text-light btn btn-success m-1">
@@ -294,6 +336,8 @@ function showTableData() {
                                         <span class="text-light"> Xem </span>
                             </a>
                         </td>
+                        <td>${dataFilter(formatMoney(room.price))}</td>
+                        <td>${dataFilter(new Date(data.createDate).toLocaleDateString())}</td>
                            <td>
                                 <button type="button" class="btn btn-danger m-1 delete-rent">
                                     <i class="fas fa-trash-alt" ></i> Xóa
@@ -304,19 +348,19 @@ function showTableData() {
             return ``;
         }).join("");
     }
-    tableRented.html(rs);
 
-    rs = `<tr><td colspan='7'><strong>Không có dữ liệu</strong></td></tr>`;
+    tableRented.html(rs);
+    deleteRent();
+}
+
+function showTableRequest() {
+    let rs = `<tr><td colspan='5'><strong>Không có dữ liệu</strong></td></tr>`;
     if (requestList && requestList.length > 0) {
         rs = requestList.map((data, index) => {
             let room = data.room;
             if (room)
                 return `<tr data-index="${index}">
                         <th scope="row">${index + 1}</th>
-                        <td>${dataFilter(room.title)}</td>
-                        <td>${dataFilter(room.host.name)}</td>
-                        <td>${dataFilter(formatMoney(room.price))}</td>
-                        <td>${dataFilter(new Date(data.modifyDate))}</td>
                         <td>
                             <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
                             class="text-decoration-none text-light btn btn-success m-1">
@@ -324,6 +368,8 @@ function showTableData() {
                                         <span class="text-light"> Xem </span>
                             </a>
                         </td>
+                        <td>${dataFilter(formatMoney(room.price))}</td>
+                        <td>${dataFilter(new Date(data.createDate).toLocaleDateString())}</td>
                            <td>
                                 <button type="button" class="btn btn-danger m-1 delete-request">
                                     <i class="fas fa-trash-alt" ></i> Xóa
@@ -336,7 +382,6 @@ function showTableData() {
     }
     tableRequest.html(rs);
 
-    deleteRent();
     deleteRequest();
 }
 
@@ -371,9 +416,6 @@ function confirmDelete() {
             });
 
         if (test) {
-            await notify_impl(room.host.email, checkDelete ? "Hủy thuê trọ" : "Hủy yêu cầu thuê trọ",
-                "Vì lí do nào đó anh/chị " + user_now.name + " đã hủy thuê/yêu cầu thuê trọ của bạn. " +
-                "Rất mong bạn thông cảm. Chúc bạn cho thuê trọ hiệu quả!!!");
             if (checkDelete)
                 rentList = rentList.filter((data, index) => {
                     return index !== (index_now - 0);
@@ -383,9 +425,113 @@ function confirmDelete() {
                     return index !== (index_now - 0);
                 });
         }
-
-        showTableData();
+        checkDelete ? showTableRent() : showTableRequest();
         modalDelete.modal("hide");
         alertReport(test, test ? "Huỷ thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
+        if (test)
+            await notify_impl(room.host.email, checkDelete ? "Hủy thuê trọ" : "Hủy yêu cầu thuê trọ",
+                `Vì lí do nào đó anh/chị ${user_now.name} đã hủy thuê/yêu cầu thuê trọ ${room.title} của bạn.
+                Rất mong bạn thông cảm. Chúc bạn cho thuê trọ hiệu quả!!!`);
     })
+}
+
+async function loadRoomDTO() {
+    if (user_now)
+        await motelRoomFindByHost(user_now.id)
+            .then(rs => {
+                if (rs.status === 200) {
+                    listRoomHost = rs.data;
+                }
+            })
+            .catch(e => {
+                console.log(e);
+            })
+}
+
+function classifyRoom() {
+    for (const r of listRoomHost)
+        if (r.personIn === r.motelRoom.maxPerson)
+            listRoomFull.push(r);
+        else
+            listRoomNotFull.push(r);
+}
+
+function showTableData() {
+    tableData.empty();
+    let rs = `<tr><td colspan='4'><strong>Không có dữ liệu</strong></td></tr>`;
+    let table;
+    if (listRoomNotFull && listRoomNotFull.length > 0)
+        rs = listRoomNotFull.map((data, index) => {
+            let room = roomDTO.motelRoom;
+            if (room)
+                return `<tr>
+                            <th scope="row">${index + 1}</th>
+                            <td>
+                                <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
+                                        class="text-decoration-none text-light btn btn-primary m-1">
+                                        <i class="fas fa-tasks"></i>
+                                        <span class="text-light"> ${room.title} </span>
+                                    </a>
+                            </td>
+                            <td>${numberFilter(formatMoney(room.price))}</td>
+                            <td>${numberFilter(data.personIn) + "/" + numberFilter(room.maxPerson)}</td>
+                        </tr>`;
+            return ``;
+        }).join("");
+    table = `<table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                        <caption>Trọ còn trống</caption>
+                        <thead>
+                        <tr class=" text-success">
+                            <th colspan="4">Trọ còn trống</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Thông tin trọ</th>
+                            <th scope="col">Giá tiền (VNĐ/tháng)</th>
+                            <th scope="col">Số người hiện tại</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-not-full">`
+        + rs +
+        `</tbody>
+                    </table>
+                    <hr>`;
+    tableData.append(table);
+
+    rs = `<tr><td colspan='3'><strong>Không có dữ liệu</strong></td></tr>`;
+    if (listRoomFull && listRoomFull.length > 0)
+        rs = listRoomFull.map((data, index) => {
+            let room = roomDTO.motelRoom;
+            if (room)
+                return `<tr>
+                            <th scope="row">${index + 1}</th>
+                            <td>
+                                <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
+                                        class="text-decoration-none text-light btn btn-primary m-1">
+                                        <i class="fas fa-tasks"></i>
+                                        <span class="text-light"> ${room.title} </span>
+                                    </a>
+                            </td>
+                            <td>${numberFilter(formatMoney(room.price))}</td>
+                        </tr>`;
+            return ``;
+        }).join("");
+    table = `<table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                        <caption>Trọ đầy</caption>
+                        <thead>
+                        <tr class=" text-success">
+                            <th colspan="3">Trọ đầy</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">STT</th>
+                            <th scope="col">Thông tin trọ</th>
+                            <th scope="col">Giá tiền (VNĐ/tháng)</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-full">`
+        + rs +
+        `</tbody>
+                    </table>
+                    <hr>`;
+    tableData.append(table);
 }

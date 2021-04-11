@@ -1,11 +1,12 @@
 let nameFB, emailFB, phoneFB, btnFB, textUFB;
-$(function () {
+$(async function () {
     nameFB = $("#ufullname");
     emailFB = $("#umail");
     phoneFB = $("#uphone");
     textUFB = $("#ufb");
     btnFB = $("#contact-send");
 
+    await getUserInSystem();
     feedback();
 })
 

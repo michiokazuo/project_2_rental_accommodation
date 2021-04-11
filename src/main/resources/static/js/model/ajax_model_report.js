@@ -25,7 +25,7 @@ function reportUpdate(e) {
 }
 
 function reportDelete(e) {
-    return ajaxDelete(`${URL_REPORT}/delete/` + `${e.id}`, e);
+    return ajaxDelete(`${URL_REPORT}/delete/` + `${e.idCmt}`, e);
 }
 
 function reportSearchSort(q) {

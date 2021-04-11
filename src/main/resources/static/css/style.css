@@ -73,7 +73,7 @@ footer#alert-foot {
     left: 0;
 }
 
-button:focus, input:focus {
+*:focus {
     outline: 0 !important;
     box-shadow: none!important;
 }

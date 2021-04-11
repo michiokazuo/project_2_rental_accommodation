@@ -13,6 +13,8 @@ public interface BaseService<T> {
 
     List<T> search_sort(T t, String field, Boolean isASC, String email) throws Exception;
 
+    @Modifying
+    @Transactional(rollbackFor = Exception.class)
     T insert(T t, String email) throws Exception;
 
     @Modifying

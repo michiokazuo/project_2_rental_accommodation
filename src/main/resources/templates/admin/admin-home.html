@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Trang chủ / chủ trọ</title>
+    <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<main class="rounded shadow bg-white">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside th:replace="~{/fragment/host-admin-fragment :: menu-admin}"></aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="row justify-content-center">
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3 id="num-room">5</h3>
+                                    <p>Phòng/Nhà trọ</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-home"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3 id="num-rent">5</h3>
+                                    <p>Người thuê</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-person-add"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                        <div class="col-lg-3 col-6">
+                            <!-- small box -->
+                            <div class="small-box bg-warning">
+                                <div class="inner">
+                                    <h3 id="num-cmt">44</h3>
+                                    <p>Bình luận</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="ion ion-chatbox"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ./col -->
+                    </div>
+
+                    <!--                    <div class="row">-->
+                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
+                    <!--                            <div class="info-box">-->
+                    <!--                                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>-->
+
+                    <!--                                <div class="info-box-content">-->
+                    <!--                                    <span class="info-box-text">Messages</span>-->
+                    <!--                                    <span class="info-box-number">1,410</span>-->
+                    <!--                                </div>-->
+                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
+                    <!--                            </div>-->
+                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
+                    <!--                        </div>-->
+                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
+                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
+                    <!--                            <div class="info-box">-->
+                    <!--                                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>-->
+
+                    <!--                                <div class="info-box-content">-->
+                    <!--                                    <span class="info-box-text">Bookmarks</span>-->
+                    <!--                                    <span class="info-box-number">410</span>-->
+                    <!--                                </div>-->
+                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
+                    <!--                            </div>-->
+                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
+                    <!--                        </div>-->
+                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
+                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
+                    <!--                            <div class="info-box">-->
+                    <!--                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>-->
+
+                    <!--                                <div class="info-box-content">-->
+                    <!--                                    <span class="info-box-text">Uploads</span>-->
+                    <!--                                    <span class="info-box-number">13,648</span>-->
+                    <!--                                </div>-->
+                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
+                    <!--                            </div>-->
+                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
+                    <!--                        </div>-->
+                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
+                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
+                    <!--                            <div class="info-box">-->
+                    <!--                                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>-->
+
+                    <!--                                <div class="info-box-content">-->
+                    <!--                                    <span class="info-box-text">Likes</span>-->
+                    <!--                                    <span class="info-box-number">93,139</span>-->
+                    <!--                                </div>-->
+                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
+                    <!--                            </div>-->
+                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
+                    <!--                        </div>-->
+                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
+                    <!--                    </div>-->
+                    <!-- /.row -->
+                    <!-- Main row -->
+                    <div class="row justify-content-center">
+                        <!-- right col (We are only adding the ID to make the widgets sortable)-->
+                        <section class="col-lg-5 connectedSortable">
+
+                            <!-- Calendar -->
+                            <div class="card bg-gradient-success">
+                                <div class="card-header border-0">
+
+                                    <h3 class="card-title">
+                                        <i class="far fa-calendar-alt"></i>
+                                        Calendar
+                                    </h3>
+                                    <!-- tools card -->
+                                    <div class="card-tools">
+                                        <!-- button with a dropdown -->
+                                        <button type="button" class="btn btn-success btn-sm"
+                                                data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /. tools -->
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body pt-0">
+                                    <!--The calendar -->
+                                    <div id="calendar" style="width: 100%"></div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </section>
+                        <!-- right col -->
+                    </div>
+                    <!-- /.row (main row) -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+            <footer th:replace="~{/fragment/host-admin-fragment :: footer-host}"></footer>
+            <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</main>
+<script th:src="@{/js/pages/host/ajax_page_host_home.js}"></script>
+<script th:src="@{/js/model/ajax_model_motel_room.js}"></script>
+</body>
+</html>

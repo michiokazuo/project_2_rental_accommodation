@@ -140,7 +140,7 @@ section#productmenu .container .row .listproduct .part .part-content .part-img i
 }
 
 section#productmenu .container .row .listproduct .part .part-content span {
-    background-color: #919dbc54;
+    background-color: #badad6de;
     position: absolute;
     width: 100%;
     height: 30px;
@@ -268,6 +268,28 @@ section#specialoffer .container > .row .part .bg-3 {
     height: 100%;
     z-index: -1;
     transition: 0.4s;
+}
+
+.bg-default::before {
+    content: "";
+    background: black;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+}
+
+.part-img::before {
+    content: "";
+    background: #d0b6b6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
 }
 
 section#specialoffer .container > .row .part .row a {

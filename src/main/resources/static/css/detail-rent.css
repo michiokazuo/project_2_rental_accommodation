@@ -63,7 +63,7 @@ main#main #featuredsproducts #blockItemDetail .item-product .name-product .fp__w
     font-size: 10px;
 }
 
-main#main #featuredsproducts #blockItemDetail .item-product .name-product .fp__wapper a.btn {
+main#main #featuredsproducts #blockItemDetail .item-product .name-product .fp__wapper button.btn {
     border-radius: 20px;
     color: var(--white);
     background-color: var(--color-brown);

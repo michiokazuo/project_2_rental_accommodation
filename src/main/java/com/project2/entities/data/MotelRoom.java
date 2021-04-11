@@ -3,7 +3,6 @@ package com.project2.entities.data;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -41,6 +40,9 @@ public class MotelRoom extends Base {
     @Column(name = "max_person", nullable = false)
     private Integer maxPerson;
 
+    @Column(name = "floors")
+    private Integer floors;
+
     @Column(name = "price", nullable = false)
     private Integer price;
 
@@ -59,11 +61,5 @@ public class MotelRoom extends Base {
 
     @Column(name = "priority_object")
     private String priorityObject;
-
-    @ManyToMany
-    @JoinTable(name = "room_has_convenient", // tên bảng trung gian
-            joinColumns = @JoinColumn(name = "id_room"), // khoá ngoại đến Entity hiện tại
-            inverseJoinColumns = @JoinColumn(name = "id_convenient")) // khoá ngoại đến Entity liên kết
-    private List<Convenient> convenientList;
 
 }

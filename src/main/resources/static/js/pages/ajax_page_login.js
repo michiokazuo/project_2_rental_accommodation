@@ -39,6 +39,11 @@ $(async function () {
     showSelectCustom(numberJob, listJob, "<>");
     showSelectCustom(numberStatus, listStatus, "<>");
     showRoleList(numberRole, listRole, "<>");
+
+    let url = new URL(window.location.href);
+    var userSignUp = url.searchParams.get("dang-ky");
+    if (userSignUp)
+        linkSignUp.click();
 })
 
 async function loadRole() {
@@ -64,7 +69,7 @@ function submitForgotPassword() {
         let {val: valueEmailForgotPassword, check: checkEmailForgotPassword}
             = checkEmail(emailForgotPassword, "Email không hợp lệ.");
         if (checkEmailForgotPassword) {
-            await forgotPassword(valueEmailForgotPassword)
+            await userForgotPassword(valueEmailForgotPassword)
                 .then(rs => {
                     if (rs.status === 200) {
                         alertReport(true,
@@ -142,14 +147,14 @@ function submitSignUp() {
         let {
             val: valueHomeTown,
             check: checkHomeTown
-        } = checkData(homeTown, /./,"Bạn chưa nhập quê quán.");
+        } = checkData(homeTown, /./, "Bạn chưa nhập quê quán.");
 
         if (checkName && checkEmailSignUp && checkPasswordSignUp && checkPasswordConfirmSignUp && checkTextPhone
             && checkDateBirthday && checkStatus && checkStatus && checkWorkplace && checkGender && checkRole
             && checkJob && checkHomeTown) {
             valueAvatar = DEFAULT_AVATAR;
             if (checkAvatar) {
-                await uploadFile(avatarSignUp.prop('files')[0])
+                await uploadFile(Array.from(avatarSignUp.prop('files')))
                     .then(rs => {
                         if (rs.status === 200) {
                             valueAvatar = rs.data[0];

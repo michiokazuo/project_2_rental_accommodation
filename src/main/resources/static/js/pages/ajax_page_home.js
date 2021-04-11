@@ -5,8 +5,15 @@ $(document).ready(async function () {
     contentCategory = $("#specialoffer .container .row");
     listP1 = $("#proseller .carousel-inner .carousel-item .row .p-1");
 
+    await getUserInSystem();
+    await loadCategory();
+    await loadMotelRoom();
+    showCategory();
+    showMotelRoom();
+
     $(document).scroll(function () {
         createNewInner("#proseller .carousel-inner", "#proseller .carousel-inner .carousel-item .row .p-1");
+        // showMotelRoom();
     })
 
     var li = document.querySelectorAll("section#bestsellers .container .row .menu .bs-list li");
@@ -18,11 +25,6 @@ $(document).ready(async function () {
             this.classList.add("actived");
         }
     }
-
-    await loadCategory();
-    await loadMotelRoom();
-    showCategory();
-    showMotelRoom();
 });
 
 async function loadCategory() {
@@ -50,7 +52,7 @@ function showCategory() {
             if (index < 3)
                 return `<div class="part col-12 col-md-4 ">
                         <div class="row col-12 mx-auto" style="height: 375px;">
-                            <div class="bg-${index + 1}"></div>
+                            <div class="bg-${index + 1} bg-default"></div>
                             <a href="/tim-kiem?c_id=${data.id}"
                                class="mx-auto w-100 justify-content-center align-items-center d-flex">
                                 <div class="text-content flex-column d-flex text-center">
@@ -70,7 +72,7 @@ function showCategory() {
 }
 
 async function loadMotelRoom() {
-    await motelRoomFindNewToHome('page=0&size=6&sort=create_date,desc')
+    await motelRoomFindNewToHome('page=0&size=6&sort=createDate,desc')
         .then(rs => {
             if (rs.status === 200) {
                 listMotelRoomDTO = rs.data;
@@ -123,7 +125,7 @@ function showMotelRoom() {
                                                 </div>
                                             </div>          
                        </div>`;
-            listP1[i].html(content);
+            listP1[i].innerHTML = content;
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.project2.controller.api;
 
 import com.project2.entities.data.Tenant;
-import com.project2.entities.dto.MotelRoomDTO;
 import com.project2.entities.key.TenantKey;
 import com.project2.service.TenantService;
 import lombok.AllArgsConstructor;
@@ -28,6 +27,34 @@ public class TenantController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<Tenant> motelRoomDTOS = tenantService.findAllByIdUser(id, email);
+            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("find-by-host/{id}")
+    public ResponseEntity<Object> findAllByHost(Authentication authentication, @PathVariable("id") Integer id) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<Tenant> motelRoomDTOS = tenantService.findAllByIdHost(id, email);
+            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("find-req-by-host/{id}")
+    public ResponseEntity<Object> findReqByHost(Authentication authentication, @PathVariable("id") Integer id) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<Tenant> motelRoomDTOS = tenantService.findAllReqByIdHost(id, email);
             return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();

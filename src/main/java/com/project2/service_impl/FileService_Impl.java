@@ -19,7 +19,7 @@ public class FileService_Impl implements FileService {
 
     @Value("${path.file}")
     private String pathFile;
-
+// cai nao goi toi api kia the idol
     @Override
     public List<String> uploadFiles(MultipartFile[] multipartFiles) throws Exception {
         List<String> listRs = new ArrayList<>();
@@ -49,6 +49,7 @@ public class FileService_Impl implements FileService {
             return null;
         }
 
+        System.out.println("Files: " + listRs);
         return listRs.size() != 0 ? listRs : null;
     }
 }

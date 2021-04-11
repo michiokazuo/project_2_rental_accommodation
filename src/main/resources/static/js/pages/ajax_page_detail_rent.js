@@ -2,10 +2,11 @@ let modalEditCMT, btnEditCMT, modalRent, btnRent, imgZoom03, imgGallery, infoBas
     maxPerson, area, priorityObject, createDate, rating, tableHost, tablePersonIn, numberCmt, comments, btnSubmitRent,
     modalDeleteCMT, btnDeleteCMT, message, btnSaveCMT, contentRent, share, rate, bar5, bar4, bar3, bar2, bar1, numBar1,
     numBar2, numBar3, numBar4, numBar5, modifyDate, personReq, address, TXAEditCMT, star1, star2, star3, star4, star5,
-    editStar1, editStar2, editStar3, editStar4, editStar5, map, curLat, curLng, roomLat, roomLng, distance, editRate;
+    editStar1, editStar2, editStar3, editStar4, editStar5, map, curLat, curLng, roomLat, roomLng, distance, editRate,
+    floor;
 
 let idRoom, indexCMT, checkRent = -1; // 1: rented / 0: request /  -1: nope
-let roomDTO, room, tenantList, reportList, rentedPerson, reqPerson, hostRoom;
+let roomDTO, room, tenantList, reportList, rentedPerson = [], reqPerson = [], hostRoom;
 let listImg = [];
 let rate5 = 0, rate1 = 0, rate2 = 0, rate3 = 0, rate4 = 0;
 
@@ -63,50 +64,44 @@ $(document).ready(async function () {
     map = $("#show-map");
     distance = $("#distance");
     editRate = $("#edit-rate");
+    rate = $("#rate");
+    floor = $("#floor");
 
     let url = new URL(window.location.href);
     idRoom = url.searchParams.get("id_room");
 
     if (!idRoom) {
-        // window.location.href = "/error";
+        window.location.href = "/error";
     }
 
+    await getLocationUser();
     changeImg();
+    await getUserInSystem();
     await loadRoomDTO();
     classifyRate();
     classifyRent();
+
     showInfoBasic();
+    showCMT();
+    showLocation();
     confirmDeleteCmt();
     confirmEditCMT();
     confirmRent();
     saveNewCmt();
-    showLocation();
 });
 
-function showLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-            // New Map
-            curLat = position.coords.latitude;
-            curLng = position.coords.longitude;
-            // var myOptions = {
-            //     center: new google.maps.LatLng(lat, lng),
-            //     zoom: 20,
-            //     mapTypeId: google.maps.MapTypeId.ROADMAP
-            // };
-            // var show_map = new google.maps.Map(document.getElementById("show-map"),myOptions);
-            //
-            // var myMarkerLatlng = new google.maps.LatLng(lat,lng);
-            // var marker = new google.maps.Marker({
-            //     position: myMarkerLatlng,
-            //     map: show_map,
-            //     title: 'Hello World!'
-            // });
-        });
-    } else {
-        map.text("Geolocation is not supported by this browser.");
-    }
+async function getLocationUser() {
+    await getLocationCurr()
+        .then(rs => {
+            curLat = rs.lat;
+            curLng = rs.lng;
+        })
+        .catch(e => {
+            console.log(e);
+        })
+}
 
+function showLocation() {
     if (room) {
         let tmp = room.location.split("<>");
         roomLat = parseFloat(tmp[0]);
@@ -129,7 +124,12 @@ function showLocation() {
 
 function classifyRate() {
     let tmp = [];
-    if (reportList)
+    if (reportList) {
+        rate5 = 0;
+        rate1 = 0;
+        rate2 = 0;
+        rate3 = 0;
+        rate4 = 0;
         for (const r of reportList) {
             if (!tmp.find(t => t.user.id === r.user.id))
                 switch (r.rate) {
@@ -158,13 +158,17 @@ function classifyRate() {
                         break;
                 }
         }
+    }
 }
 
 function classifyRent() {
-    if (tenantList)
+    checkRent = -1;
+    if (tenantList) {
+        rentedPerson = [];
+        reqPerson = [];
         for (const t of tenantList) {
             switch (t.status) {
-                case 1:
+                case true:
                     rentedPerson.push(t);
                     if (USER_IN_SYSTEM && t.user.id === USER_IN_SYSTEM.id)
                         checkRent = 1;
@@ -176,6 +180,7 @@ function classifyRent() {
                     break;
             }
         }
+    }
 }
 
 function changeImg() {
@@ -187,7 +192,7 @@ function changeImg() {
 async function loadRoomDTO() {
     await motelRoomFindById(idRoom)
         .then(rs => {
-            if (rs.data === 200) {
+            if (rs.status === 200) {
                 roomDTO = rs.data;
                 room = roomDTO.motelRoom;
                 tenantList = roomDTO.tenantList;
@@ -201,15 +206,21 @@ async function loadRoomDTO() {
         })
 
     if (!idRoom) {
-        // window.location.href = "/error";
+        window.location.href = "/error";
     }
 }
 
 function showInfoBasic() {
+    if (USER_IN_SYSTEM)
+        $("#avatar-cmt").attr("src", USER_IN_SYSTEM.avatar);
+    else {
+        btnSaveCMT.attr('disabled', 'disabled');
+        btnSaveCMT.siblings(".invalid-feedback").html("Cần đăng nhập để bình luận!!!");
+    }
     if (listImg && listImg.length > 0) {
         imgZoom03.attr("src", listImg[0]);
         for (let i = 0; i < listImg.length; i++)
-            imgGallery.children()[i].attr("src", listImg[i]);
+            imgGallery.children()[i].src = listImg[i];
     }
     if (room) {
         infoBasic.html(`<span class="fp__cap">${dataFilter(room.title)}</span>
@@ -217,56 +228,67 @@ function showInfoBasic() {
                                 ${formatMoney(dataFilter(room.price))} VNĐ/tháng
                             </i>
                             <p class="text-secondary" style="font-size: var(--font-16);">${dataFilter(room.description)}</p>
-                            <a class="fp__label click-add-cart btn" data-id="${room.id}" id="btn-rent"> 
-                                ${checkRent ? (checkRent > 0 ? "Hủy thuê" : "Yêu cầu thuê") : "Hủy yêu cầu"}
-                            </a>`);
+                            <button class="fp__label click-add-cart btn" data-id="${room.id}" id="btn-rent"> 
+                                ${(USER_IN_SYSTEM && checkRole(USER_IN_SYSTEM, ROLE_USER)) ?
+            ((roomDTO.personIn < room.maxPerson && USER_IN_SYSTEM) ?
+                (checkRent ? (checkRent > 0 ? "Hủy thuê" : "Yêu cầu thuê") : "Hủy yêu cầu") : "Đã đầy")
+            : "Bạn cần tạo TK với tư cách người thuê để thuê trọ!!!"}
+                            </button>`);
+        btnRent = $("#btn-rent");
+        if (!(USER_IN_SYSTEM && checkRole(USER_IN_SYSTEM, ROLE_USER)))
+            btnRent.prop("disabled", false)
+        editRent();
         category.text(dataFilter(room.category.name));
-        if (room.convenientList) {
-            convenient.empty();
-            for (let conv of room.convenientList)
-                convenient.append(`<span class="badge bg-primary">${conv.name}</span>`);
+        convenient.empty();
+        if (roomDTO.convenientList) {
+            for (let conv of roomDTO.convenientList)
+                convenient.append(`<span class="badge bg-primary m-1">${conv.name}</span>`);
         }
         share.html(`<a th:href="@{https://www.facebook.com/sharer/sharer.php?u=http://localhost:8080/thong-tin-thue?id_room=${room.id}}"
                                  title="chia sẻ trên Facebook" class="sicons"><i class="fab fa-facebook-f"></i></a>
                      <a th:href="@{https://twitter.com/share?text=Phòng trọ&amp;url=http://localhost:8080/thong-tin-thue?id_room=${room.id}"
                            title="chia sẻ trên Twitter" class="sicons"><i class="fab fa-twitter"></i></a>`);
-        rate.html(`<h1 class="text-center p-0">${roomDTO.ratings}/5</h1>
-                      <p class="text-center">(${roomDTO.countRated})</p>`);
+        rate.html(roomDTO.ratings ? `<h2 class="text-center p-0">${roomDTO.ratings}/5</h2>
+                      <p class="text-center">(${roomDTO.countRated})</p>`
+            : `<h3 class="text-center p-0">Chưa có đánh giá</h3>`);
 
-        if (roomDTO.countRated) {
-            numBar1.text(numberFilter(rate1));
-            bar1.css("width", rate1 / roomDTO.countRated + "%");
-            numBar2.text(numberFilter(rate2));
-            bar2.css("width", rate2 / roomDTO.countRated + "%");
-            numBar3.text(numberFilter(rate3));
-            bar3.css("width", rate3 / roomDTO.countRated + "%");
-            numBar4.text(numberFilter(rate4));
-            bar4.css("width", rate4 / roomDTO.countRated + "%");
-            numBar5.text(numberFilter(rate5));
-            bar5.css("width", rate5 / roomDTO.countRated + "%");
-        }
+        numBar1.text(numberFilter(rate1));
+        bar1.css("width", (roomDTO.countRated ? (rate1 * 100 / roomDTO.countRated) : 0) + "%");
+        numBar2.text(numberFilter(rate2));
+        bar2.css("width", (roomDTO.countRated ? (rate2 * 100 / roomDTO.countRated) : 0) + "%");
+        numBar3.text(numberFilter(rate3));
+        bar3.css("width", (roomDTO.countRated ? (rate3 * 100 / roomDTO.countRated) : 0) + "%");
+        numBar4.text(numberFilter(rate4));
+        bar4.css("width", (roomDTO.countRated ? (rate4 * 100 / roomDTO.countRated) : 0) + "%");
+        numBar5.text(numberFilter(rate5));
+        bar5.css("width", (roomDTO.countRated ? (rate5 * 100 / roomDTO.countRated) : 0) + "%");
 
+        floor.text(numberFilter(room.floors));
         personIn.text(numberFilter(roomDTO.personIn));
         maxPerson.text(numberFilter(room.maxPerson));
-        area.html(`${numberFilter(room.area)}<sup>2</sup>`);
-        priorityObject.text(dataFilter(room.priorityObject).replace("<>", ", "));
+        area.html(`${numberFilter(room.area)}m<sup>2</sup>`);
+        priorityObject.text(dataFilter(room.priorityObject).split("<>")
+            .map((data, index) => {
+                let tmp = listPriority.find(p => p.id === data);
+                return tmp ? tmp.name : '';
+            }).join(", "));
         createDate.text(dataFilter(new Date(room.createDate).toLocaleDateString()));
         modifyDate.text(dataFilter(new Date(room.modifyDate).toLocaleDateString()));
         address.text(dataFilter(room.address));
-        personReq.text(numberFilter(reqPerson.length));
-        distance.text(numberFilter(getDistanceFromLatLonInKm(curLat, curLng, roomLat, roomLng).toFixed(1)));
+        personReq.text(dataFilter(reqPerson).length);
+        distance.text(`${numberFilter(getDistanceFromLatLonInKm(curLat, curLng, roomLat, roomLng).toFixed(1))}km`);
 
         let rs = `<tr><td colspan='6'><strong>Không có dữ liệu</strong></td></tr>`;
         if (hostRoom)
             rs = `<tr>
-                     <th scope="row">${dataFilter(host.name)}</th>
-                      <td><img src="${dataFilter(host.avatar)}"
+                     <th scope="row">${dataFilter(hostRoom.name)}</th>
+                      <td><img src="${dataFilter(hostRoom.avatar)}"
                                  alt="" width="80px"></td>
-                      <td><a href="tel:${dataFilter(host.phone)}">${dataFilter(host.phone)}</a></td>
-                      <td><a href="mail:${dataFilter(host.email)}">${dataFilter(host.email)}</a></td>
-                      <td>${listJob.find(j => j.val === host.job)}</td>
+                      <td><a href="tel:${dataFilter(hostRoom.phone)}">${dataFilter(hostRoom.phone)}</a></td>
+                      <td><a href="mailto:${dataFilter(hostRoom.email)}">${dataFilter(hostRoom.email)}</a></td>
+                      <td>${listJob.find(j => j.id === hostRoom.job).name}</td>
                        <td>
-                       <a target="_blank" href="/thong-tin-ca-nhan?id_user=${dataFilter(host.id)}" 
+                       <a target="_blank" href="/thong-tin-ca-nhan?id_user=${dataFilter(hostRoom.id)}" 
                             class="text-decoration-none text-light btn btn-success m-1">
                                         <i class="fas fa-tasks"></i>
                                         <span class="text-light"> Xem </span>
@@ -276,8 +298,8 @@ function showInfoBasic() {
 
         tableHost.html(rs);
         rs = `<tr><td colspan='6'><strong>Không có dữ liệu</strong></td></tr>`;
-        if (rentList && rentList > 0)
-            rs = reportList.map((data, index) => {
+        if (rentedPerson && rentedPerson > 0)
+            rs = rentedPerson.map((data, index) => {
                 let user = data.user;
                 if (user)
                     return `<tr>
@@ -286,7 +308,7 @@ function showInfoBasic() {
                                  alt="" width="80px"></td>
                       <td><a href="tel:${dataFilter(user.phone)}">${dataFilter(user.phone)}</a></td>
                       <td><a href="mail:${dataFilter(user.email)}">${dataFilter(user.email)}</a></td>
-                      <td>${listJob.find(j => j.val === user.job)}</td>
+                      <td>${listJob.find(j => j.id === user.job).name}</td>
                        <td>${dataFilter(user.homeTown)}</td>
                      </tr>`
                 return ``;
@@ -300,7 +322,6 @@ function showInfoBasic() {
 function showCMT() {
     let rs = `<h3>Hiện tại chưa có bình luận nào</h3>`;
     if (reportList && reportList.length > 0) {
-        numberCmt.text(reportList.length + " Comments.");
         rs = reportList.map((data, index) => {
             let user = data.user;
             return `<div class="media p-2 row justify-content-center align-items-center">
@@ -309,16 +330,16 @@ function showCMT() {
                                      alt="">
                                 <div class="text-center">
                                     <p class="text-left ">
+                                        <span class="fa fa-star ${data.rate >= 1 ? "star-active" : "star-inactive"}"></span>
+                                        <span class="fa fa-star ${data.rate >= 2 ? "star-active" : "star-inactive"}"></span>
+                                        <span class="fa fa-star ${data.rate >= 3 ? "star-active" : "star-inactive"}"></span>
                                         <span class="fa fa-star ${data.rate >= 4 ? "star-active" : "star-inactive"}"></span>
-                                        <span class="fa fa-star ${data.rate >= 4 ? "star-active" : "star-inactive"}"></span>
-                                        <span class="fa fa-star ${data.rate >= 4 ? "star-active" : "star-inactive"}"></span>
-                                        <span class="fa fa-star ${data.rate >= 4 ? "star-active" : "star-inactive"}"></span>
-                                        <span class="fa fa-star ${data.rate >= 4 ? "star-active" : "star-inactive"}"></span>
+                                        <span class="fa fa-star ${data.rate >= 5 ? "star-active" : "star-inactive"}"></span>
                                     </p>
                                 </div>
                             </a>
                             <div class="media-body col-md-10 mx-auto row">
-                                <h4 class="media-heading col-12">${dataFilter(user.name)}</h4>
+                                <h5 class="media-heading col-12">${dataFilter(user.name)}</h5>
                                 <p class="col-12">${dataFilter(data.comment)}</p>
                                 <ul class="list-unstyled list-inline media-detail col-sm-6 row">
                                     <li><i class="fa fa-calendar pr-1"></i>
@@ -327,14 +348,14 @@ function showCMT() {
                                 <ul class="list-unstyled list-inline media-detail col-sm-6 row justify-content-end" 
                                 data-index="${index}" 
                                 style="${USER_IN_SYSTEM && USER_IN_SYSTEM.id === user.id ? "" : "display:none"}">
-                                    <li class=""><a th:href="#" class="edit-cmt">Chỉnh sửa</a></li>
-                                    <li class=""><a th:href="#" class="delete-cmt">Xóa</a></li>
+                                    <li class=""><a class="edit-cmt text-primary" type="button">Chỉnh sửa</a></li>
+                                    <li class=""><a class="delete-cmt text-primary" type="button">Xóa</a></li>
                                 </ul>
                             </div>
                         </div>`;
         }).join("");
     }
-
+    numberCmt.text(roomDTO.countReport + " bình luận.");
     comments.html(rs);
 
     editReport();
@@ -346,13 +367,22 @@ function editRent() {
         contentRent.text(checkRent ? (checkRent > 0 ? "Bạn có thực sự muốn hủy thuê trọ này không ?"
             : "Bạn có thực sự muốn yêu cầu thuê trọ này không ?")
             : "Bạn có thực sự muốn hủy yêu cầu thuê trọ này không ?");
+        if (checkRent > -1) {
+            btnSubmitRent.removeClass("btn-primary");
+            btnSubmitRent.addClass("btn-danger");
+            btnSubmitRent.text("Xóa");
+        } else {
+            btnSubmitRent.addClass("btn-primary");
+            btnSubmitRent.removeClass("btn-danger");
+            btnSubmitRent.text("Yêu cầu");
+        }
         modalRent.modal("show");
     })
 }
 
 function confirmRent() {
     btnSubmitRent.click(async function () {
-        let check = false;
+        let check = false, valSuccess;
         let tenant = {
             id: {idUser: USER_IN_SYSTEM.id, idRoom: room.id},
             user: USER_IN_SYSTEM,
@@ -365,42 +395,43 @@ function confirmRent() {
                 .then(function (rs) {
                     if (rs.status === 200) {
                         check = true;
+                        valSuccess = "Huỷ thành công.";
                     }
                 })
                 .catch(function (e) {
                     console.log(e);
                 });
-
-            if (check) {
-                alertReport(check, check ? "Huỷ thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
-                await notify_impl(room.host.email, checkRent > 0 ? "Hủy thuê trọ" : "Hủy yêu cầu thuê trọ",
-                    "Vì lí do nào đó anh/chị " + user_now.name + " đã hủy thuê/yêu cầu thuê trọ của bạn. " +
-                    "Rất mong bạn thông cảm. Chúc bạn cho thuê trọ hiệu quả!!!");
-                await loadRoomDTO();
-            }
         } else {
             await tenantInsert(tenant)
                 .then(function (rs) {
                     if (rs.status === 200) {
                         check = true;
+                        valSuccess = "Yêu cầu thành công.";
                     }
                 })
                 .catch(function (e) {
                     console.log(e);
                 });
-
-            if (check) {
-                alertReport(check, check ? "Yêu cầu thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
-                await notify_impl(room.host.email, "Yêu cầu thuê trọ",
-                    "Anh/chị " + USER_IN_SYSTEM.name + " đã yêu cầu thuê trọ của bạn. " +
-                    "Mong bạn xem xét. Chúc bạn cho thuê trọ hiệu quả!!!");
-                await loadRoomDTO();
-            }
         }
 
+        if (check) {
+            await loadRoomDTO();
+            classifyRent();
+            showInfoBasic();
+        }
         modalRent.modal("hide");
-        showInfoBasic();
-        showCMT();
+        alertReport(check, check ? valSuccess : "Có lỗi xảy ra. Vui lòng thử lại!!!");
+        if (check)
+            if (!checkRent || checkRent > 0)
+                await notify_impl(room.host.email, checkRent > 0 ? "Hủy thuê trọ" : "Hủy yêu cầu thuê trọ",
+                    `Vì lí do nào đó anh/chị ${USER_IN_SYSTEM.name} đã hủy thuê/yêu cầu thuê trọ ${tenant.room.title} của bạn.
+                    Rất mong bạn thông cảm. Chúc bạn cho thuê trọ hiệu quả!!!`);
+            else
+                await notify_impl(room.host.email, "Yêu cầu thuê trọ",
+                    `Anh/chị ${USER_IN_SYSTEM.name} đã yêu cầu thuê trọ ${tenant.room.id} của bạn. 
+                    Mong bạn xem xét. Chúc bạn cho thuê trọ hiệu quả!!!.
+                    <br>
+                    Click vào đây để biết thêm chi tiết <a href="http://localhost:8080/host/yeu-cau-moi"><b>Chi tiết</b></a>`);
     })
 }
 
@@ -454,9 +485,11 @@ function confirmEditCMT() {
         // })
 
 
-        if (!valRate)
-            viewError(editStar5, "Bạn chưa đánh giá trọ thuê.");
-        else if (checkCmt) {
+        if (!valRate) {
+            editStar1.siblings(".invalid-tooltip").text("Bạn chưa đánh giá. Mời chọn lại!!!");
+            editStar1.siblings(".invalid-tooltip").addClass("d-block");
+        } else if (checkCmt) {
+            editStar1.siblings(".invalid-tooltip").removeClass("d-block");
             let check = false;
             let report_up = reportList[indexCMT];
             report_up.comment = valueCmt;
@@ -470,12 +503,15 @@ function confirmEditCMT() {
                 .catch(e => {
                     console.log(e);
                 })
+
+            if (check) {
+                await loadRoomDTO();
+                classifyRate();
+                showInfoBasic();
+                showCMT();
+            }
             modalEditCMT.modal("hide");
             alertReport(check, check ? "Chỉnh sửa bình luận thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
-            if (check)
-                await loadRoomDTO();
-            showInfoBasic();
-            showCMT();
         }
     })
 }
@@ -499,12 +535,15 @@ function confirmDeleteCmt() {
             .catch(e => {
                 console.log(e);
             })
+
+        if (check) {
+            await loadRoomDTO();
+            classifyRate();
+            showInfoBasic();
+            showCMT();
+        }
         modalDeleteCMT.modal("hide");
         alertReport(check, check ? "Xóa bình luận thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
-        if (check)
-            await loadRoomDTO();
-        showInfoBasic();
-        showCMT();
     })
 }
 
@@ -526,9 +565,11 @@ function saveNewCmt() {
         else if (star1.is(":checked"))
             valRate = 1;
 
-        if (!valRate)
-            viewError(star5, "Bạn chưa đánh giá trọ thuê.");
-        else if (checkCmt) {
+        if (!valRate) {
+            star1.siblings(".invalid-tooltip").text("Bạn chưa đánh giá. Mời chọn lại!!!");
+            star1.siblings(".invalid-tooltip").addClass("d-block");
+        } else if (checkCmt) {
+            star1.siblings(".invalid-tooltip").removeClass("d-block");
             let check = false;
             let report_new = {
                 user: USER_IN_SYSTEM,
@@ -545,11 +586,14 @@ function saveNewCmt() {
                 .catch(e => {
                     console.log(e);
                 })
-            alertReport(check, check ? "Thêm bình luận thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
-            if (check)
+
+            if (check) {
                 await loadRoomDTO();
-            showInfoBasic();
-            showCMT();
+                classifyRate();
+                showInfoBasic();
+                showCMT();
+            }
+            alertReport(check, check ? "Thêm bình luận thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
         }
     })
 }

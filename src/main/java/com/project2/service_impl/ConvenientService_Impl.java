@@ -13,6 +13,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ConvenientService_Impl implements ConvenientService {
 
+    private final AppConfig appConfig;
+
     private final ConvenientRepository convenientRepository;
 
     @Override
@@ -32,7 +34,7 @@ public class ConvenientService_Impl implements ConvenientService {
 
     @Override
     public Convenient insert(Convenient convenient, String email) throws Exception {
-        if (email != null && AppConfig.checkAdmin(email)) {
+        if (email != null && appConfig.checkAdmin(email)) {
             convenient.setDeleted(false);
             return convenientRepository.save(convenient);
         }
@@ -41,7 +43,7 @@ public class ConvenientService_Impl implements ConvenientService {
 
     @Override
     public Convenient update(Convenient convenient, String email) throws Exception {
-        if (email != null && AppConfig.checkAdmin(email)) {
+        if (email != null && appConfig.checkAdmin(email)) {
             convenient.setDeleted(false);
             return convenientRepository.save(convenient);
         }
@@ -50,7 +52,7 @@ public class ConvenientService_Impl implements ConvenientService {
 
     @Override
     public boolean delete(Integer id, String email) throws Exception {
-        return email != null && id != null && id > 0 && AppConfig.checkAdmin(email)
-                && convenientRepository.deleteCustom(id) > 0;
+        return email != null && id != null && id > 0 && appConfig.checkAdmin(email)
+                && convenientRepository.deleteCustom(id) >= 0;
     }
 }

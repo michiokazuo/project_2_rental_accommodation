@@ -51,7 +51,7 @@
                 </div>
                 <div class="menu" id="content-menu-user">
                     <a class="item" th:href="@{/dang-nhap}">Đăng nhập</a>
-                    <a class="item" th:href="@{/dang-nhap}">Đăng ký</a>
+                    <a class="item" th:href="@{/dang-nhap?dang-ky=true}">Đăng ký</a>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
                     <li class="nav-item"><a class="nav-link dropdown-toggle" th:href="@{#}">DANH MỤC</a>
                         <ul class="dropdown-menu">
                             <div class="container">
-                                <div class="row d-flex justify-content-between">
+                                <div class="row d-flex justify-content-between" id="menu-category">
                                     <li class="col-12  col-lg-2">
                                         <ul>
                                             <li class="item-title"><a th:href="@{/tim-kiem?c_id=1}">Phòng trọ đơn</a>
@@ -151,7 +151,7 @@
                 <div class="col-md-3 col-sm-12">
                     <h5 class="text-white">Về chúng tôi</h5><img th:src="@{./files/image_config/home.svg}" alt=""
                                                                  height="100" width="100">
-                    <p class="text-secondary">Chúng tôi cam kết về mặt chấ lượng phòng/nhà cho thuê<span>[...]</span>
+                    <p class="text-secondary">Chúng tôi cam kết về mặt chất lượng phòng/nhà cho thuê<span>[...]</span>
                     </p>
                 </div>
                 <div class="col-md-3 col-sm-12">
@@ -207,23 +207,28 @@
             <i class="fas fa-arrow-up"></i>
         </button>
     </section>
-    <script th:src="@{/js/main.js}"></script>
-    <script th:src="@{/js/header-footer.js}"></script>
-    <script th:src="@{/js/model/ajax_model_app_user.js}"></script>
-    <script th:src="@{/js/model/ajax_mail_sender.js}"></script>
-    <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC6O6ioibS4dJwJe4fUsnb84MLRgPck4BU&sensor=true"></script>
-    <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
-    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<!--    <script th:src="@{/js/main.js}"></script>-->
+<!--    <script th:src="@{/js/pages/main_user.js}"></script>-->
+<!--    <script th:src="@{/js/header-footer.js}"></script>-->
+<!--    <script th:src="@{/js/model/ajax_model_app_user.js}"></script>-->
+<!--    <script th:src="@{/js/model/ajax_mail_sender.js}"></script>-->
+<!--    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC6O6ioibS4dJwJe4fUsnb84MLRgPck4BU&sensor=true"></script>-->
+<!--    <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>-->
+<!--    <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>-->
 </footer>
 <!-- end footer -->
 <footer class="text-center text-danger shadow w-100"
         th:fragment="alert-foot" id="alert-foot">
     <div id="alert-report"></div>
     <script th:src="@{/js/main.js}"></script>
+    <script th:src="@{/js/pages/main_user.js}"></script>
     <script th:src="@{/js/header-footer.js}"></script>
     <script th:src="@{/js/model/ajax_model_app_user.js}"></script>
     <script th:src="@{/js/model/ajax_mail_sender.js}"></script>
-    <script type="text/javascript"  src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC6O6ioibS4dJwJe4fUsnb84MLRgPck4BU&sensor=true"></script>
+    <script th:src="@{/js/model/ajax_model_category.js}"></script>
+    <script type="text/javascript"
+            src="http://maps.googleapis.com/maps/api/js?key=AIzaSyC6O6ioibS4dJwJe4fUsnb84MLRgPck4BU&sensor=true">
+    </script>
     <script src="https://unpkg.com/@googlemaps/markerclustererplus/dist/index.min.js"></script>
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 </footer>

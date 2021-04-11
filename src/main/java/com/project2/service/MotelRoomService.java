@@ -12,5 +12,7 @@ public interface MotelRoomService extends BaseService<MotelRoomDTO> {
 
     List<MotelRoomDTO> findAllByHost(Integer id, String email) throws Exception;
 
+    List<MotelRoomDTO> findAllForAdmin(Integer id, String email) throws Exception;
+
     List<MotelRoomDTO> findRoomPage(Pageable pageable, String email) throws Exception;
 }

@@ -4,6 +4,7 @@ import com.project2.entities.data.MotelRoom;
 import com.project2.entities.dto.MotelRoomDTO;
 import com.project2.repository.CategoryRepository;
 import com.project2.repository.ConvenientRepository;
+import com.project2.repository.RoomHasConvenientRepository;
 import com.project2.service.MotelRoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -85,6 +86,20 @@ public class MotelRoomController {
         }
     }
 
+    @GetMapping("find-all-by-admin/{id}")
+    public ResponseEntity<Object> findAllByAdmin(Authentication authentication, @PathVariable("id") Integer id) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findAllForAdmin(id, email);
+            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping("find-new-to-home-page")
     public ResponseEntity<Object> findNewToHome(Authentication authentication, Pageable pageable) {
         try {
@@ -103,6 +118,7 @@ public class MotelRoomController {
     public ResponseEntity<Object> search_sort(Authentication authentication,
                                               @RequestParam(name = "address", required = false) String address,
                                               @RequestParam(name = "max_person", required = false) Integer maxPerson,
+                                              @RequestParam(name = "floor", required = false) Integer floor,
                                               @RequestParam(name = "category", required = false) Integer category,
                                               @RequestParam(name = "price", required = false) String price,
                                               @RequestParam(name = "priority", required = false) String priority,
@@ -113,12 +129,22 @@ public class MotelRoomController {
             String email = null;
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
+            System.out.println(MotelRoomDTO.builder()
+                    .motelRoom(MotelRoom.builder().address(address).maxPerson(maxPerson).floors(floor)
+                            .priorityObject(priority)
+                            .category(category != null ? categoryRepository.findByIdAndDeletedFalse(category) : null)
+                            .build())
+                    .convenientList(convenient != null ?
+                            convenientRepository.findByIdInAndDeletedFalse(Arrays.asList(convenient)) : null)
+                    .build());
+            System.out.println(price + " " + email);
             List<MotelRoomDTO> motelRoomDTOS = motelRoomService.search_sort(MotelRoomDTO.builder()
-                            .motelRoom(MotelRoom.builder().address(address).maxPerson(maxPerson).priorityObject(priority)
-                                    .convenientList(convenient != null ? convenientRepository
-                                            .findByIdInAndDeletedFalse(Arrays.asList(convenient)) : null)
+                            .motelRoom(MotelRoom.builder().address(address).maxPerson(maxPerson).floors(floor)
+                                    .priorityObject(priority)
                                     .category(category != null ? categoryRepository.findByIdAndDeletedFalse(category) : null)
                                     .build())
+                            .convenientList(convenient != null ?
+                                    convenientRepository.findByIdInAndDeletedFalse(Arrays.asList(convenient)) : null)
                             .build(),
                     price, null, email);
             return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
@@ -148,6 +174,7 @@ public class MotelRoomController {
             String email = null;
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
+            System.out.println(roomDTO);
             MotelRoomDTO dto = motelRoomService.update(roomDTO, email);
             return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.noContent().build();
         } catch (Exception e) {

@@ -1,12 +1,19 @@
 package com.project2.controller;
 
+import com.project2.repository.AppUserRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
+@AllArgsConstructor
 public class MainController {
 
-    @GetMapping("/")
+    private final AppUserRepository appUserRepository;
+
+    @GetMapping(value = {"/", "/nguoi-thue"})
     public String home() {
         return "redirect:/trang-chu";
     }
@@ -17,23 +24,13 @@ public class MainController {
     }
 
     @GetMapping(value = "/dang-nhap")
-    public String loginPage() {
+    public String loginPage(Authentication authentication) {
+        if (authentication != null) {
+            String email = ((User) authentication.getPrincipal()).getUsername();
+            if (appUserRepository.findByEmailAndDeletedFalse(email) != null)
+                return "redirect:/trang-chu";
+        }
         return "login";
-    }
-
-    @GetMapping(value = "/nguoi-thue")
-    public String userHomePage() {
-        return "home";
-    }
-
-    @GetMapping(value = "/chu-tro")
-    public String hostHomePage() {
-        return "/host/host_home";
-    }
-
-    @GetMapping(value = "/quan-ly")
-    public String adminHomePage() {
-        return "/admin/admin_home";
     }
 
     @GetMapping("/tin-tuc")
@@ -53,22 +50,12 @@ public class MainController {
 
     @GetMapping("/tim-kiem")
     public String searchRent() {
-        return "search_rent";
+        return "search-rent";
     }
 
     @GetMapping("/thong-tin-ca-nhan")
     public String userInformation() {
         return "info-user";
-    }
-
-    @GetMapping("/du-an/cong-viec-thanh-phan")
-    public String taskOfProject() {
-        return "task_of_project";
-    }
-
-    @GetMapping(value = {"/nhan-vien/tien-do-ca-nhan", "cong-viec-ca-nhan"})
-    public String employeeProgress() {
-        return "employee_progress";
     }
 
 }
