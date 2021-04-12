@@ -10,8 +10,6 @@ let sortTenant = [
     {id: "2", name: "Theo phòng/nhà trọ"}
 ]
 
-let listConvenient = [];
-
 $(async function () {
     btnDelete = $("#btn-rent");
     modalDelete = $("#modal-rent");
@@ -46,7 +44,6 @@ $(async function () {
 
     await getUserInSystem();
     await loadRoomDTO();
-    await loadConvenient();
     await loadCategory();
     await loadTenant();
     showDataTableRent();
@@ -60,18 +57,6 @@ async function loadCategory() {
         .then(rs => {
             if (rs.status === 200) {
                 listCategory = rs.data;
-            }
-        })
-        .catch(e => {
-            console.log(e);
-        })
-}
-
-async function loadConvenient() {
-    await convenientFindAll()
-        .then(rs => {
-            if (rs.status === 200) {
-                listConvenient = rs.data;
             }
         })
         .catch(e => {

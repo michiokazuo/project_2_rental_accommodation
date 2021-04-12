@@ -28,7 +28,8 @@ public class ReportController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<Report> reports = reportService.findAll(email);
-            return reports != null ? ResponseEntity.ok(reports) : ResponseEntity.noContent().build();
+            return reports != null && !reports.isEmpty() ? ResponseEntity.ok(reports)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -56,7 +57,8 @@ public class ReportController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<Report> taskDTO = reportService.findAllByRoom(id, email);
-            return taskDTO != null ? ResponseEntity.ok(taskDTO) : ResponseEntity.noContent().build();
+            return taskDTO != null && !taskDTO.isEmpty() ? ResponseEntity.ok(taskDTO)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -70,7 +72,8 @@ public class ReportController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<Report> taskDTO = reportService.findAllByUser(id, email);
-            return taskDTO != null ? ResponseEntity.ok(taskDTO) : ResponseEntity.noContent().build();
+            return taskDTO != null && !taskDTO.isEmpty() ? ResponseEntity.ok(taskDTO)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

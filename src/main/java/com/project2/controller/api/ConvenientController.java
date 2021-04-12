@@ -25,7 +25,8 @@ public class ConvenientController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<Convenient> convenientList = convenientService.findAll(email);
-            return convenientList != null ? ResponseEntity.ok(convenientList) : ResponseEntity.noContent().build();
+            return convenientList != null && !convenientList.isEmpty() ? ResponseEntity.ok(convenientList)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

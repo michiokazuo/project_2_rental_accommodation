@@ -32,7 +32,8 @@ public class AppUserController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<AppUser> appUsers = appUserService.findAll(email);
-            return appUsers != null ? ResponseEntity.ok(appUsers) : ResponseEntity.noContent().build();
+            return appUsers != null && !appUsers.isEmpty() ? ResponseEntity.ok(appUsers)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -117,7 +118,7 @@ public class AppUserController {
     }
 
     @GetMapping("role")
-    public ResponseEntity<List<Role>> allRoles() {
+    public ResponseEntity<Object> allRoles() {
         try {
             List<Role> roles = roleRepository.findAll();
             return ResponseEntity.ok(roles);

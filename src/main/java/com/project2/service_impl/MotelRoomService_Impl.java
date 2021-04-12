@@ -2,10 +2,7 @@ package com.project2.service_impl;
 
 import com.project2.config.AppConfig;
 import com.project2.convert.Convert;
-import com.project2.entities.data.MotelRoom;
-import com.project2.entities.data.Report;
-import com.project2.entities.data.RoomHasConvenient;
-import com.project2.entities.data.Tenant;
+import com.project2.entities.data.*;
 import com.project2.entities.dto.MotelRoomDTO;
 import com.project2.entities.key.RoomConvenientKey;
 import com.project2.repository.*;
@@ -124,26 +121,18 @@ public class MotelRoomService_Impl implements MotelRoomService {
                 && appConfig.checkHost(email))) {
             motelRoomDTO.getMotelRoom().setDeleted(false);
             MotelRoom motelRoom = motelRoomRepository.save(motelRoomDTO.getMotelRoom());
-            List<RoomHasConvenient> convenientList = roomHasConvenientRepository.findByRoom(motelRoom);
+            List<RoomHasConvenient> new_RHC = new ArrayList<>();
 
-            if (motelRoomDTO.getConvenientList() != null && convenientList != null) {
-                List<RoomHasConvenient> new_convenientList = motelRoomDTO.getConvenientList().stream().map(c -> {
-                            RoomHasConvenient tmpRoomHasConvenient = convenientList.stream()
-                                    .filter(cs -> cs.getId().getIdConvenient().equals(c.getId()))
-                                    .findFirst().orElse(null);
-                            if (tmpRoomHasConvenient != null) {
-                                tmpRoomHasConvenient.setDeleted(false);
-                                tmpRoomHasConvenient.setModifyDate(new Timestamp(new Date().getTime()));
-                                return tmpRoomHasConvenient;
-                            } else {
-                                return RoomHasConvenient
-                                        .builder().id(new RoomConvenientKey(c.getId(), motelRoom.getId()))
-                                        .convenient(c).room(motelRoom).build();
-                            }
-                        }
-                ).collect(Collectors.toList());
-                roomHasConvenientRepository.saveAll(new_convenientList);
+            if (motelRoomDTO.getConvenientList() != null && !motelRoomDTO.getConvenientList().isEmpty()) {
+                for (Convenient c : motelRoomDTO.getConvenientList())
+                    if (c != null)
+                        new_RHC.add(RoomHasConvenient.builder().id(new RoomConvenientKey(c.getId(), motelRoom.getId()))
+                                .convenient(c).room(motelRoom).build());
+
+                if (!new_RHC.isEmpty())
+                    roomHasConvenientRepository.saveAll(new_RHC);
             }
+
             return findById(motelRoom.getId(), email);
         }
         return null;
@@ -152,18 +141,48 @@ public class MotelRoomService_Impl implements MotelRoomService {
 
     @Override
     public MotelRoomDTO update(MotelRoomDTO motelRoomDTO, String email) throws Exception {
-        MotelRoomDTO roomDTO = insert(motelRoomDTO, email);
-        List<RoomConvenientKey> roomConvenientKeys = roomDTO.getConvenientList().stream()
-                .map(c -> {
-                    if (motelRoomDTO.getConvenientList().stream()
-                            .filter(cs -> cs.getId().equals(c.getId())).findFirst().orElse(null) == null)
-                        return new RoomConvenientKey(c.getId(), roomDTO.getMotelRoom().getId());
-                    else return null;
-                }).collect(Collectors.toList());
-        if (roomHasConvenientRepository.deleteCustomByListKey(roomConvenientKeys) >= 0) {
-            return findById(motelRoomRepository.save(roomDTO.getMotelRoom()).getId(), email);
+        if (motelRoomDTO != null && email != null && motelRoomDTO.getMotelRoom() != null
+                && appConfig.checkAdmin(email)
+                || (Objects.requireNonNull(motelRoomDTO).getMotelRoom().getHost().getEmail().equals(email)
+                && appConfig.checkHost(email))) {
+            motelRoomDTO.getMotelRoom().setDeleted(false);
+            MotelRoom motelRoom = motelRoomRepository.save(motelRoomDTO.getMotelRoom());
+            List<RoomHasConvenient> new_RHC = new ArrayList<>();
+            List<Integer> cLists = new ArrayList<>();
+            cLists.add(-1);
+
+            RoomHasConvenient tmpRoomHasConvenient = null;
+
+            if (motelRoomDTO.getConvenientList() != null && !motelRoomDTO.getConvenientList().isEmpty())
+                for (Convenient c : motelRoomDTO.getConvenientList())
+                    if (c != null) {
+                        cLists.add(c.getId());
+                        tmpRoomHasConvenient = RoomHasConvenient.builder()
+                                .id(new RoomConvenientKey(c.getId(), motelRoom.getId()))
+                                .convenient(c).room(motelRoom).build();
+                        tmpRoomHasConvenient.setDeleted(false);
+                        tmpRoomHasConvenient.setCreateDate(new Timestamp(new Date().getTime()));
+                        tmpRoomHasConvenient.setModifyDate(new Timestamp(new Date().getTime()));
+                        new_RHC.add(tmpRoomHasConvenient);
+                    }
+
+            List<RoomHasConvenient> objDel = roomHasConvenientRepository
+                    .findByIdRoomAndIdConvenientNotIn(motelRoom.getId(), cLists);
+
+            if (objDel != null && !objDel.isEmpty()) {
+                List<RoomConvenientKey> roomConvenientKeys = objDel.stream().map(RoomHasConvenient::getId)
+                        .collect(Collectors.toList());
+                if (!roomConvenientKeys.isEmpty())
+                    roomHasConvenientRepository.deleteCustomByListKey(roomConvenientKeys);
+            }
+            if (!new_RHC.isEmpty())
+                roomHasConvenientRepository.saveAll(new_RHC);
+
+            return findById(motelRoom.getId(), email);
         }
-        return roomDTO;
+
+
+        return null;
     }
 
     @Override

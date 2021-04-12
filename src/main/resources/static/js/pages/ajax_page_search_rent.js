@@ -396,7 +396,7 @@ function showMotelRoom() {
                                         class="w-100" height="200">
                                            <div class="card-body">
                                               <div class="d-flex justify-content-between">
-                                                 <span class="font-weight-bold col-md-6">${dataFilter(room.title)}
+                                                 <span class="font-weight-bold col-md-6 card-title">${dataFilter(room.title)}
                                                  </span> 
                                                    <span class="font-weight-bold col-md-6">
                                                         ${numberFilter(formatMoney(room.price))} VNĐ</span>
@@ -441,8 +441,8 @@ function showMotelRoom() {
                                 <div 
                                 class="media align-items-lg-center justify-content-center flex-column flex-lg-row p-3">
                                     <div class="col-lg-8 media-body order-2 order-lg-1 text-center">
-                                        <h5 class="mt-0 font-weight-bold m-2">${dataFilter(room.title)}</h5>
-                                        <p class="font-italic text-muted mb-0 small">${dataFilter(room.description)}</p>
+                                        <h5 class="mt-0 font-weight-bold m-2 card-title">${dataFilter(room.title)}</h5>
+                                        <p class="font-italic text-muted mb-0 small card-text">${dataFilter(room.description)}</p>
 
                                         <div class="row align-items-center justify-content-between mt-1">
                                             <div class="text-center col-sm-6"><h6 class="font-weight-bold my-2">

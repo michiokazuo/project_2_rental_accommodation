@@ -47,7 +47,6 @@ $(async function () {
 
     await getUserInSystem();
     await loadTenantReq();
-    await loadConvenient();
     await loadRoomDTO();
     await loadCategory();
     classifyReq();

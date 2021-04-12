@@ -19,7 +19,7 @@ public class FileService_Impl implements FileService {
 
     @Value("${path.file}")
     private String pathFile;
-// cai nao goi toi api kia the idol
+
     @Override
     public List<String> uploadFiles(MultipartFile[] multipartFiles) throws Exception {
         List<String> listRs = new ArrayList<>();

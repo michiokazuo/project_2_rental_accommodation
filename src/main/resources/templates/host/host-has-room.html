@@ -3,6 +3,7 @@
 <head>
     <title>Trọ sở hữu</title>
     <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+    <link rel="stylesheet" th:href="@{/css/host_has_room.css}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -29,7 +30,7 @@
 
 <div class="modal fade" id="modal-room" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-xl pr-0" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title fw-bold">Thông tin trọ</h4>
@@ -63,25 +64,27 @@
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="location"><strong>Toạ độ (lat;long)</strong>(*Bạn nên ở chỗ trọ cần khai báo)</label>
+                            <label for="location" class="col-form-label"><strong>Toạ độ (lat;long)</strong>(*Bạn nên ở chỗ trọ cần khai
+                                báo)</label>
                             <input type="text" class="form-control" id="location" placeholder="Tọa độ" required
                                    disabled>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="price" class="col-form-label"><strong>Giá tiền (VNĐ/tháng)</strong> </label>
-                            <input type="number" class="form-control" id="price" min="0" placeholder="Giá tiền" required>
+                            <input type="number" class="form-control" id="price" min="0" placeholder="Giá tiền"
+                                   required>
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="create-date"><strong>Ngày tạo</strong></label>
+                            <label for="create-date" class="col-form-label"><strong>Ngày tạo</strong></label>
                             <input class="form-control " type="date" name="create-date" id="create-date" disabled>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="modify-date"><strong>Ngày chỉnh sửa</strong></label>
+                            <label for="modify-date" class="col-form-label"><strong>Ngày chỉnh sửa</strong></label>
                             <input class="form-control " type="date" name="create-date" id="modify-date" disabled>
                         </div>
                         <div class="form-group col-md-6">
-                            <label><strong>Đối tượng ưu tiên</strong></label>
+                            <label class="col-form-label"><strong>Đối tượng ưu tiên</strong></label>
                             <div id="check-priority" class="w-100 row justify-content-center">
                                 <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
                                     <input class="form-check-input" type="checkbox" id="obj-1"
@@ -106,7 +109,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label><strong>Tiện ích</strong></label>
+                            <label class="col-form-label"><strong>Tiện ích</strong></label>
                             <div id="check-convenient" class="w-100 row justify-content-center">
                                 <div class="form-check form-check-inline p-1 col-6 col-md-4 col-lg-3 mr-0 row justify-content-center">
                                     <input class="form-check-input" type="checkbox" id="conv-1"
@@ -131,7 +134,7 @@
                             </div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="category"><strong>Danh mục</strong></label>
+                            <label for="category" class="col-form-label"><strong>Danh mục</strong></label>
                             <select class="form-select" id="category" required>
                                 <option placeholder="" value="">- Danh mục -</option>
                                 <option value="1">Phòng trọ đơn</option>
@@ -141,19 +144,19 @@
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6 d-none" id="maxPerson">
-                            <label for="max_person"><strong>Số người tối đa</strong></label>
+                            <label for="max_person" class="col-form-label"><strong>Số người tối đa</strong></label>
                             <input type="text" class="form-control" id="max_person" placeholder="Số người tối đa"
                                    required>
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6 d-none" id="h-floor">
-                            <label for="floor"><strong>Số tầng</strong></label>
+                            <label for="floor" class="col-form-label"><strong>Số tầng</strong></label>
                             <input type="text" class="form-control" id="floor" placeholder="Số tầng"
                                    required>
                             <div class="invalid-feedback"></div>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="images"><strong>Ảnh sản phẩm</strong></label>
+                            <label for="images" class="col-form-label"><strong>Ảnh sản phẩm</strong></label>
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="images" onchange="reloadImages()"
                                        accept="image/*" multiple="multiple" required>
@@ -161,17 +164,17 @@
                                 <label for="images" class="custom-file-label">Chọn ảnh</label>
                             </div>
                             <img th:src="@{../files/image_config/rental.svg}" id="img1"
-                                 class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 class="border rounded mt-3" alt="avatar" width="100" src=""
+                                 th:onerror="'this.src=\'' + @{./files/image_config/rental.png} + '\';'"/>
                             <img th:src="@{../files/image_config/rental.svg}" id="img2"
-                                 class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 class="border rounded mt-3" alt="avatar" width="100" src=""
+                                 th:onerror="'this.src=\'' + @{./files/image_config/rental.png} + '\';'"/>
                             <img th:src="@{../files/image_config/rental.svg}" id="img3"
-                                 class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 class="border rounded mt-3" alt="avatar" width="100" src=""
+                                 th:onerror="'this.src=\'' + @{./files/image_config/rental.png} + '\';'"/>
                             <img th:src="@{../files/image_config/rental.svg}" id="img4"
-                                 class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 class="border rounded mt-3" alt="avatar" width="100" src=""
+                                 th:onerror="'this.src=\'' + @{./files/image_config/rental.png} + '\';'"/>
                         </div>
                     </form>
                 </div>
@@ -179,6 +182,11 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
                 <button type="button" class="btn btn-primary" id="btn-submit-room">Gửi</button>
+            </div>
+        </div>
+        <div id="load" class="d-none">
+            <div class="spinner-border" role="status" style="width: 100px;height: 100px;">
+                <span class="visually-hidden" style="transform: scale(1.5);">Loading...</span>
             </div>
         </div>
     </div>

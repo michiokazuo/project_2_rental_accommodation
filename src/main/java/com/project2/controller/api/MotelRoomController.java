@@ -37,7 +37,8 @@ public class MotelRoomController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findAll(email);
-            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+            return motelRoomDTOS != null && !motelRoomDTOS.isEmpty() ? ResponseEntity.ok(motelRoomDTOS)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -65,7 +66,8 @@ public class MotelRoomController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findAllByUser(id, email);
-            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+            return motelRoomDTOS != null && !motelRoomDTOS.isEmpty() ? ResponseEntity.ok(motelRoomDTOS)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -79,7 +81,8 @@ public class MotelRoomController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findAllByHost(id, email);
-            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+            return motelRoomDTOS != null && !motelRoomDTOS.isEmpty() ? ResponseEntity.ok(motelRoomDTOS)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -93,7 +96,8 @@ public class MotelRoomController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findAllForAdmin(id, email);
-            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+            return motelRoomDTOS != null && !motelRoomDTOS.isEmpty() ? ResponseEntity.ok(motelRoomDTOS)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -107,7 +111,8 @@ public class MotelRoomController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<MotelRoomDTO> motelRoomDTOS = motelRoomService.findRoomPage(pageable, email);
-            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+            return motelRoomDTOS != null && !motelRoomDTOS.isEmpty() ? ResponseEntity.ok(motelRoomDTOS)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -147,7 +152,8 @@ public class MotelRoomController {
                                     convenientRepository.findByIdInAndDeletedFalse(Arrays.asList(convenient)) : null)
                             .build(),
                     price, null, email);
-            return motelRoomDTOS != null ? ResponseEntity.ok(motelRoomDTOS) : ResponseEntity.noContent().build();
+            return motelRoomDTOS != null && !motelRoomDTOS.isEmpty() ? ResponseEntity.ok(motelRoomDTOS)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

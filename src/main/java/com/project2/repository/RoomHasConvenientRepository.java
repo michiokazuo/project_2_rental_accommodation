@@ -3,6 +3,7 @@ package com.project2.repository;
 import com.project2.entities.data.Convenient;
 import com.project2.entities.data.MotelRoom;
 import com.project2.entities.data.RoomHasConvenient;
+import com.project2.entities.data.Tenant;
 import com.project2.entities.key.RoomConvenientKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -19,9 +20,16 @@ public interface RoomHasConvenientRepository extends JpaRepository<RoomHasConven
 
     List<RoomHasConvenient> findByRoomAndDeletedFalse(MotelRoom room);
 
+    RoomHasConvenient findByIdAndDeletedFalse(RoomConvenientKey roomConvenientKey);
+
     List<RoomHasConvenient> findByRoom(MotelRoom room);
 
     List<RoomHasConvenient> findByConvenientInAndDeletedFalse(List<Convenient> convenientList);
+
+    @Query("select t FROM RoomHasConvenient t where t.deleted = false and t.id.idConvenient not in ?2 and t.id.idRoom = ?1")
+    @Modifying
+    @Transactional
+    List<RoomHasConvenient> findByIdRoomAndIdConvenientNotIn(Integer idRoom, List<Integer> idConvenientList);
 
     @Query("update RoomHasConvenient e set e.deleted = true where e.id.idRoom = ?1")
     @Modifying
@@ -43,4 +51,8 @@ public interface RoomHasConvenientRepository extends JpaRepository<RoomHasConven
     @Transactional
     int deleteCustomByListKey(List<RoomConvenientKey> roomConvenientKey);
 
+    @Query("update RoomHasConvenient e set e.deleted = false where e.id in ?1")
+    @Modifying
+    @Transactional
+    int updateRoomHasConvenient(List<RoomConvenientKey> roomConvenientKey);
 }

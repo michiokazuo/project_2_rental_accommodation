@@ -1,6 +1,6 @@
 let tableDataNotFull, tableDataFull, btnSaveRoom, btnDeleteRoom, btnAddNewRoom, modalDelete, modalSaveRoom, selectSort,
     selectCategory, checkBoxPriority, checkBoxConvenient, textTitle, textareaDescription, textAddress, numberArea,
-    textLocation, numberPrice, dateCreateDate, dateModifyDate, numberMaxPerson, images, numberFloor;
+    textLocation, numberPrice, dateCreateDate, dateModifyDate, numberMaxPerson, images, numberFloor, load;
 
 let indexRoom = 0, checkSave = false, curLat, curLng, checkDelete;
 let roomSave;
@@ -31,6 +31,7 @@ $(async function () {
     numberMaxPerson = $("#max_person");
     images = $("#images");
     numberFloor = $("#floor");
+    load = $("#load");
 
     await getUserInSystem();
     await loadRoomDTO();
@@ -296,6 +297,7 @@ function confirmUpdate() {
                 valConvenient += ($(cb).children("input:checkbox")[0].value + ",");
         });
 
+        let fileImg;
         let checkUpImg = true;
         if (checkSave) {
             checkUpImg = checkImg;
@@ -304,17 +306,8 @@ function confirmUpdate() {
         }
 
         if (checkUpImg && checkAddress && checkPrice && checkCategory && checkTitle && checkArea) {
-            let valLocation = curLat + "<>" + curLng;
-            await motelRoomGetLocation(valAddress)
-                .then(rs => {
-                    console.log(rs);
-                    if (rs.status === 200 && rs.data.data[0] && Object.keys(rs.data.data[0]).length > 0)
-                        valLocation = (rs.data.data[0].latitude + "<>" + rs.data.data[0].longitude);
-                })
-                .catch(e => {
-                    console.log(e);
-                })
-            if (checkImg)
+            if (checkImg) {
+                fileImg = images.prop('files');
                 await uploadFile(Array.from(images.prop('files')))
                     .then(rs => {
                         if (rs.status === 200) {
@@ -325,7 +318,7 @@ function confirmUpdate() {
                     .catch(e => {
                         console.log(e);
                     })
-
+            }
             let valMaxPerson = 1, checkMPerson = false, valFloor = 1, checkFloor = false;
             let checkHasMP = false, checkHasF = false;
 
@@ -367,7 +360,6 @@ function confirmUpdate() {
                 roomSave.motelRoom.price = valuePrice - 0;
                 roomSave.motelRoom.address = valAddress;
                 roomSave.motelRoom.category = listCategory.find(c => c.id === (valTextCategory - 0));
-                roomSave.motelRoom.location = valLocation;
                 roomSave.motelRoom.priorityObject = valPriority.substring(0, valPriority.length - 2);
                 roomSave.convenientList = convenientL.map((data, index) => {
                     return listConvenient.find(conv => conv.id === (data - 0));
@@ -376,6 +368,19 @@ function confirmUpdate() {
 
                 let checkStatus = false, valStatus;
                 selectSort.prop('selectedIndex', 0);
+
+                let valLocation = curLat + "<>" + curLng;
+                load.removeClass("d-none");
+                await motelRoomGetLocation(valAddress)
+                    .then(rs => {
+                        console.log(rs);
+                        if (rs.status === 200 && rs.data.data[0] && Object.keys(rs.data.data[0]).length > 0)
+                            valLocation = (rs.data.data[0].latitude + "<>" + rs.data.data[0].longitude);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    })
+                roomSave.motelRoom.location = valLocation;
                 if (checkSave) {
                     roomSave.motelRoom.id = null;
                     roomSave.motelRoom.createDate = null;
@@ -397,6 +402,7 @@ function confirmUpdate() {
                         showDataTableNotFull();
                 } else {
                     valStatus = "Sửa thành công.";
+                    load.removeClass("d-none");
                     await motelRoomUpdate(roomSave)
                         .then(rs => {
                             if (rs.status === 200) {
@@ -429,6 +435,7 @@ function confirmUpdate() {
 
                 modalSaveRoom.modal("hide");
                 alertReport(checkStatus, checkStatus ? valStatus : "Có lỗi xảy ra. Vui lòng thử lại!!!");
+                load.addClass("d-none");
             }
         }
     })
@@ -467,6 +474,7 @@ function confirmDeleteRoom() {
                 console.log(e);
             });
 
+        modalDelete.modal("hide");
         alertReport(check, check ? "Xóa thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
         if (check) {
             let emails = "";

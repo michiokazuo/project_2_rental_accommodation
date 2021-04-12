@@ -7,6 +7,8 @@ let listRole = [];
 let user_now = {};
 
 $(async function () {
+    location.reload(true);
+
     linkSignUp = $("#btn-info-update");
     nameSignUp = $("#name-sign-up");
     inputName = $("#input-username");
@@ -183,7 +185,9 @@ function submitSignUp() {
             && checkDateBirthday && checkStatus && checkStatus && checkWorkplace && checkGender && checkRole
             && checkJob && checkHomeTown) {
             valueAvatar = user_now.avatar;
+            let fileAvatar;
             if (checkAvatar) {
+                fileAvatar = avatarSignUp.prop('files')[0];
                 await uploadFile(Array.from(avatarSignUp.prop('files')))
                     .then(rs => {
                         if (rs.status === 200) {
@@ -225,6 +229,15 @@ function submitSignUp() {
 
             showInfoStatic();
             $("#acc-top .title").text(user_now.name);
+            if (check && checkAvatar) {
+                let img = document.getElementById("avatar-user");
+                let reader = new FileReader();
+                reader.addEventListener("load", function () {
+                    img.src = reader.result;
+                }, false);
+                if (fileAvatar)
+                    reader.readAsDataURL(fileAvatar);
+            }
             modalSignUp.modal("hide");
             alertReport(check, check ? "Cập nhật thành công!!!" : "Có lỗi xảy ra. Vui lòng thử lại!!!");
         }

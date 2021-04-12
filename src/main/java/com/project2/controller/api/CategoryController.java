@@ -25,7 +25,8 @@ public class CategoryController {
             if (authentication != null)
                 email = ((User) authentication.getPrincipal()).getUsername();
             List<Category> categories = categoryService.findAll(email);
-            return categories != null ? ResponseEntity.ok(categories) : ResponseEntity.noContent().build();
+            return categories != null && !categories.isEmpty() ? ResponseEntity.ok(categories)
+                    : ResponseEntity.noContent().build();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
