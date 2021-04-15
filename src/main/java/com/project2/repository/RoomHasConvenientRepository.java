@@ -55,4 +55,14 @@ public interface RoomHasConvenientRepository extends JpaRepository<RoomHasConven
     @Modifying
     @Transactional
     int updateRoomHasConvenient(List<RoomConvenientKey> roomConvenientKey);
+
+    @Query("update RoomHasConvenient e set e.deleted = true where e.id.idConvenient = ?1")
+    @Modifying
+    @Transactional
+    int deleteByConvenient(Integer idConvenient);
+
+    @Query("update RoomHasConvenient e set e.deleted = true where e.id.idRoom in ?1")
+    @Modifying
+    @Transactional
+    int deleteByHost(List<Integer> idRooms);
 }

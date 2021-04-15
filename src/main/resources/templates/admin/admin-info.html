@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Thông tin cá nhân</title>
+  <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+  <link rel="stylesheet" th:href="@{/css/info-user.css}">
+</head>
+<body class="hold-transition sidebar-mini layout-fixed" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+<div th:replace="~{/fragment/host-admin-fragment :: modal-info}"></div>
+<main class="rounded shadow bg-white">
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+    <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <aside th:replace="~{/fragment/host-admin-fragment :: menu-admin}"></aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Main content -->
+      <section class="content">
+        <div class="container-fluid">
+          <div th:replace="~{/fragment/host-admin-fragment :: info}"></div>
+        </div><!-- /.container-fluid -->
+
+        <footer th:replace="~{/fragment/host-admin-fragment :: footer-admin}"></footer>
+        <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+  </div>
+</main>
+<script th:src="@{/js/pages/ajax_page_host_admin_info.js}"></script>
+<script th:src="@{/js/model/ajax_upload_file.js}"></script>
+</body>
+</html>

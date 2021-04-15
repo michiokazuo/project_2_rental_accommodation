@@ -2,16 +2,16 @@ package com.project2.service_impl;
 
 import com.project2.config.AppConfig;
 import com.project2.entities.data.AppUser;
-import com.project2.repository.AppUserRepository;
-import com.project2.repository.MotelRoomRepository;
-import com.project2.repository.ReportRepository;
-import com.project2.repository.TenantRepository;
+import com.project2.entities.data.MotelRoom;
+import com.project2.repository.*;
 import com.project2.service.AppUserService;
+import com.project2.service.MotelRoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +26,8 @@ public class AppUserService_Impl implements AppUserService {
     private final TenantRepository tenantRepository;
 
     private final ReportRepository reportRepository;
+
+    private final RoomHasConvenientRepository roomHasConvenientRepository;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -53,7 +55,7 @@ public class AppUserService_Impl implements AppUserService {
     @Override
     public AppUser insert(AppUser appUser, String email) throws Exception {
         if (appUser != null && !appUserRepository.existsByEmailAndDeletedFalseOrPhoneAndDeletedFalse(appUser.getEmail(),
-                        appUser.getPhone())) {
+                appUser.getPhone())) {
 
             appUser.setDeleted(false);
             appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
@@ -82,11 +84,17 @@ public class AppUserService_Impl implements AppUserService {
 
     @Override
     public boolean delete(Integer id, String email) throws Exception {
-        return email != null && appConfig.checkAdmin(email)
-                && id != null && id > 0 && appUserRepository.deleteCustom(id) >= 0
-                && motelRoomRepository.deleteCustomByHost(id) >= 0
-                && tenantRepository.deleteCustomByIdUser(id) >= 0
-                && reportRepository.deleteCustomByUser(id) >= 0;
+        if (email != null && appConfig.checkAdmin(email) && id != null && id > 0) {
+            List<MotelRoom> motelRoomList = motelRoomRepository
+                    .findAllByHostAndDeletedFalse(appUserRepository.findById(id).orElse(null));
+            List<Integer> ids = motelRoomList.stream().map(MotelRoom::getId).collect(Collectors.toList());
+            return appUserRepository.deleteCustom(id) >= 0
+                    && motelRoomRepository.deleteCustomByHost(id) >= 0
+                    && tenantRepository.deleteCustomByIdUser(id) >= 0
+                    && reportRepository.deleteCustomByUser(id) >= 0
+                    && roomHasConvenientRepository.deleteByHost(ids) >= 0;
+        }
+        return false;
     }
 
     @Override

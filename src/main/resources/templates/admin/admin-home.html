@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Trang chủ / chủ trọ</title>
+    <title>Trang chủ / quản lý</title>
     <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -51,71 +51,15 @@
                             <div class="small-box bg-warning">
                                 <div class="inner">
                                     <h3 id="num-cmt">44</h3>
-                                    <p>Bình luận</p>
+                                    <p>Chủ trọ</p>
                                 </div>
                                 <div class="icon">
-                                    <i class="ion ion-chatbox"></i>
+                                    <i class="fas fa-male"></i>
                                 </div>
                             </div>
                         </div>
                         <!-- ./col -->
                     </div>
-
-                    <!--                    <div class="row">-->
-                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
-                    <!--                            <div class="info-box">-->
-                    <!--                                <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>-->
-
-                    <!--                                <div class="info-box-content">-->
-                    <!--                                    <span class="info-box-text">Messages</span>-->
-                    <!--                                    <span class="info-box-number">1,410</span>-->
-                    <!--                                </div>-->
-                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
-                    <!--                            </div>-->
-                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
-                    <!--                        </div>-->
-                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
-                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
-                    <!--                            <div class="info-box">-->
-                    <!--                                <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>-->
-
-                    <!--                                <div class="info-box-content">-->
-                    <!--                                    <span class="info-box-text">Bookmarks</span>-->
-                    <!--                                    <span class="info-box-number">410</span>-->
-                    <!--                                </div>-->
-                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
-                    <!--                            </div>-->
-                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
-                    <!--                        </div>-->
-                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
-                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
-                    <!--                            <div class="info-box">-->
-                    <!--                                <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>-->
-
-                    <!--                                <div class="info-box-content">-->
-                    <!--                                    <span class="info-box-text">Uploads</span>-->
-                    <!--                                    <span class="info-box-number">13,648</span>-->
-                    <!--                                </div>-->
-                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
-                    <!--                            </div>-->
-                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
-                    <!--                        </div>-->
-                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
-                    <!--                        <div class="col-md-3 col-sm-6 col-12">-->
-                    <!--                            <div class="info-box">-->
-                    <!--                                <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>-->
-
-                    <!--                                <div class="info-box-content">-->
-                    <!--                                    <span class="info-box-text">Likes</span>-->
-                    <!--                                    <span class="info-box-number">93,139</span>-->
-                    <!--                                </div>-->
-                    <!--                                &lt;!&ndash; /.info-box-content &ndash;&gt;-->
-                    <!--                            </div>-->
-                    <!--                            &lt;!&ndash; /.info-box &ndash;&gt;-->
-                    <!--                        </div>-->
-                    <!--                        &lt;!&ndash; /.col &ndash;&gt;-->
-                    <!--                    </div>-->
-                    <!-- /.row -->
                     <!-- Main row -->
                     <div class="row justify-content-center">
                         <!-- right col (We are only adding the ID to make the widgets sortable)-->
@@ -155,15 +99,15 @@
                     </div>
                     <!-- /.row (main row) -->
                 </div><!-- /.container-fluid -->
+
+                <footer th:replace="~{/fragment/host-admin-fragment :: footer-admin}"></footer>
+                <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
             </section>
             <!-- /.content -->
-            <footer th:replace="~{/fragment/host-admin-fragment :: footer-host}"></footer>
-            <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
         </div>
         <!-- /.content-wrapper -->
     </div>
 </main>
-<script th:src="@{/js/pages/host/ajax_page_host_home.js}"></script>
-<script th:src="@{/js/model/ajax_model_motel_room.js}"></script>
+<script th:src="@{/js/pages/admin/ajax_page_admin_home.js}"></script>
 </body>
 </html>

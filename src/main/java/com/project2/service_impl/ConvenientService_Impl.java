@@ -3,6 +3,7 @@ package com.project2.service_impl;
 import com.project2.config.AppConfig;
 import com.project2.entities.data.Convenient;
 import com.project2.repository.ConvenientRepository;
+import com.project2.repository.RoomHasConvenientRepository;
 import com.project2.service.ConvenientService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,8 @@ public class ConvenientService_Impl implements ConvenientService {
     private final AppConfig appConfig;
 
     private final ConvenientRepository convenientRepository;
+
+    private final RoomHasConvenientRepository roomHasConvenientRepository;
 
     @Override
     public List<Convenient> findAll(String email) throws Exception {
@@ -53,6 +56,7 @@ public class ConvenientService_Impl implements ConvenientService {
     @Override
     public boolean delete(Integer id, String email) throws Exception {
         return email != null && id != null && id > 0 && appConfig.checkAdmin(email)
-                && convenientRepository.deleteCustom(id) >= 0;
+                && convenientRepository.deleteCustom(id) >= 0
+                && roomHasConvenientRepository.deleteByConvenient(id) >= 0;
     }
 }

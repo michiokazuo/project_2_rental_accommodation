@@ -117,7 +117,7 @@ function showLocation() {
         var marker = new google.maps.Marker({
             position: myMarkerLatlng,
             map: show_map,
-            title: 'Hello World!'
+            title: room.address
         });
     }
 }
@@ -199,15 +199,12 @@ async function loadRoomDTO() {
                 reportList = roomDTO.reportList;
                 listImg = room.images.split("<>");
                 hostRoom = room.host;
-            }
+            } else window.location.href = "/error";
         })
         .catch(e => {
             console.log(e);
+            // window.location.href = "/error";
         })
-
-    if (!idRoom) {
-        window.location.href = "/error";
-    }
 }
 
 function showInfoBasic() {

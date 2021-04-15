@@ -4,6 +4,7 @@ import com.project2.config.AppConfig;
 import com.project2.entities.data.Category;
 import com.project2.repository.AppUserRepository;
 import com.project2.repository.CategoryRepository;
+import com.project2.repository.MotelRoomRepository;
 import com.project2.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ public class CategoryService_Impl implements CategoryService {
     private final AppConfig appConfig;
 
     private final CategoryRepository categoryRepository;
+
+    private final MotelRoomRepository motelRoomRepository;
 
     @Override
     public List<Category> findAll(String email) throws Exception {
@@ -56,6 +59,7 @@ public class CategoryService_Impl implements CategoryService {
     @Override
     public boolean delete(Integer id, String email) throws Exception {
         return email != null && id != null && id > 0 && appConfig.checkAdmin(email)
-                && categoryRepository.deleteCustom(id) >= 0;
+                && categoryRepository.deleteCustom(id) >= 0
+                && motelRoomRepository.updateByCategory(id) >= 0;
     }
 }

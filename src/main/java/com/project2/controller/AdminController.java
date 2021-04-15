@@ -18,45 +18,53 @@ public class AdminController {
         return "/admin/admin-home";
     }
 
-    @GetMapping("/du-an")
-    public String project() {
-
-        return "project";
+    @GetMapping("thong-tin-ca-nhan")
+    public String infoAdmin() {
+        return "/admin/admin-info";
     }
 
-    @GetMapping("/nhan-vien")
-    public String employee() {
-
-        return "employee";
+    @GetMapping("tro-cho-thue")
+    public String roomRenter() {
+        return "/admin/admin-all-room";
     }
 
-    @GetMapping("/thong-ke")
+    @GetMapping("chi-tiet-thue")
+    public String detailRenterOfRoom() {
+        return "/admin/admin-renter-of-room";
+    }
+
+    @GetMapping("nguoi-thue")
+    public String renter() {
+        return "/admin/admin-renter";
+    }
+
+    @GetMapping(value = "phong-thue")
+    public String renterRoom() {
+        return "/admin/admin-room-of-rent";
+    }
+
+    @GetMapping("chu-tro")
+    public String hostInfo() {
+        return "/admin/admin-host";
+    }
+
+    @GetMapping("phong-so-huu")
+    public String ownRoom() {
+        return "/admin/admin-host-has-room";
+    }
+
+    @GetMapping("danh-muc")
+    public String category() {
+        return "/admin/admin-category";
+    }
+
+    @GetMapping("tien-ich")
+    public String convenient() {
+        return "/admin/admin-convenient";
+    }
+
+    @GetMapping("thong-ke")
     public String statistic() {
-
-        return "statistic";
-    }
-
-    @GetMapping("/du-an/cong-viec-thanh-phan")
-    public String taskOfProject() {
-
-        return "task_of_project";
-    }
-
-    @GetMapping(value = {"/nhan-vien/tien-do-ca-nhan", "cong-viec-ca-nhan"})
-    public String employeeProgress() {
-
-        return "employee_progress";
-    }
-
-    @GetMapping("/thong-tin-ca-nhan")
-    public String userInformation() {
-
-        return "user_infor";
-    }
-
-    @GetMapping("/danh-gia")
-    public String evaluationEmployee() {
-
-        return "evaluation_employee";
+        return "/admin/admin-statistic";
     }
 }

@@ -1,5 +1,9 @@
 package com.project2;
 
+import com.project2.entities.data.AppUser;
+import com.project2.entities.data.MotelRoom;
+import com.project2.entities.dto.HostDTO;
+import com.project2.repository.MotelRoomRepository;
 import com.project2.repository.RoomHasConvenientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

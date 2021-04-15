@@ -134,6 +134,7 @@ footer#footer #up-to-top {
     bottom: 10px;
     opacity: 0;
     visibility: hidden;
+    z-index: 100;
 }
 
 footer#footer #up-to-top .btn {

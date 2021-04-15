@@ -88,12 +88,12 @@ function showDataTableRent() {
                                 <th>${index + 1}</th>
                                 <td>
                                     <button type="button" class="btn btn-success m-1 detail-user">
-                                        <i class="fas fa-edit"></i> ${dataFilter(user.name)}
+                                        <i class="fas fa-info-circle"></i> ${dataFilter(user.name)}
                                     </button>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-primary m-1 detail-room">
-                                        <i class="fas fa-edit"></i> ${dataFilter(room.id + "." + room.title)}
+                                        <i class="fas fa-info"></i> ${dataFilter(room.id + "." + room.title)}
                                     </button>
                                 </td>
                                 <td>
@@ -141,7 +141,7 @@ function viewRoom() {
             var paPerson = $("#maxPerson");
             paPerson.addClass("d-none");
             $("#h-floor").addClass("d-none");
-            if (listCategory.find(c => c.id === (selectCategory.val() - 0)).name.toUpperCase()
+            if (listCategory.find(c => c.id === (roomSave.category.id)).name.toUpperCase()
                 .search("ghép".toUpperCase()) >= 0)
                 paPerson.removeClass("d-none");
             else
@@ -175,9 +175,7 @@ function viewUser() {
         textHomeTown.val(dataFilter(user.homeTown));
         modalTenant.modal("show");
     })
-
 }
-
 
 function deleteTenant() {
     $(".delete-rent").click(function () {

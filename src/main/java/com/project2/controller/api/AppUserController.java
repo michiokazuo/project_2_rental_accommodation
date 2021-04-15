@@ -2,8 +2,10 @@ package com.project2.controller.api;
 
 import com.project2.entities.data.AppUser;
 import com.project2.entities.data.Role;
+import com.project2.entities.dto.AdminDTO;
 import com.project2.repository.AppUserRepository;
 import com.project2.repository.RoleRepository;
+import com.project2.service.AdminService;
 import com.project2.service.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,22 @@ public class AppUserController {
     private final AppUserService appUserService;
 
     private final RoleRepository roleRepository;
+
+    private final AdminService adminService;
+
+    @GetMapping("admin")
+    public ResponseEntity<Object> showAdmin(Authentication authentication) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            AdminDTO appUsers = adminService.findAll(email);
+            return appUsers != null ? ResponseEntity.ok(appUsers) : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     @GetMapping("find-all")
     public ResponseEntity<Object> findAll(Authentication authentication) {

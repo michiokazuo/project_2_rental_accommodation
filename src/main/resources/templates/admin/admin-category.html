@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Danh mục</title>
+    <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="modal fade" id="modal-category" tabindex="-1" aria-labelledby="detail-category" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detail-category">Chi tiết danh mục</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <form action="" id="form-post" class="form-post" novalidate>
+                                <div class="form-group">
+                                    <label for="name"><strong>Tên</strong></label>
+                                    <input type="text" class="form-control" name="name" id="name"
+                                           placeholder="Nhập tên danh mục" required>
+                                    <div class="invalid-feedback">
+                                        Bạn chưa điền tên danh mục.
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-success" id="btn-save">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-delete" tabindex="-1" aria-labelledby="delete-category" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xác nhận thao tác</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            Bạn có chắc chắn muốn xóa danh mục này không?
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="btn-delete">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="rounded shadow bg-white">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside th:replace="~{/fragment/host-admin-fragment :: menu-admin}"></aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Small boxes (Stat box) -->
+                    <div class="title-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3>Quản lý danh mục</h3>
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tool-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-10 mb-2">
+                                    <button type="button" class="btn btn-primary" id="add-category">
+                                        <i class="fas fa-plus"></i>
+                                        Thêm danh mục
+                                    </button>
+                                </div>
+                                <div class="col-md-2 mb-2">
+                                    <select class="form-select" id="sort">
+                                        <option value="">Sắp xếp</option>
+                                        <option value="true">A -> Z</option>
+                                        <option value="false">Z -> A</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-responsive-lg">
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Danh mục</caption>
+                            <thead>
+                            <tr class=" text-success">
+                                <th colspan="4">Danh mục</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên danh mục</th>
+                                <th scope="col">Ngày chỉnh sửa</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-data">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Dây điện</td>
+                                <td>Dây điện</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning update-category" data-toggle="modal"
+                                            data-target="#modal-category">
+                                        <i class="fas fa-pencil-alt"></i>
+                                        Sửa
+                                    </button>
+                                    <button type="button" class="btn btn-danger delete-category" data-toggle="modal"
+                                            data-target="#modal-delete">
+                                        <i class="far fa-trash-alt"></i>
+                                        Xóa
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+
+                </div><!-- /.container-fluid -->
+
+                <footer th:replace="~{/fragment/host-admin-fragment :: footer-admin}"></footer>
+                <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</main>
+<script th:src="@{/js/pages/admin/ajax_page_admin_category.js}"></script>
+</body>
+</html>

@@ -1,96 +1,28 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <title>Người thuê trọ</title>
+  <title>Trọ của chủ trọ</title>
   <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+  <link rel="stylesheet" th:href="@{/css/host_has_room.css}">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="modal fade" id="modal-rent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title fw-bold">Xác nhận thao tác</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+        </button>
       </div>
       <div class="container">
         <form class="row col-12">
-          <div class="modal-body" id="content">Bạn có chắc chắn muốn xóa người thuê này không ?</div>
+          <div class="modal-body">Bạn có chắc chắn muốn xóa trọ này không ?</div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" id="btn-rent">Xóa</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="modal-tenant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-  <div class="modal-dialog modal-xl" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 class="modal-title" id="">Thông tin người thuê</h3>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
-      </div>
-      <div class="modal-body">
-        <div class="container">
-          <form class="row col-12 flex-row ml-0 form-post" action="">
-            <div class="form-group col-md-6">
-              <label for="name-sign-up" class="col-form-label"><strong>Tên </strong></label>
-              <input type="text" class="form-control" id="name-sign-up" placeholder="Nhập tên" required
-                     disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="email-sign-up" class="col-form-label"><strong>Email </strong></label>
-              <input type="email" class="form-control" id="email-sign-up" placeholder="Nhập email"
-                     required disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="phone" class="col-form-label"><strong>Số điện thoại</strong> </label>
-              <input type="text" class="form-control" id="phone" placeholder="Điện thoại" required
-                     disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="birthday" class="col-form-label"><strong>Ngày sinh</strong></label>
-              <input class="form-control " type="date" name="birthday" id="birthday" disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="job" class="col-form-label"><strong>Nghề nghiệp</strong></label>
-              <input class="form-control " type="text" name="birthday" id="job" disabled>
-              <div class="invalid-feedback"></div>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="workplace" class="col-form-label"><strong>Nơi làm việc </strong></label>
-              <input type="text" class="form-control" id="workplace" disabled placeholder="Nơi làm việc"
-                     required>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="gender" class="col-form-label"><strong>Giới tính</strong></label>
-              <input class="form-control " type="text" name="birthday" id="gender" disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="status" class="col-form-label"><strong>Tình trạng hôn nhân</strong></label>
-              <input class="form-control " type="text" name="birthday" id="status" disabled>
-            </div>
-            <div class="form-group col-md-6">
-              <label for="home-town" class="col-form-label"><strong>Quê quán</strong></label>
-              <input type="text" class="form-control" disabled id="home-town" placeholder="Quê quán" required>
-              <div class="invalid-feedback"></div>
-            </div>
-
-            <div class="form-group col-md-6">
-              <label for="avatar" class="col-form-label"><strong>Avatar</strong></label>
-              <img th:src="@{./files/image_config/avatar-user.png}" id="avatar"
-                   class="border rounded mt-3" alt="avatar" width="200"/>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
         <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-danger" id="btn-delete-room">Xóa</button>
       </div>
     </div>
   </div>
@@ -103,7 +35,7 @@
       <div class="modal-header">
         <h4 class="modal-title fw-bold">Thông tin trọ</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                </button>
+        </button>
       </div>
       <div class="modal-body">
         <div class="container">
@@ -173,6 +105,12 @@
               <div class="invalid-feedback"></div>
             </div>
             <div class="form-group col-md-6">
+              <label for="rate" class="col-form-label"><strong>Đánh giá</strong></label>
+              <input type="text" class="form-control" id="rate" placeholder="Số tầng"
+                     required disabled>
+              <div class="invalid-feedback"></div>
+            </div>
+            <div class="form-group col-md-6">
               <label class="col-form-label"><strong>Ảnh sản phẩm</strong></label>
               <div></div>
               <img th:src="@{../files/image_config/rental.svg}" id="img1"
@@ -204,7 +142,7 @@
     <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
-    <aside th:replace="~{/fragment/host-admin-fragment :: menu-host}"></aside>
+    <aside th:replace="~{/fragment/host-admin-fragment :: menu-admin}"></aside>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -215,7 +153,7 @@
             <div class="container">
               <div class="row">
                 <div class="col-12 text-center">
-                  <h3 id="title-room">Quản lý người thuê</h3>
+                  <h3 id="header">Quản lý trọ của chủ trọ</h3>
                 </div>
                 <div class="col-12">
                   <hr>
@@ -239,29 +177,49 @@
           </div>
           <div class="table-responsive table-responsive-lg">
             <table class="table table-bordered table-hover bg-white pt-2 pb-2">
-              <caption>Đang thuê</caption>
+              <caption>Trọ còn chỗ</caption>
               <thead>
               <tr class=" text-success">
-                <th colspan="4">Đang thuê</th>
+                <th colspan="5">Trọ còn chỗ</th>
               </tr>
               <tr>
                 <th scope="col">STT</th>
+                <th scope="col">Thông tin</th>
                 <th scope="col">Người thuê</th>
-                <th scope="col">Phòng/Nhà trọ</th>
+                <th scope="col">Người thuê hiện tại</th>
                 <th scope="col">Hành động</th>
               </tr>
               </thead>
-              <tbody id="table-rented">
+              <tbody id="table-not-full">
               <tr>
-                <th scope="row">11</th>
+                <th scope="row">1</th>
                 <td>Mark</td>
                 <td>Mark</td>
-                <td>
-                  <button type="button" class="btn btn-warning update-progress"
-                          data-toggle="modal" data-target="#modal-employee-progress">
-                    <i class="fas fa-edit"></i> Cập nhật
-                  </button>
-                </td>
+                <td>Mark</td>
+              </tr>
+              </tbody>
+            </table>
+            <hr>
+            <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+              <caption>Trọ đã đầy</caption>
+              <thead>
+              <tr class="text-primary">
+                <th colspan="5">Trọ đã đầy</th>
+              </tr>
+              <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Thông tin</th>
+                <th scope="col">Chủ trọ</th>
+                <th scope="col">Người thuê hiện tại</th>
+                <th scope="col">Hành động</th>
+              </tr>
+              </thead>
+              <tbody id="table-full">
+              <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Mark</td>
+                <td>Mark</td>
               </tr>
               </tbody>
             </table>
@@ -269,15 +227,15 @@
           </div>
           <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->
+
+        <footer th:replace="~{/fragment/host-admin-fragment :: footer-admin}"></footer>
+        <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
       </section>
       <!-- /.content -->
-      <footer th:replace="~{/fragment/host-admin-fragment :: footer-host}"></footer>
-      <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
     </div>
     <!-- /.content-wrapper -->
   </div>
 </main>
-<script th:src="@{/js/pages/host/ajax_page_renter_of_host.js}"></script>
-<script th:src="@{/js/model/ajax_model_convenient.js}"></script>
+<script th:src="@{/js/pages/admin/ajax_page_admin_host_has_room.js}"></script>
 </body>
 </html>

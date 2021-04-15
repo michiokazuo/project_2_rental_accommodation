@@ -98,6 +98,8 @@ function showMaxPerson_Floor() {
 }
 
 function classifyRoom() {
+    listRoomFull = [];
+    listRoomNotFull = [];
     for (const r of listRoomHost)
         if (r.personIn === r.motelRoom.maxPerson)
             listRoomFull.push(r);
@@ -123,8 +125,8 @@ function showDataTableFull() {
                                     </a></td>
                                 <td>
                                     <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
-                                        class="text-decoration-none text-light btn btn-primary m-1">
-                                        <i class="fas fa-tasks"></i>
+                                        class="text-decoration-none text-light btn btn-warning m-1">
+                                        <i class="fas fa-eye"></i>
                                         <span class="text-light"> Góc nhìn người dùng </span>
                                     </a>
                                     <button type="button" class="btn btn-danger m-1 delete-room-full">
@@ -159,8 +161,8 @@ function showDataTableNotFull() {
                                 </a></td>
                                 <td>
                                     <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
-                                        class="text-decoration-none text-light btn btn-primary m-1">
-                                        <i class="fas fa-tasks"></i>
+                                        class="text-decoration-none text-light btn btn-warning m-1">
+                                        <i class="fas fa-eye"></i>
                                         <span class="text-light"> Góc nhìn người dùng </span>
                                     </a>
                                     <button type="button" class="btn btn-danger m-1 delete-room-not-full">
@@ -297,7 +299,6 @@ function confirmUpdate() {
                 valConvenient += ($(cb).children("input:checkbox")[0].value + ",");
         });
 
-        let fileImg;
         let checkUpImg = true;
         if (checkSave) {
             checkUpImg = checkImg;
@@ -307,7 +308,6 @@ function confirmUpdate() {
 
         if (checkUpImg && checkAddress && checkPrice && checkCategory && checkTitle && checkArea) {
             if (checkImg) {
-                fileImg = images.prop('files');
                 await uploadFile(Array.from(images.prop('files')))
                     .then(rs => {
                         if (rs.status === 200) {
@@ -479,7 +479,7 @@ function confirmDeleteRoom() {
         if (check) {
             let emails = "";
             roomSave.tenantList.forEach(t => {
-                emails += t.user.email + ";";
+                emails += t.user.email + " ";
             })
             checkDelete ? showDataTableFull() : showDataTableNotFull();
             await notify_impl(emails.substring(0, emails.length - 1), "Xóa phòng/nhà trọ",
@@ -501,7 +501,7 @@ function sortRoom() {
 function onChangeSort() {
     var valSort = selectSort.val().split("/");
     if (valSort[1])
-        switch (selectSort.val() - 0) {
+        switch (valSort[0] - 0) {
             case 1:
                 if (JSON.parse(valSort[1].toLowerCase()))
                     listRoomHost.sort((a, b) => {
@@ -538,7 +538,7 @@ function onChangeSort() {
                         return b.personAsk - a.personAsk;
                     });
                 else
-                    listMotelRoomDTO.sort((a, b) => {
+                    listRoomHost.sort((a, b) => {
                         return a.personAsk - b.personAsk;
                     });
                 break;

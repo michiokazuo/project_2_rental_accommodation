@@ -18,11 +18,23 @@ public interface TenantRepository extends JpaRepository<Tenant, TenantKey>, JpaS
 
     List<Tenant> findAllByRoomAndDeletedFalse(MotelRoom room);
 
+    List<Tenant> findAllByRoomAndDeletedFalseAndStatusFalse(MotelRoom room);
+
     List<Tenant> findAllByUserAndDeletedFalse(AppUser appUser);
 
     Tenant findByIdAndDeletedFalse(TenantKey tenantKey);
 
     Boolean existsByIdAndDeletedFalse(TenantKey tenantKey);
+
+    @Query("select distinct e.user.id from Tenant e where e.deleted = false")
+    @Modifying
+    @Transactional
+    List<Integer> userRentRoom();
+
+    @Query("select distinct e.room.id from Tenant e where e.deleted = false")
+    @Modifying
+    @Transactional
+    List<Integer> roomHasReq();
 
     @Query("select t FROM Tenant t where t.deleted = false and t.room.host.id = ?1 and t.status = true")
     @Modifying

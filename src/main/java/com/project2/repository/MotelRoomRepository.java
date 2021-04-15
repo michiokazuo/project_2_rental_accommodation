@@ -28,4 +28,14 @@ public interface MotelRoomRepository extends JpaRepository<MotelRoom, Integer>, 
     @Transactional
     int deleteCustomByHost(Integer id);
 
+    @Query("select distinct e.host.id from MotelRoom e where e.deleted = false")
+    @Modifying
+    @Transactional
+    List<Integer> hostHasRoom();
+
+    @Query("update MotelRoom e set e.category.id = -1 where e.category.id = ?1")
+    @Modifying
+    @Transactional
+    int updateByCategory(Integer id);
+
 }

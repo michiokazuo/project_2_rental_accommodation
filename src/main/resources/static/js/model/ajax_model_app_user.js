@@ -28,3 +28,7 @@ function allRole(){
     return ajaxGet(`${URL_USER}/role`);
 }
 
+function adminFindAll() {
+    return ajaxGet(`${URL_USER}/admin`);
+}
+

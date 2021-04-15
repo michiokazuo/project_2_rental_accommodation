@@ -27,7 +27,9 @@ public class ReportService_Impl implements ReportService {
 
     @Override
     public List<Report> findAll(String email) throws Exception {
-        return reportRepository.findAllByDeletedFalse();
+        if (email != null && appConfig.checkAdmin(email))
+            return reportRepository.findAllByDeletedFalse();
+        return null;
     }
 
     @Override

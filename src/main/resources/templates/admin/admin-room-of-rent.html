@@ -1,10 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Trọ của người thuê</title>
+    <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+    <link rel="stylesheet" th:href="@{/css/host_has_room.css}">
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Xác nhận thao tác</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="container">
+                <form class="row col-12">
+                    <div class="modal-body" id="content">Bạn có chắc chắn muốn xóa trọ này không ?</div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="btn-delete-room">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="modal-tenant" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="">Thông tin người thuê</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="row col-12 flex-row ml-0 form-post" action="">
+                        <div class="form-group col-md-6">
+                            <label for="name-sign-up" class="col-form-label"><strong>Tên </strong></label>
+                            <input type="text" class="form-control" id="name-sign-up" placeholder="Nhập tên" required
+                                   disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="email-sign-up" class="col-form-label"><strong>Email </strong></label>
+                            <input type="email" class="form-control" id="email-sign-up" placeholder="Nhập email"
+                                   required disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="phone" class="col-form-label"><strong>Số điện thoại</strong> </label>
+                            <input type="text" class="form-control" id="phone" placeholder="Điện thoại" required
+                                   disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="birthday" class="col-form-label"><strong>Ngày sinh</strong></label>
+                            <input class="form-control " type="date" name="birthday" id="birthday" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="job" class="col-form-label"><strong>Nghề nghiệp</strong></label>
+                            <input class="form-control " type="text" name="birthday" id="job" disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="workplace" class="col-form-label"><strong>Nơi làm việc </strong></label>
+                            <input type="text" class="form-control" id="workplace" disabled placeholder="Nơi làm việc"
+                                   required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="gender" class="col-form-label"><strong>Giới tính</strong></label>
+                            <input class="form-control " type="text" name="birthday" id="gender" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="status" class="col-form-label"><strong>Tình trạng hôn nhân</strong></label>
+                            <input class="form-control " type="text" name="birthday" id="status" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="home-town" class="col-form-label"><strong>Quê quán</strong></label>
+                            <input type="text" class="form-control" disabled id="home-town" placeholder="Quê quán" required>
+                            <div class="invalid-feedback"></div>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="avatar" class="col-form-label"><strong>Avatar</strong></label>
+                            <img th:src="@{./files/image_config/avatar-user.png}" id="avatar"
+                                 class="border rounded mt-3" alt="avatar" width="200"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal-room" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Thông tin trọ</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="row col-12 flex-row ml-0 form-post" action="" multiple="multiple">
+                        <div class="form-group col-md-6">
+                            <label for="title" class="col-form-label"><strong>Tiêu đề </strong></label>
+                            <input type="text" class="form-control" id="title" placeholder="Nhập tiêu đề" required disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="description" class="col-form-label"><strong>Mô tả </strong></label>
+                            <textarea class="form-control" id="description" placeholder="Mô tả..."
+                                      required disabled></textarea>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="area" class="col-form-label"><strong>Diện tích (m<sup>2</sup>) </strong></label>
+                            <input type="number" class="form-control" id="area" placeholder="Diện tích"
+                                   required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="address" class="col-form-label"><strong>Địa chỉ </strong></label>
+                            <input type="text" class="form-control" id="address"
+                                   placeholder="Địa chỉ" required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="location" class="col-form-label"><strong>Toạ độ (lat;long)</strong></label>
+                            <input type="text" class="form-control" id="location" placeholder="Tọa độ" required
+                                   disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="price" class="col-form-label"><strong>Giá tiền (VNĐ/tháng)</strong> </label>
+                            <input type="number" class="form-control" id="price" min="0" placeholder="Giá tiền" required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="create-date" class="col-form-label"><strong>Ngày tạo</strong></label>
+                            <input class="form-control " type="date" name="create-date" id="create-date" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="modify-date" class="col-form-label"><strong>Ngày chỉnh sửa</strong></label>
+                            <input class="form-control " type="date" name="create-date" id="modify-date" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="check-priority" class="col-form-label"><strong>Đối tượng ưu tiên</strong></label>
+                            <input class="form-control " type="text" name="birthday" id="check-priority" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="check-convenient" class="col-form-label"><strong>Số người hiện tại</strong></label>
+                            <input class="form-control " type="text" name="birthday" id="check-convenient" disabled>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="category" class="col-form-label"><strong>Danh mục</strong></label>
+                            <input class="form-control " type="text" name="birthday" id="category" disabled>
+                        </div>
+                        <div class="form-group col-md-6 d-none" id="maxPerson">
+                            <label for="max_person" class="col-form-label"><strong>Số người tối đa</strong></label>
+                            <input type="text" class="form-control" id="max_person" placeholder="Số người tối đa"
+                                   required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6 d-none" id="h-floor">
+                            <label for="floor" class="col-form-label"><strong>Số tầng</strong></label>
+                            <input type="text" class="form-control" id="floor" placeholder="Số tầng"
+                                   required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="rate" class="col-form-label"><strong>Đánh giá</strong></label>
+                            <input type="text" class="form-control" id="rate" placeholder="Số tầng"
+                                   required disabled>
+                            <div class="invalid-feedback"></div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label class="col-form-label"><strong>Ảnh sản phẩm</strong></label>
+                            <div></div>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img1"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img2"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img3"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                            <img th:src="@{../files/image_config/rental.svg}" id="img4"
+                                 class="border rounded mt-3" alt="avatar"
+                                 width="100" src=""/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<main class="rounded shadow bg-white">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside th:replace="~{/fragment/host-admin-fragment :: menu-admin}"></aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="title-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3 id="header">Quản lý trọ đã thuê của</h3>
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tool-page">
+                        <div class="container">
+                            <div class="row justify-content-end">
+                                <div class="col-md-3 mb-2 form-group">
+                                    <select class="form-select" name="sort" id="sort">
+                                        <option>Sắp xếp</option>
+                                        <option>A -> Z</option>
+                                        <option>Z -> A</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive table-responsive-lg">
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Trọ đã thuê</caption>
+                            <thead>
+                            <tr class=" text-success">
+                                <th colspan="5">Trọ đã thuê</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Thông tin</th>
+                                <th scope="col">Chủ trọ</th>
+                                <th scope="col">Ngày thuê</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-full">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                        <table class="table table-bordered table-hover bg-white pt-2 pb-2">
+                            <caption>Trọ đã đầy</caption>
+                            <thead>
+                            <tr class="text-primary">
+                                <th colspan="5">Trọ đang đăng ký</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Thông tin</th>
+                                <th scope="col">Chủ trọ</th>
+                                <th scope="col">Ngày thuê</th>
+                                <th scope="col">Hành động</th>
+                            </tr>
+                            </thead>
+                            <tbody id="table-not-full">
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                                <td>Mark</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <hr>
+                    </div>
+                    <!-- /.row (main row) -->
+                </div><!-- /.container-fluid -->
+
+                <footer th:replace="~{/fragment/host-admin-fragment :: footer-admin}"></footer>
+                <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</main>
+<script th:src="@{/js/pages/admin/ajax_page_admin_room_of_rent.js}"></script>
 </body>
 </html>

@@ -35,7 +35,9 @@ public class TenantService_Impl implements TenantService {
 
     @Override
     public List<Tenant> findAll(String email) throws Exception {
-        return tenantRepository.findAllByDeletedFalse();
+        if (email != null && appConfig.checkAdmin(email))
+            return tenantRepository.findAllByDeletedFalse();
+        return null;
     }
 
     @Override
@@ -97,20 +99,26 @@ public class TenantService_Impl implements TenantService {
                 personIn++;
             }
             if (personIn >= currentTenant.getRoom().getMaxPerson()) {
-                List<Tenant> tenants = tenantRepository.findAllByRoomAndDeletedFalse(currentTenant.getRoom());
+                List<Tenant> tenants = tenantRepository
+                        .findAllByRoomAndDeletedFalseAndStatusFalse(currentTenant.getRoom());
                 List<TenantKey> tenantKeys = new ArrayList<>();
                 List<String> emails = new ArrayList<>();
                 for (Tenant t : tenants) {
-                    if (!t.getStatus()) {
+                    if (!t.getStatus() && !t.getId().getIdUser().equals(currentTenant.getId().getIdUser())) {
                         tenantKeys.add(t.getId());
                         emails.add(t.getUser().getEmail());
                     }
                 }
                 if (!tenantKeys.isEmpty() && tenantRepository.deleteCustomByListKey(tenantKeys) >= 0) {
-                    sendEmailService.sendHtmlMail((String[]) emails.toArray(), "Yêu cầu thuê bị từ chối",
-                            "Yêu cầu này của bạn: " + currentTenant.getRoom().getTitle() +
-                                    " thuộc ông/bà " + currentTenant.getRoom().getHost().getName() +
-                                    " đã bị từ chối do đủ người. Mong bạn thông cảm và tìm trọ phù hợp hơn.");
+                    try {
+                        sendEmailService.sendHtmlMail((String[]) emails.toArray(), "Yêu cầu thuê bị từ chối",
+                                "Yêu cầu này của bạn: " + currentTenant.getRoom().getTitle() +
+                                        " thuộc ông/bà " + currentTenant.getRoom().getHost().getName() +
+                                        " đã bị từ chối do đủ người. Mong bạn thông cảm và tìm trọ phù hợp hơn.");
+                    } catch (Exception e) {
+
+                        e.printStackTrace();
+                    }
                 }
             }
         }

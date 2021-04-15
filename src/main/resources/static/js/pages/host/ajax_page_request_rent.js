@@ -49,20 +49,20 @@ $(async function () {
     await loadTenantReq();
     await loadRoomDTO();
     await loadCategory();
-    classifyReq();
+    // classifyReq();
     showDataTableRent();
     showSelectCustom(selectSort, sortTenant, "Sắp xếp");
     confirmRent();
     sortRoom();
 })
 
-function classifyReq() {
-    if (listRoomHost && listRoomHost.length > 0)
-        for (const r of listRoomHost)
-            for (const t of r.tenantList)
-                if (!t.status)
-                    listTenantReq.push({room: r.motelRoom, user: t.user, convenientList: r.convenientList});
-}
+// function classifyReq() {
+//     if (listRoomHost && listRoomHost.length > 0)
+//         for (const r of listRoomHost)
+//             for (const t of r.tenantList)
+//                 if (!t.status)
+//                     listTenantReq.push({room: r.motelRoom, user: t.user, convenientList: r.convenientList});
+// }
 
 async function loadCategory() {
     await categoryFindAll()
@@ -78,8 +78,8 @@ async function loadCategory() {
 
 function showDataTableRent() {
     let rs = `<tr><td colspan='4'><strong>Không có dữ liệu</strong></td></tr>`;
-    if (listTenantReq && listTenantReq.length > 0)
-        rs = listTenantReq.map((data, index) => {
+    if (listTenant && listTenant.length > 0)
+        rs = listTenant.map((data, index) => {
             let room = data.room;
             let user = data.user;
             if (room && user)
@@ -87,17 +87,17 @@ function showDataTableRent() {
                                 <th>${index + 1}</th>
                                 <td>
                                     <button type="button" class="btn btn-primary m-1 detail-user">
-                                        <i class="fas fa-edit"></i> ${dataFilter(user.name)}
+                                        <i class="far fa-eye"></i> ${dataFilter(user.name)}
                                     </button>
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-warning m-1 detail-room">
-                                        <i class="fas fa-edit"></i> ${dataFilter(room.id + "." + room.title)}
+                                        <i class="far fa-eye"></i> ${dataFilter(room.id + "." + room.title)}
                                     </button>
                                 </td>
                                 <td>
                                 <button type="button" class="btn btn-success m-1 accept-rent">
-                                        <i class="fas fa-edit"></i> Xác nhận
+                                        <i class="far fa-check-circle"></i> Xác nhận
                                     </button>
                                     <button type="button" class="btn btn-danger m-1 delete-rent">
                                         <i class="fas fa-trash-alt"></i> Xóa
@@ -132,7 +132,7 @@ function viewRoom() {
         }).join(", ");
         checkBoxPriority.val(priority);
 
-        checkBoxConvenient.val(numberFilter(listRoomHost.find(r => r.room.id === roomSave.id).personIn));
+        checkBoxConvenient.val(numberFilter(listRoomHost.find(r => r.motelRoom.id === roomSave.id).personIn));
 
         if (listCategory.find(c => c.id === (roomSave.category.id)).name.toUpperCase()
             .search("nhà".toUpperCase()) >= 0) {
@@ -142,7 +142,7 @@ function viewRoom() {
             var paPerson = $("#maxPerson");
             paPerson.addClass("d-none");
             $("#h-floor").addClass("d-none");
-            if (listCategory.find(c => c.id === (selectCategory.val() - 0)).name.toUpperCase()
+            if (listCategory.find(c => c.id === (roomSave.category.id)).name.toUpperCase()
                 .search("ghép".toUpperCase()) >= 0)
                 paPerson.removeClass("d-none");
             else
@@ -247,6 +247,7 @@ function confirmRent() {
         alertReport(check, check ? (checkRent ? "Xác nhận thành công." : "Xóa thành công.")
             : "Có lỗi xảy ra. Vui lòng thử lại!!!");
         if (check) {
+            showReq();
             showDataTableRent();
             await notify_impl(email, checkRent ? "Xác nhận thuê trọ" : "Xóa quyền thuê trọ",
                 checkRent ? `Bạn đã được chủ trọ xác nhận yêu cầu thuê trọ ${tenant.room.title}. Chúc bạn sẽ thấy phù hợp với trọ này.`

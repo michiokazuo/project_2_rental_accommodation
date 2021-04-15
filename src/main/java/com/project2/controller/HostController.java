@@ -19,11 +19,11 @@ public class HostController {
     }
 
     @GetMapping("tro-so-huu")
-    public String OwnerRoom() {
+    public String ownerRoom() {
         return "/host/host-has-room";
     }
 
-    @GetMapping("chi-tiet-thue")
+    @GetMapping(value = {"chi-tiet-thue", "tro-so-huu/chi-tiet-thue"})
     public String detailRenterOfRoom() {
         return "/host/renter-of-room";
     }

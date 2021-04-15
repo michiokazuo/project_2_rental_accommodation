@@ -20,6 +20,21 @@ public class TenantController {
 
     private final TenantService tenantService;
 
+    @GetMapping("find-all")
+    public ResponseEntity<Object> findAll(Authentication authentication) {
+        try {
+            String email = null;
+            if (authentication != null)
+                email = ((User) authentication.getPrincipal()).getUsername();
+            List<Tenant> motelRoomDTOS = tenantService.findAll(email);
+            return motelRoomDTOS != null && !motelRoomDTOS.isEmpty() ? ResponseEntity.ok(motelRoomDTOS)
+                    : ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping("find-by-user/{id}")
     public ResponseEntity<Object> findAllByUser(Authentication authentication, @PathVariable("id") Integer id) {
         try {

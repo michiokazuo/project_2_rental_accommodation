@@ -3,7 +3,7 @@ let tableDataRented, tableDataRequest, tableDataCmt, btnDeleteRent, modalRent, m
 
 let indexTenant = 0, tenant, user, checkDelete = true, checkRent = false;
 
-let roomDTO = [], listRented = [], listRequest = [];
+let roomDTO = {}, listRented = [], listRequest = [];
 let listReport = [];
 
 $(async function () {
@@ -46,22 +46,23 @@ async function loadMotelRoomDTO() {
         .then(rs => {
             if (rs.status === 200) {
                 roomDTO = rs.data;
-                $("#title-room").text(`Quản lý trọ số ${roomDTO.motelRoom.id}`);
+                $("#title-room").text(`Quản lý trọ số ${roomDTO.motelRoom.host.id} . ${roomDTO.motelRoom.id}`);
                 listReport = roomDTO.reportList;
-            }
+            } else window.location.href = "/error";
         })
         .catch(e => {
             console.log(e);
+            // window.location.href = "/error";
         })
 }
 
-
 function classifyRent() {
-    for (const r of roomDTO.tenantList)
-        if (r.status)
-            listRented.push(r);
-        else
-            listRequest.push(r);
+    if (roomDTO)
+        for (const r of roomDTO.tenantList)
+            if (r.status)
+                listRented.push(r);
+            else
+                listRequest.push(r);
 }
 
 function showDataTableRented() {
@@ -76,7 +77,7 @@ function showDataTableRented() {
                                  alt="" width="80px"></td>
                                 <td>${dataFilter(u.name)}</td>
                                 <td><button type="button" class="btn btn-success m-1 detail-user-rent">
-                                        <i class="fas fa-edit"></i> Xem
+                                        <i class="fas fa-eye"></i> Xem
                                     </button></td>
                                 <td>
                                     <button type="button" class="btn btn-danger m-1 delete-rent">
@@ -103,11 +104,11 @@ function showDataTableRequest() {
                                  alt="" width="80px"></td>
                                 <td>${dataFilter(u.name)}</td>
                                 <td><button type="button" class="btn btn-success m-1 detail-user-request">
-                                        <i class="fas fa-edit"></i> Xem
+                                        <i class="fas fa-eye"></i> Xem
                                     </button></td>
                                 <td>
                                     <button type="button" class="btn btn-primary m-1 accept-rent">
-                                        <i class="fas fa-edit"></i> Xác nhận
+                                       <i class="far fa-check-circle"></i> Xác nhận
                                     </button>
                                     <button type="button" class="btn btn-danger m-1 delete-request">
                                     <i class="fas fa-trash-alt"></i> Xóa
@@ -122,7 +123,7 @@ function showDataTableRequest() {
 }
 
 function showDataTableCMT() {
-    $("#cmt").text(`Bình luận (${roomDTO.ratings ? 
+    $("#cmt").text(`Bình luận (${roomDTO.ratings ?
         dataFilter(parseFloat(roomDTO.ratings).toFixed(1) + "/5") : "Chưa có đánh giá"})`);
     let rs = `<tr><td colspan='5'><strong>Không có dữ liệu</strong></td></tr>`;
     if (listReport && listReport.length > 0)
@@ -137,7 +138,7 @@ function showDataTableCMT() {
                                 <td>${numberFilter(data.rate)}/5</td>
                                 <td>
                                     <button type="button" class="btn btn-success m-1 detail-user-cmt">
-                                        <i class="fas fa-edit"></i> Thông tin
+                                        <i class="fas fa-info-circle"></i> Thông tin
                                     </button>
                                 </td>
                             </tr>`;
@@ -213,7 +214,7 @@ function modifyRent() {
         user = tenant.user;
         checkRent = false;
         checkDelete = false;
-        $("#content").text("Bạn có chắc chắn muốn xác nhận người thuê này không?");
+        $("#content").text(`Bạn có chắc chắn muốn xác nhận ${user.name} thuê này không?`);
         btnDeleteRent.removeClass("btn-danger");
         btnDeleteRent.addClass("btn-primary");
         modalRent.modal("show");
@@ -241,9 +242,10 @@ function confirmRent() {
             modalRent.modal("hide");
             alertReport(check, check ? "Xóa thành công." : "Có lỗi xảy ra. Vui lòng thử lại!!!");
             if (check) {
+                if(checkRole(USER_IN_SYSTEM, ROLE_HOST)) showReq();
                 checkRent ? showDataTableRented() : showDataTableRequest();
                 await notify_impl(user.email, "Xóa thuê/yêu cầu trọ",
-                    `Bạn đã bị chủ trọ xóa yêu cầu/thuê trọ ${tenant.room.title}
+                    `Bạn đã bị chủ trọ/quản lý xóa yêu cầu/thuê trọ ${tenant.room.title}
                     . Mong bạn thông cảm và tìm trọ khác phù hợp hơn.`);
             }
 

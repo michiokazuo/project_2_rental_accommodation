@@ -7,8 +7,6 @@ let listRole = [];
 let user_now = {};
 
 $(async function () {
-    location.reload(true);
-
     linkSignUp = $("#btn-info-update");
     nameSignUp = $("#name-sign-up");
     inputName = $("#input-username");
@@ -46,8 +44,7 @@ $(async function () {
     homeTown = $("#home-town");
     inputHomeTown = $("#input-home-town");
 
-
-    // await getUserInSystem();
+    await getUserInSystem();
     await loadRole();
     await getUserNeedInfo();
     showSelectCustom(numberGender, listGender, "<>");
@@ -119,7 +116,7 @@ function signUp() {
         numberJob.val(dataFilter(user_now.job));
         numberStatus.val(dataFilter(user_now.status));
         dateBirthday.val(dataFilter(new Date(user_now.birthday).toLocaleDateString('fr-CA')));
-        numberRole.val(dataFilter(user_now.role.id));
+        numberRole.val(dataFilter(user_now.role.content));
         homeTown.val(dataFilter(user_now.homeTown));
         modalSignUp.modal("show");
     })
@@ -169,10 +166,6 @@ function submitSignUp() {
             check: checkStatus
         } = checkData(numberStatus, /^\d+$/, "Bạn chưa chọn tình trạng hôn nhân.");
         let {
-            val: valRole,
-            check: checkRole
-        } = checkData(numberRole, /^\d+$/, "Bạn chưa chọn tư cách đăng ký.");
-        let {
             val: valueAvatar,
             check: checkAvatar
         } = checkFile(avatarSignUp, "File ảnh phải nhỏ hơn 10MB.");
@@ -182,8 +175,8 @@ function submitSignUp() {
         } = checkData(homeTown, /./, "Bạn chưa nhập quê quán.");
 
         if (checkName && checkEmailSignUp && checkPasswordSignUp && checkPasswordConfirmSignUp && checkTextPhone
-            && checkDateBirthday && checkStatus && checkStatus && checkWorkplace && checkGender && checkRole
-            && checkJob && checkHomeTown) {
+            && checkDateBirthday && checkStatus && checkStatus && checkWorkplace && checkGender && checkJob
+            && checkHomeTown) {
             valueAvatar = user_now.avatar;
             let fileAvatar;
             if (checkAvatar) {
@@ -212,7 +205,6 @@ function submitSignUp() {
             user_now.status = valStatus;
             user_now.workplace = valWorkplace;
             user_now.birthday = valBirthday;
-            user_now.role = listRole.find(r => r.id === (valRole - 0));
             user_now.homeTown = valueHomeTown;
 
             let check = false;

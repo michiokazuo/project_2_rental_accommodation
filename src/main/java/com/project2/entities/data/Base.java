@@ -1,5 +1,6 @@
 package com.project2.entities.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,14 +24,17 @@ public abstract class Base {
     @LastModifiedDate
     private Timestamp modifyDate;
 
+    @JsonIgnore
     @Column(name = "create_by")
     @CreatedBy
     private String createBy;
 
+    @JsonIgnore
     @Column(name = "modify_by")
     @LastModifiedBy
     private String modifyBy;
 
+    @JsonIgnore
     @Column(name = "deleted")
     private Boolean deleted = false;
 }

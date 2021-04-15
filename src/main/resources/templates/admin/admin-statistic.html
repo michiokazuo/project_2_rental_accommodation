@@ -1,10 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Thống kê</title>
+    <block th:replace="~{/fragment/host-admin-fragment :: head-resource}"></block>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <link rel="stylesheet" th:href="@{/css/chart.css}">
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
+<style rel="stylesheet">
+    .collapse:not(.show) {
+        display: none!important;
+    }
+</style>
+<main class="rounded shadow bg-white">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav th:replace="~{/fragment/host-admin-fragment :: main-header}"></nav>
+        <!-- /.navbar -->
+        <!-- Main Sidebar Container -->
+        <aside th:replace="~{/fragment/host-admin-fragment :: menu-admin}"></aside>
 
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="title-page">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12 text-center">
+                                    <h3 id="title-room">Thống kê</h3>
+                                </div>
+                                <div class="col-12">
+                                    <hr>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive table-responsive-lg">
+                        <figure class="highcharts-figure mb-4">
+                            <div id="content-chart-1" class="chart"></div>
+                        </figure>
+                        <figure class="highcharts-figure mb-4">
+                            <div id="content-chart-2" class="chart"></div>
+                        </figure>
+                        <hr>
+                    </div>
+                    <!-- /.row (main row) -->
+                </div><!-- /.container-fluid -->
+
+                <footer th:replace="~{/fragment/host-admin-fragment :: footer-admin}"></footer>
+                <footer th:replace="~{/fragment/host-admin-fragment :: alert-foot}"></footer>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+</main>
+<script th:src="@{/js/pages/admin/ajax_page_admin_statistic.js}"></script>
+<script th:src="@{/js/model/ajax_model_report.js}"></script>
 </body>
 </html>

@@ -11,8 +11,6 @@ let checkUserView = 0;
 let listRoomHost = [], listRoomFull = [], listRoomNotFull = [];
 
 $(async function () {
-    location.reload(true);
-
     linkSignUp = $("#btn-info-update");
     nameSignUp = $("#name-sign-up");
     inputName = $("#input-username");
@@ -346,7 +344,7 @@ function showTableRent() {
                         <td>
                             <a target="_blank" href="thong-tin-thue?id_room=${dataFilter(room.id)}" 
                             class="text-decoration-none text-light btn btn-success m-1">
-                                        <i class="fas fa-tasks"></i>
+                                        <i class="far fa-eye"></i>
                                         <span class="text-light"> Xem </span>
                             </a>
                         </td>
@@ -378,7 +376,7 @@ function showTableRequest() {
                         <td>
                             <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
                             class="text-decoration-none text-light btn btn-success m-1">
-                                        <i class="fas fa-tasks"></i>
+                                        <i class="far fa-eye"></i>
                                         <span class="text-light"> Xem </span>
                             </a>
                         </td>
@@ -483,7 +481,7 @@ function showTableData() {
                             <td>
                                 <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
                                         class="text-decoration-none text-light btn btn-primary m-1">
-                                        <i class="fas fa-tasks"></i>
+                                       <i class="far fa-eye"></i>
                                         <span class="text-light"> ${room.title} </span>
                                     </a>
                             </td>
@@ -522,7 +520,7 @@ function showTableData() {
                             <td>
                                 <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
                                         class="text-decoration-none text-light btn btn-primary m-1">
-                                        <i class="fas fa-tasks"></i>
+                                        <i class="far fa-eye"></i>
                                         <span class="text-light"> ${room.title} </span>
                                     </a>
                             </td>
