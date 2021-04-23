@@ -41,24 +41,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.headers().defaultsDisabled().disable();
 
-//        // cho phép tất cả các request truy cập
-        http.authorizeRequests().antMatchers("/", "/trang-chu", "/dang-nhap", "/dang-xuat", "/error").permitAll();
+        http.authorizeRequests().antMatchers("/", "/trang-chu", "/dang-nhap", "/dang-xuat",
+                "/tin-tuc", "/lien-he", "/thong-tin-thue", "/tim-kiem", "/error")
+                .permitAll();
 //
 //        // chỉ cho phép người dùng đã đăng nhập với quền user hoặc admin truy cập
 //        http.authorizeRequests().antMatchers("/user/**", "/cong-viec-ca-nhan", "/danh-gia")
 //                .access("hasAnyRole('ROLE_USER')");
 //
-//        // chỉ cho phép người dùng đã đăng nhập với admin truy cập chỉ cho
-//        http.authorizeRequests().antMatchers("/admin/**", "/du-an/**", "/nhan-vien/**", "/thong-ke")
-//                .access("hasRole('ROLE_ADMIN')");
-//
-//        http.authorizeRequests().antMatchers("/thong-tin-ca-nhan", "/employee/update", "/employee/insert"
-//                , "/employee/find-by-id/**", "/task-to-employee/search", "/task-to-employee/search-by-name"
-//                , "/task-to-employee/update").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+        http.authorizeRequests().antMatchers("/admin/**")
+                .access("hasRole('ROLE_ADMIN')");
 
-        // khi người dùng login với vai trò X, nhưng truy cập vào trang yêu cầu vai trò Y
-        // ngoại lệ AccessDeniedException sẽ ném ra
-        // đã được error controller bắt lỗi
+        http.authorizeRequests().antMatchers("/host/**")
+                .access("hasRole('ROLE_HOST')");
+
+        http.authorizeRequests().antMatchers("/user/**")
+                .access("hasRole('ROLE_RENTER')");
+
+        http.authorizeRequests().antMatchers("/admin-host/**")
+                .access("hasAnyRole('ROLE_ADMIN', 'ROLE_HOST')");
+
+        http.authorizeRequests().antMatchers("/admin-user/**")
+                .access("hasAnyRole('ROLE_ADMIN', 'ROLE_RENTER')");
+
+        http.authorizeRequests().antMatchers("/host-user/**")
+                .access("hasAnyRole('ROLE_RENTER', 'ROLE_HOST')");
+
+        http.authorizeRequests().antMatchers("/all-role/**")
+                .access("hasAnyRole('ROLE_RENTER', 'ROLE_ADMIN', 'ROLE_HOST')");
+
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/error");
 
         http.authorizeRequests()
@@ -75,15 +86,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/api/security-login").defaultSuccessUrl("/api/public/login-process/success")
                 .failureUrl("/api/public/login-process/fail")
                 .usernameParameter("username").passwordParameter("password");
-
-
-        // cấu hình cho login
-//        http.authorizeRequests().and()
-//                .logout().logoutUrl("/dang-xuat").clearAuthentication(true).deleteCookies().invalidateHttpSession(true)
-//                .logoutSuccessUrl("/")
-//                .and().formLogin().loginPage("/dang-nhap")
-//                .loginProcessingUrl("/security-login").defaultSuccessUrl("/api/v1/public/login-process/success")
-//                .failureUrl("/api/v1/public/login-process/fail")
-//                .usernameParameter("username").passwordParameter("password");
     }
 }

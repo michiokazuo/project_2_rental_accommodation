@@ -1,7 +1,7 @@
 const URL_USER = URL_PUBlIC + "/user";
 
 function userFindAll() {
-    return ajaxGet(`${URL_USER}/find-all`);
+    return ajaxGet(`${URL_USER}/admin/find-all`);
 }
 
 function userFindById(q) {
@@ -13,15 +13,11 @@ function userInsert(e) {
 }
 
 function userUpdate(e) {
-    return ajaxPut(`${URL_USER}/update/`, e);
+    return ajaxPut(`${URL_USER}/all-role/update/`, e);
 }
 
 function userDelete(e) {
-    return ajaxDelete(`${URL_USER}/delete/` + `${e.id}`, e);
-}
-
-function userSearchSort(q) {
-    return ajaxGet(`${URL_USER}/search-sort?` + `${q}`);
+    return ajaxDelete(`${URL_USER}/admin/delete/` + `${e.id}`, e);
 }
 
 function allRole(){

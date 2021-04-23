@@ -203,7 +203,7 @@ async function loadRoomDTO() {
         })
         .catch(e => {
             console.log(e);
-            // window.location.href = "/error";
+            window.location.href = "/error";
         })
 }
 
@@ -227,13 +227,14 @@ function showInfoBasic() {
                             <p class="text-secondary" style="font-size: var(--font-16);">${dataFilter(room.description)}</p>
                             <button class="fp__label click-add-cart btn" data-id="${room.id}" id="btn-rent"> 
                                 ${(USER_IN_SYSTEM && checkRole(USER_IN_SYSTEM, ROLE_USER)) ?
-            ((roomDTO.personIn < room.maxPerson && USER_IN_SYSTEM) ?
-                (checkRent ? (checkRent > 0 ? "Hủy thuê" : "Yêu cầu thuê") : "Hủy yêu cầu") : "Đã đầy")
+            ((checkRent ? (checkRent > 0 ? "Hủy thuê" : (roomDTO.personIn < room.maxPerson ? "Yêu cầu thuê" : "Đã đầy")) 
+                : "Hủy yêu cầu"))
             : "Bạn cần tạo TK với tư cách người thuê để thuê trọ!!!"}
                             </button>`);
         btnRent = $("#btn-rent");
-        if (!(USER_IN_SYSTEM && checkRole(USER_IN_SYSTEM, ROLE_USER)))
-            btnRent.prop("disabled", false)
+        if (!(USER_IN_SYSTEM && checkRole(USER_IN_SYSTEM, ROLE_USER))
+            || (roomDTO.personIn >= room.maxPerson && checkRent < 0 && USER_IN_SYSTEM))
+            btnRent.prop("disabled", true)
         editRent();
         category.text(dataFilter(room.category.name));
         convenient.empty();
@@ -295,7 +296,7 @@ function showInfoBasic() {
 
         tableHost.html(rs);
         rs = `<tr><td colspan='6'><strong>Không có dữ liệu</strong></td></tr>`;
-        if (rentedPerson && rentedPerson > 0)
+        if (rentedPerson && rentedPerson.length > 0)
             rs = rentedPerson.map((data, index) => {
                 let user = data.user;
                 if (user)

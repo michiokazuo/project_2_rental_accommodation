@@ -20,7 +20,7 @@ public class TenantController {
 
     private final TenantService tenantService;
 
-    @GetMapping("find-all")
+    @GetMapping("admin/find-all")
     public ResponseEntity<Object> findAll(Authentication authentication) {
         try {
             String email = null;
@@ -35,7 +35,7 @@ public class TenantController {
         }
     }
 
-    @GetMapping("find-by-user/{id}")
+    @GetMapping("user/find-by-user/{id}")
     public ResponseEntity<Object> findAllByUser(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;
@@ -50,7 +50,7 @@ public class TenantController {
         }
     }
 
-    @GetMapping("find-by-host/{id}")
+    @GetMapping("admin-host/find-by-host/{id}")
     public ResponseEntity<Object> findAllByHost(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;
@@ -65,7 +65,7 @@ public class TenantController {
         }
     }
 
-    @GetMapping("find-req-by-host/{id}")
+    @GetMapping("host/find-req-by-host/{id}")
     public ResponseEntity<Object> findReqByHost(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;
@@ -80,7 +80,7 @@ public class TenantController {
         }
     }
 
-    @PostMapping("insert")
+    @PostMapping("user/insert")
     public ResponseEntity<Object> insert(Authentication authentication, @RequestBody Tenant tenant) {
         try {
             String email = null;
@@ -94,7 +94,7 @@ public class TenantController {
         }
     }
 
-    @PutMapping("update")
+    @PutMapping("admin-host/update")
     public ResponseEntity<Object> update(Authentication authentication, @RequestBody Tenant tenant) {
         try {
             String email = null;
@@ -108,7 +108,7 @@ public class TenantController {
         }
     }
 
-    @DeleteMapping("delete")
+    @DeleteMapping("all-role/delete")
     public ResponseEntity<Object> delete(Authentication authentication, @RequestBody TenantKey tenantKey) {
         try {
             String email = null;

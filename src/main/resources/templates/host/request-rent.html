@@ -93,7 +93,8 @@
                         <div class="form-group col-md-6">
                             <label for="avatar" class="col-form-label"><strong>Avatar</strong></label>
                             <img th:src="@{./files/image_config/avatar-user.png}" id="avatar"
-                                 class="border rounded mt-3" alt="avatar" width="200"/>
+                                 class="border rounded mt-3" alt="avatar" width="200"
+                                 th:onerror="'this.src=\'' + @{../files/image_config/avatar-user.svg} + '\';'"/>
                         </div>
                     </form>
                 </div>
@@ -189,16 +190,20 @@
                             </div>
                             <img th:src="@{../files/image_config/rental.svg}" id="img1"
                                  class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 width="100" src=""
+                                 th:onerror="'this.src=\'' + @{../files/image_config/rental.svg} + '\';'"/>
                             <img th:src="@{../files/image_config/rental.svg}" id="img2"
                                  class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 width="100" src=""
+                                 th:onerror="'this.src=\'' + @{../files/image_config/rental.svg} + '\';'"/>
                             <img th:src="@{../files/image_config/rental.svg}" id="img3"
                                  class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 width="100" src=""
+                                 th:onerror="'this.src=\'' + @{../files/image_config/rental.svg} + '\';'"/>
                             <img th:src="@{../files/image_config/rental.svg}" id="img4"
                                  class="border rounded mt-3" alt="avatar"
-                                 width="100" src=""/>
+                                 width="100" src=""
+                                 th:onerror="'this.src=\'' + @{../files/image_config/rental.svg} + '\';'"/>
                         </div>
                     </form>
                 </div>

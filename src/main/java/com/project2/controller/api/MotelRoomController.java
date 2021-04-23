@@ -59,7 +59,7 @@ public class MotelRoomController {
         }
     }
 
-    @GetMapping("find-all-by-user/{id}")
+    @GetMapping("admin/find-all-by-user/{id}")
     public ResponseEntity<Object> findAllByUser(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;
@@ -89,7 +89,7 @@ public class MotelRoomController {
         }
     }
 
-    @GetMapping("find-all-by-admin/{id}")
+    @GetMapping("admin/find-all-by-admin/{id}")
     public ResponseEntity<Object> findAllByAdmin(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;
@@ -160,7 +160,7 @@ public class MotelRoomController {
         }
     }
 
-    @PostMapping("insert")
+    @PostMapping("host/insert")
     public ResponseEntity<Object> insert(Authentication authentication, @RequestBody MotelRoomDTO roomDTO) {
         try {
             String email = null;
@@ -174,7 +174,7 @@ public class MotelRoomController {
         }
     }
 
-    @PutMapping("update")
+    @PutMapping("host/update")
     public ResponseEntity<Object> update(Authentication authentication, @RequestBody MotelRoomDTO roomDTO) {
         try {
             String email = null;
@@ -189,7 +189,7 @@ public class MotelRoomController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("admin-host/delete/{id}")
     public ResponseEntity<Object> delete(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;

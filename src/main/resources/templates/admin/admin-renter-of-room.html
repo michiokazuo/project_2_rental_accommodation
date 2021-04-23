@@ -105,8 +105,9 @@
 
             <div class="form-group col-md-6">
               <label for="avatar" class="col-form-label"><strong>Avatar</strong></label>
-              <img th:src="@{./files/image_config/avatar-user.png}" id="avatar"
-                   class="border rounded mt-3" alt="avatar" width="200"/>
+              <img th:src="@{../files/image_config/avatar-user.png}" id="avatar"
+                   class="border rounded mt-3" alt="avatar" width="200"
+                   th:onerror="'this.src=\'' + @{../files/image_config/avatar-user.svg} + '\';'"/>
             </div>
           </form>
         </div>

@@ -1,7 +1,7 @@
 const URL_REPORT = URL_PUBlIC + "/report";
 
 function reportFindAll() {
-    return ajaxGet(`${URL_REPORT}/find-all`);
+    return ajaxGet(`${URL_REPORT}/admin/find-all`);
 }
 
 function reportFindById(q) {
@@ -17,18 +17,14 @@ function reportFindByUser(q) {
 }
 
 function reportInsert(e) {
-    return ajaxPost(`${URL_REPORT}/insert/`, e);
+    return ajaxPost(`${URL_REPORT}/all-role/insert/`, e);
 }
 
 function reportUpdate(e) {
-    return ajaxPut(`${URL_REPORT}/update`, e);
+    return ajaxPut(`${URL_REPORT}/all-role/update`, e);
 }
 
 function reportDelete(e) {
-    return ajaxDelete(`${URL_REPORT}/delete/` + `${e.idCmt}`, e);
-}
-
-function reportSearchSort(q) {
-    return ajaxGet(`${URL_REPORT}/search-sort?` + `${q}`);
+    return ajaxDelete(`${URL_REPORT}/all-role/delete/` + `${e.idCmt}`, e);
 }
 

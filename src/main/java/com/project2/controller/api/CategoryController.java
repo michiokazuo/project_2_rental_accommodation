@@ -47,27 +47,7 @@ public class CategoryController {
         }
     }
 
-//    @GetMapping("search-sort")
-//    public ResponseEntity<Object> search_sort(Authentication authentication,
-//                                              @RequestParam(name = "name", required = false) String name,
-//                                              @RequestParam(name = "createDate", required = false) Date createDate,
-//                                              @RequestParam(name = "status", required = false) Byte status,
-//                                              @RequestParam(name = "field", required = false) String field,
-//                                              @RequestParam(name = "isASC", required = false) Boolean isASC) {
-//
-//        try {
-//            String email = null;
-//            if (authentication != null)
-//                email = ((User) authentication.getPrincipal()).getUsername();
-//            List<Category> categories = categoryService.search_sort();
-//            return categories != null ? ResponseEntity.ok(categories) : ResponseEntity.noContent().build();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
-
-    @PostMapping("insert")
+    @PostMapping("admin/insert")
     public ResponseEntity<Object> insert(Authentication authentication, @RequestBody Category category) {
         try {
             String email = null;
@@ -81,7 +61,7 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("update")
+    @PutMapping("admin/update")
     public ResponseEntity<Object> update(Authentication authentication, @RequestBody Category category) {
         try {
             String email = null;
@@ -95,7 +75,7 @@ public class CategoryController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("admin/delete/{id}")
     public ResponseEntity<Object> delete(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;

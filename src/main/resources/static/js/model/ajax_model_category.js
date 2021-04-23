@@ -9,18 +9,14 @@ function categoryFindById(q) {
 }
 
 function categoryInsert(e) {
-    return ajaxPost(`${URL_CATEGORY}/insert/`, e);
+    return ajaxPost(`${URL_CATEGORY}/admin/insert/`, e);
 }
 
 function categoryUpdate(e) {
-    return ajaxPut(`${URL_CATEGORY}/update`, e);
+    return ajaxPut(`${URL_CATEGORY}/admin/update`, e);
 }
 
 function categoryDelete(e) {
-    return ajaxDelete(`${URL_CATEGORY}/delete/` + `${e.id}`, e);
-}
-
-function categorySearchSort(q) {
-    return ajaxGet(`${URL_CATEGORY}/search-sort?` + `${q}`);
+    return ajaxDelete(`${URL_CATEGORY}/admin/delete/` + `${e.id}`, e);
 }
 

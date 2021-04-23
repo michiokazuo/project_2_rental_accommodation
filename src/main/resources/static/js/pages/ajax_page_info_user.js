@@ -9,6 +9,7 @@ let listRole = [];
 let user_now = {};
 let checkUserView = 0;
 let listRoomHost = [], listRoomFull = [], listRoomNotFull = [];
+let roomDTO;
 
 $(async function () {
     linkSignUp = $("#btn-info-update");
@@ -65,8 +66,8 @@ $(async function () {
     showSelectCustom(numberStatus, listStatus, "<>");
     showRoleList(numberRole, listRole, "<>");
     classifyRent();
-    showInfoStatic();
     checkUser();
+    showInfoStatic();
 
     if (!checkUserView) {
         showTableRent();
@@ -474,7 +475,7 @@ function showTableData() {
     let table;
     if (listRoomNotFull && listRoomNotFull.length > 0)
         rs = listRoomNotFull.map((data, index) => {
-            let room = roomDTO.motelRoom;
+            let room = data.motelRoom;
             if (room)
                 return `<tr>
                             <th scope="row">${index + 1}</th>
@@ -513,7 +514,7 @@ function showTableData() {
     rs = `<tr><td colspan='3'><strong>Không có dữ liệu</strong></td></tr>`;
     if (listRoomFull && listRoomFull.length > 0)
         rs = listRoomFull.map((data, index) => {
-            let room = roomDTO.motelRoom;
+            let room = data.motelRoom;
             if (room)
                 return `<tr>
                             <th scope="row">${index + 1}</th>

@@ -21,7 +21,7 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @GetMapping("find-all")
+    @GetMapping("admin/find-all")
     public ResponseEntity<Object> findAll(Authentication authentication) {
         try {
             String email = null;
@@ -80,28 +80,7 @@ public class ReportController {
         }
     }
 
-//    @GetMapping("search-sort")
-//    public ResponseEntity<Object> search_sort(Authentication authentication,
-//                                              @RequestParam(name = "name", required = false) String name,
-//                                              @RequestParam(name = "createDate", required = false) Date createDate,
-//                                              @RequestParam(name = "status", required = false) Byte status,
-//                                              @RequestParam(name = "field", required = false) String field,
-//                                              @RequestParam(name = "isASC", required = false) Boolean isASC,
-//                                              @RequestParam(name = "idProject", required = false) Integer idProject) {
-//
-//        try {
-//            String email = null;
-//            if (authentication != null)
-//                email = ((User) authentication.getPrincipal()).getUsername();
-//            List<Report> reports = reportService.search_sort();
-//            return reports != null ? ResponseEntity.ok(reports) : ResponseEntity.noContent().build();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
-
-    @PostMapping("insert")
+    @PostMapping("all-role/insert")
     public ResponseEntity<Object> insert(Authentication authentication, @RequestBody Report report) {
         try {
             String email = null;
@@ -115,7 +94,7 @@ public class ReportController {
         }
     }
 
-    @PutMapping("update")
+    @PutMapping("all-role/update")
     public ResponseEntity<Object> update(Authentication authentication, @RequestBody Report report) {
         try {
             String email = null;
@@ -129,7 +108,7 @@ public class ReportController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("all-role/delete/{id}")
     public ResponseEntity<Object> delete(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;

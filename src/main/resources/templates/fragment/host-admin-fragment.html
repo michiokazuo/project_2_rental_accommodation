@@ -89,7 +89,8 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img th:src="@{../files/image_config/avatar-user.png}" class="img-circle elevation-2" alt="User Image"
-                     style="width: 30px!important; height: 30px!important;" id="avatar-host">
+                     style="width: 30px!important; height: 30px!important;" id="avatar-host"
+                     th:onerror="'this.src=\'' + @{../files/image_config/avatar-user.png} + '\';'">
             </div>
             <div class="info">
                 <a th:href="@{thong-tin-ca-nhan}" class="d-block" id="name-host">Đồng Xuân Phong</a>
@@ -171,7 +172,8 @@
         <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img th:src="@{../files/image_config/avatar-user.png}" class="img-circle elevation-2" alt="User Image"
-                     style="width: 30px!important; height: 30px!important;" id="avatar-admin">
+                     style="width: 30px!important; height: 30px!important;" id="avatar-admin"
+                     th:onerror="'this.src=\'' + @{../files/image_config/avatar-user.png} + '\';'">
             </div>
             <div class="info">
                 <a th:href="@{thong-tin-ca-nhan}" class="d-block" id="name-admin">Đồng Xuân Phong</a>

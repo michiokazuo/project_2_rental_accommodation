@@ -11,7 +11,7 @@ function motelRoomFindById(q) {
 }
 
 function motelRoomFindByUser(q) {
-    return ajaxGet(`${URL_MOTEL_ROOM}/find-all-by-user/` + `${q}`);
+    return ajaxGet(`${URL_MOTEL_ROOM}/admin/find-all-by-user/` + `${q}`);
 }
 
 function motelRoomFindByHost(q) {
@@ -19,19 +19,19 @@ function motelRoomFindByHost(q) {
 }
 
 function motelRoomFindAdmin(q) {
-    return ajaxGet(`${URL_MOTEL_ROOM}/find-all-by-admin/` + `${q}`);
+    return ajaxGet(`${URL_MOTEL_ROOM}/admin/find-all-by-admin/` + `${q}`);
 }
 
 function motelRoomInsert(e) {
-    return ajaxPost(`${URL_MOTEL_ROOM}/insert`, e);
+    return ajaxPost(`${URL_MOTEL_ROOM}/host/insert`, e);
 }
 
 function motelRoomUpdate(e) {
-    return ajaxPut(`${URL_MOTEL_ROOM}/update`, e);
+    return ajaxPut(`${URL_MOTEL_ROOM}/host/update`, e);
 }
 
 function motelRoomDelete(e) {
-    return ajaxDelete(`${URL_MOTEL_ROOM}/delete/` + `${e.id}`, e);
+    return ajaxDelete(`${URL_MOTEL_ROOM}/admin-host/delete/` + `${e.id}`, e);
 }
 
 function motelRoomSearchSort(q) {

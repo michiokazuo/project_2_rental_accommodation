@@ -43,7 +43,7 @@ public class AppUserController {
         }
     }
 
-    @GetMapping("find-all")
+    @GetMapping("admin/find-all")
     public ResponseEntity<Object> findAll(Authentication authentication) {
         try {
             String email = null;
@@ -73,23 +73,6 @@ public class AppUserController {
         }
     }
 
-//    @GetMapping("search-sort")
-//    public ResponseEntity<Object> search_sort(@RequestParam(name = "name", required = false) String name,
-//                                              @RequestParam(name = "field", required = false) String field,
-//                                              @RequestParam(name = "isASC", required = false) Boolean isASC) {
-//
-//        try {
-//            String email = null;
-//            if (authentication != null)
-//                email = ((User) authentication.getPrincipal()).getUsername();
-//            List<AppUser> appUsers = appUserService.search_sort();
-//            return appUsers != null ? ResponseEntity.ok(appUsers) : ResponseEntity.noContent().build();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
-
     @PostMapping("insert")
     public ResponseEntity<Object> insert(@RequestBody AppUser appUser, Authentication authentication) {
         try {
@@ -104,7 +87,7 @@ public class AppUserController {
         }
     }
 
-    @PutMapping("update")
+    @PutMapping("all-role/update")
     public ResponseEntity<Object> update(@RequestBody AppUser appUser, Authentication authentication) {
 
         try {
@@ -119,7 +102,7 @@ public class AppUserController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("admin/delete/{id}")
     public ResponseEntity<Object> delete(Authentication authentication, @PathVariable("id") Integer id) {
         try {
             String email = null;
