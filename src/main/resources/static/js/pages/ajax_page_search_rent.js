@@ -34,6 +34,7 @@ $(async function () {
 
     let url = new URL(window.location.href);
     idCategory = url.searchParams.get("c_id");
+
     await getUserInSystem();
     await loadCategory();
     await loadMotelRoom();
@@ -46,6 +47,7 @@ $(async function () {
     showCheckBox(checkBoxPriority, listPriority);
     showCheckBox(checkBoxConvenient, listConvenient);
     search();
+
     if (idCategory) {
         selectCategory.val(idCategory);
         if (listCategory.find(c => c.id === (selectCategory.val() - 0)).name.toUpperCase()
@@ -77,7 +79,6 @@ $(async function () {
                 paPerson.removeClass("d-none");
             else paPerson.addClass("d-none");
         }
-
     })
 
     choice();
@@ -121,8 +122,10 @@ function showPag() {
     pagination.append(`<li class="page-item paginationjs-prev" data-item="0"><button class="page-link">«</button>
     </li>`);
     for (let i = 1; i <= tmp; i++)
-        pagination.append(`<li class="page-item ${indexPag === i ? "active" : ""}" data-item="${i}"><button class="page-link" >${i}</button></li>`);
-    pagination.append(`<li class="page-item paginationjs-next" data-item="${tmp + 1}"><button class="page-link">»</button></li>`);
+        pagination.append(`<li class="page-item ${indexPag === i ? "active" : ""}" 
+            data-item="${i}"><button class="page-link" >${i}</button></li>`);
+    pagination.append(`<li class="page-item paginationjs-next" data-item="${tmp + 1}">
+        <button class="page-link">»</button></li>`);
 
     movePage();
 }
@@ -212,13 +215,6 @@ function choice() {
             }
         }, false);
     }
-    // deleteBtn.addEventListener("click", function (e) {
-    //     e.preventDefault()
-    //     const deleteAll = document.querySelectorAll('.choices__button')
-    //     for (let i = 0; i < deleteAll.length; i++) {
-    //         deleteAll[i].click();
-    //     }
-    // });
 }
 
 function resetFormSearch() {

@@ -74,16 +74,16 @@ $(document).ready(async function () {
         window.location.href = "/error";
     }
 
-    await getLocationUser();
-    changeImg();
     await getUserInSystem();
     await loadRoomDTO();
+    await getLocationUser();
+
     classifyRate();
     classifyRent();
-
-    showInfoBasic();
-    showCMT();
     showLocation();
+    showInfoBasic();
+    changeImg();
+    showCMT();
     confirmDeleteCmt();
     confirmEditCMT();
     confirmRent();

@@ -1,6 +1,7 @@
 let emailLogin, passwordLogin, btnLogin, linkForgotPassword, linkSignUp, emailForgotPassword, btnSubmitForgotPassword,
     nameSignUp, emailSignUp, passwordSignUp, passwordConfirmSignUp, avatarSignUp, btnSubmitSignUp, modalForgotPassword,
-    modalSignUp, textPhone, dateBirthday, numberJob, textWorkplace, numberGender, numberStatus, numberRole, homeTown;
+    modalSignUp, textPhone, dateBirthday, numberJob, textWorkplace, numberGender, numberStatus, numberRole, homeTown,
+    load;
 let listRole = [];
 let user_now = {};
 
@@ -28,6 +29,7 @@ $(async function () {
     modalForgotPassword = $("#modal-forgot-password");
     modalSignUp = $("#modal-sign-up");
     homeTown = $("#home-town");
+    load = $("#load");
 
     await loadRole();
     login();
@@ -69,20 +71,22 @@ function submitForgotPassword() {
         let {val: valueEmailForgotPassword, check: checkEmailForgotPassword}
             = checkEmail(emailForgotPassword, "Email không hợp lệ.");
         if (checkEmailForgotPassword) {
+            load.removeClass("d-none");
             await userForgotPassword(valueEmailForgotPassword)
                 .then(rs => {
                     if (rs.status === 200) {
                         alertReport(true,
                             "Mật khẩu của bạn đã được thay đổi. Hãy vào email để biết mật khẩu mới!!!");
-                        modalForgotPassword.modal("hide");
                     } else {
-                        alertReport(false, "Có lỗi xảy ra. Mời gửi lại yêu cầu!!!");
+                        alertReport(false, "Có lỗi xảy ra. Mời kiểm tra lại email và gửi lại yêu cầu!!!");
                     }
                 })
                 .catch(e => {
                     alertReport(false, "Có lỗi xảy ra. Mời kiểm tra lại email và gửi lại yêu cầu!!!");
                     console.log(e);
-                })
+                });
+            modalForgotPassword.modal("hide");
+            load.addClass("d-none");
         }
     })
 }

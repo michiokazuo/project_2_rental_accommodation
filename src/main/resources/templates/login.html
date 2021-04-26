@@ -4,6 +4,7 @@
 <head>
     <block th:replace="~{/fragment/app-fragment :: head-resource}"></block>
     <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link rel="stylesheet" th:href="@{/css/host_has_room.css}">
     <title>Đăng nhập & Đăng ký</title>
 </head>
 
@@ -30,6 +31,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="btn-submit-forgot-password">Gửi</button>
+            </div>
+        </div>
+        <div id="load" class="d-none">
+            <div class="spinner-border" role="status" style="width: 100px;height: 100px;">
+                <span class="visually-hidden" style="transform: scale(1.5); text-indent: -999px;">Loading...</span>
             </div>
         </div>
     </div>
