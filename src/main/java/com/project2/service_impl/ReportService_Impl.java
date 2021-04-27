@@ -54,7 +54,11 @@ public class ReportService_Impl implements ReportService {
                 MotelRoom motelRoom = motelRoomRepository.findByIdAndDeletedFalse(report.getRoom().getId());
                 if (motelRoom != null) {
                     report.setRoom(motelRoom);
-                    return reportRepository.save(report);
+                    Report updateReport = reportRepository.save(report);
+                    if(reportRepository.updateStatus(updateReport.getUser().getId(), updateReport.getRoom().getId(),
+                            updateReport.getRate()) >= 0)
+                        System.out.println("Update Report Success");
+                    return updateReport;
                 }
             }
         }
@@ -63,12 +67,7 @@ public class ReportService_Impl implements ReportService {
 
     @Override
     public Report update(Report report, String email) throws Exception {
-        Report updateReport = insert(report, email);
-        if (updateReport != null)
-            return reportRepository.updateStatus(updateReport.getUser().getId(), updateReport.getRoom().getId(),
-                    updateReport.getRate()) > 0 ? updateReport : null;
-
-        return null;
+        return insert(report, email);
     }
 
     @Override

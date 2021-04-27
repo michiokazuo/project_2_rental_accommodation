@@ -1,19 +1,11 @@
 package com.project2;
 
-import com.project2.entities.data.AppUser;
-import com.project2.entities.data.MotelRoom;
-import com.project2.entities.dto.HostDTO;
-import com.project2.repository.MotelRoomRepository;
-import com.project2.repository.RoomHasConvenientRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @AllArgsConstructor

@@ -227,9 +227,9 @@ function showInfoBasic() {
                             <p class="text-secondary" style="font-size: var(--font-16);">${dataFilter(room.description)}</p>
                             <button class="fp__label click-add-cart btn" data-id="${room.id}" id="btn-rent"> 
                                 ${(USER_IN_SYSTEM && checkRole(USER_IN_SYSTEM, ROLE_USER)) ?
-            ((checkRent ? (checkRent > 0 ? "Hủy thuê" : (roomDTO.personIn < room.maxPerson ? "Yêu cầu thuê" : "Đã đầy")) 
-                : "Hủy yêu cầu"))
-            : "Bạn cần tạo TK với tư cách người thuê để thuê trọ!!!"}
+                ((checkRent ? (checkRent > 0 ? "Hủy thuê" : (roomDTO.personIn < room.maxPerson ? "Yêu cầu thuê" : "Đã đầy"))
+                    : "Hủy yêu cầu"))
+                : "Bạn cần tạo TK với tư cách người thuê để thuê trọ!!!"}
                             </button>`);
         btnRent = $("#btn-rent");
         if (!(USER_IN_SYSTEM && checkRole(USER_IN_SYSTEM, ROLE_USER))
@@ -382,7 +382,7 @@ function confirmRent() {
     btnSubmitRent.click(async function () {
         let check = false, valSuccess;
         let tenant = {
-            id: {idUser: USER_IN_SYSTEM.id, idRoom: room.id},
+            id: { idUser: USER_IN_SYSTEM.id, idRoom: room.id },
             user: USER_IN_SYSTEM,
             room: room,
             status: false,
@@ -586,6 +586,8 @@ function saveNewCmt() {
                 })
 
             if (check) {
+                $("form.form-post").trigger("reset");
+                $("form.form-post input").removeClass("is-invalid");
                 await loadRoomDTO();
                 classifyRate();
                 showInfoBasic();
