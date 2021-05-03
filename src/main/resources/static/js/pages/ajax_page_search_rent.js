@@ -40,6 +40,7 @@ $(async function () {
     await loadMotelRoom();
     await loadConvenient();
     await getLocationUser();
+    showAllLocation();
 
     showSelectCustom(selectCategory, listCategory, "Danh mục");
     showSelectCustom(selectPrice, listPrice, "Giá thuê");
@@ -89,6 +90,40 @@ $(async function () {
     resetFormSearch();
     sort();
 });
+
+function showAllLocation() {
+    var myOptions = {
+        center: new google.maps.LatLng(curLat, curLng),
+        zoom: 10,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    var show_map = new google.maps.Map(document.getElementById("show-map"), myOptions);
+
+    var myMarkerLatlng = new google.maps.LatLng(curLat, curLng);
+    var marker = new google.maps.Marker({
+        position: myMarkerLatlng,
+        map: show_map,
+        title: "Vị trí của bạn",
+        label: 'Y'
+    });
+
+    if (listMotelRoomDTO) {
+        for (const r of listMotelRoomDTO) {
+            if (!r || !r.motelRoom) continue;
+            var room = r.motelRoom;
+            var tmp = room.location.split("<>");
+            var roomLat = parseFloat(tmp[0]);
+            var roomLng = parseFloat(tmp[1]);
+            myMarkerLatlng = new google.maps.LatLng(roomLat, roomLng);
+            marker = new google.maps.Marker({
+                position: myMarkerLatlng,
+                map: show_map,
+                title: room.title,
+                label: 'MR'
+            });
+        }
+    }
+}
 
 async function loadCategory() {
     await categoryFindAll()
