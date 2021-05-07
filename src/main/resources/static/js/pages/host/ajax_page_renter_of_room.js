@@ -269,7 +269,7 @@ function confirmRent() {
             if (check) {
                 showDataTableRented();
                 showDataTableRequest();
-                await notify_impl(user.email, `Xác nhận yêu cầu thuê trọ", "Bạn đã được chủ trọ xác nhận
+                await notify_impl(user.email, "Xác nhận yêu cầu thuê trọ", `Bạn đã được chủ trọ xác nhận
                     yêu cầu thuê trọ ${tenant.room.title}. Chúc bạn sẽ thấy phù hợp với trọ này.`);
             }
         }

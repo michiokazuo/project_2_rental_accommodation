@@ -176,7 +176,6 @@ function viewUser() {
         role.val(dataFilter(user.role.content));
         modalTenant.modal("show");
     })
-
 }
 
 function deleteTenant() {

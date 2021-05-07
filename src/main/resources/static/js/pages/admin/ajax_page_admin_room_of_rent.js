@@ -354,7 +354,7 @@ function confirmDeleteRoom() {
             if (check) {
                 showDataTableFull();
                 showDataTableNotFull();
-                await notify_impl(user.email, `Xác nhận yêu cầu thuê trọ", "Bạn đã được quản lý xác nhận
+                await notify_impl(user.email, "Xác nhận yêu cầu thuê trọ", `Bạn đã được quản lý xác nhận
                     yêu cầu thuê trọ ${roomSave.room.title}. Chúc bạn sẽ thấy phù hợp với trọ này.`);
             }
         }
