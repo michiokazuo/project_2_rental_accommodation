@@ -163,7 +163,7 @@ function showChartReprort() {
     $('[data-index]').click(function () {
         indexRoom = $(this).attr("data-index");
         roomShow = listRoomHost[indexRoom - 0];
-        let rate = [0, 0, 0, 0, 0, 0];
+        let rate = [0, 0, 0, 0, 0];
         let tmp = [];
         if (roomShow.reportList)
             for (const r of roomShow.reportList) {

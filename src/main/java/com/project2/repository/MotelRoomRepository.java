@@ -33,7 +33,7 @@ public interface MotelRoomRepository extends JpaRepository<MotelRoom, Integer>, 
     @Transactional
     List<Integer> hostHasRoom();
 
-    @Query("update MotelRoom e set e.category.id = -1 where e.category.id = ?1")
+    @Query("update MotelRoom e set e.category.id = 0 where e.category.id = ?1")
     @Modifying
     @Transactional
     int updateByCategory(Integer id);

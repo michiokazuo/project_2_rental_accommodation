@@ -368,7 +368,7 @@ function editRent() {
         if (checkRent > -1) {
             btnSubmitRent.removeClass("btn-primary");
             btnSubmitRent.addClass("btn-danger");
-            btnSubmitRent.text("Xóa");
+            btnSubmitRent.text("Gửi yêu cầu");
         } else {
             btnSubmitRent.addClass("btn-primary");
             btnSubmitRent.removeClass("btn-danger");

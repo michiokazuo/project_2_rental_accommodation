@@ -120,7 +120,7 @@ function showMotelRoom() {
                                                     ${formatMoney(numberFilter(room.price))} VNĐ/tháng
                                                     </p>
                                                 <div class="card-wp">
-                                                    <a target="_blank" href="/thong-tin-thue?idRoom=${room.id}" 
+                                                    <a target="_blank" href="/thong-tin-thue?id_room=${room.id}" 
                                                     class="click-add-cart btn" data-id="4">Xem</a>
                                                 </div>
                                             </div>          

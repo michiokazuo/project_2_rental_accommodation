@@ -446,6 +446,10 @@ section.same .container .row .slide-pro .same-move .carousel-inner .carousel-ite
 section.same .container .row .slide-pro .same-move .carousel-inner .carousel-item .row .p-1 .card-body .card-title {
     font-size: 1rem;
     color: var(--color-brown);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 section.same

@@ -156,6 +156,6 @@ footer#footer #up-to-top .btn:hover {
 /*  */
 @media screen and (max-width: 768px) {
     section#mail-area .container .row p {
-        padding-bottom: 20px;
+        padding-bottom: 5px;
     }
 }
